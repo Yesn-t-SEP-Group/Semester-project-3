@@ -1,0 +1,73 @@
+﻿@page "/SignUp"
+@using BlazorWasm.Services
+@using global::Shared.Models
+<h3>Sign Up</h3>
+@inject IAuthService authService
+@inject NavigationManager navMgr
+
+
+<div class="card">
+    <h3>Please fill out the form</h3>
+    <div class="field">
+        <label>User name:</label>
+        <input type="text" @bind="userName"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">Password:</label>
+        <input type="password" @bind="password"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">Name:</label>
+        <input type="text" @bind="name"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">email:</label>
+        <input type="text" @bind="email"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">phoneNumber:</label>
+        <input type="text" @bind="phoneNumber"/>
+    </div>
+    <div class="field">
+        <label style="text-align: center">address:</label>
+        <input type="text" @bind="address"/>
+    </div>
+    @if (!string.IsNullOrEmpty(errorLabel))
+    {
+        <div class="field">
+            <label style="color: red">
+                @errorLabel
+            </label>
+        </div>
+    }
+    <div class="field">
+        <button class="loginbtn" @onclick="CreateAsync">Sign Up</button>
+    </div>
+</div>
+
+@code {
+    private string userName;
+    private string password;
+    private string name;
+    private string email;
+    private string phoneNumber;
+    private string address;
+
+    private string errorLabel;
+
+    private async Task CreateAsync()
+    {
+        errorLabel = "";
+        try
+        {
+            await authService.RegisterAsync(new User(userName, password, name, email, phoneNumber, address, false));
+            navMgr.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            errorLabel = $"Error: {e.Message}";
+        }
+    }
+
+}
