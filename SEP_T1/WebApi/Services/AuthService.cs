@@ -3,30 +3,12 @@ using Shared.Models;
 
 namespace WebApi.Services;
 
+
 public class AuthService : IAuthService
 {
-
-    private readonly IList<User> users = new List<User>
-    {/*
-        new User
-        {
-            Email = "trmo@via.dk",
-            Name = "Troels Mortensen",
-            Password = "onetwo3FOUR",
-            Username = "trmo",
-        },
-        new User
-        {
-           
-            Email = "jakob@gmail.com",
-          
-            Name = "Jakob Rasmussen",
-            Password = "password",
-    
-            Username = "jknr",
-         
-        }
-        */
+    private static  IList<User> users = new List<User>
+    {
+        new User("martin","password","martin","abc@gmail.com","45555555","denmark",true)
     };
     
 
@@ -80,6 +62,7 @@ public class AuthService : IAuthService
         // save to persistence instead of list
         
         users.Add(user);
+
         
         return Task.CompletedTask;
     }

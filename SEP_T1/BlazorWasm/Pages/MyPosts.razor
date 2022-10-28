@@ -1,8 +1,8 @@
 ﻿@page "/MyPosts"
 @using System.Security.Claims
 
-<h3>My Profile</h3>
-<p>Here are your user credentials</p>
+<h3>My Posts</h3>
+<p>Here are your posts</p>
 <AuthorizeView>
     <Authorized>
         <h3>Hello @context.User.Identity.Name</h3>
