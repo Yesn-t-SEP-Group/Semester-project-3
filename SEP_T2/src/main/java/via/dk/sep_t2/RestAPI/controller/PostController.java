@@ -3,6 +3,7 @@ package via.dk.sep_t2.RestAPI.controller;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import via.dk.sep_t2.RestAPI.model.Post;
+import via.dk.sep_t2.RestAPI.model.SearchPostParameters;
 import via.dk.sep_t2.RestAPI.model.User;
 import via.dk.sep_t2.RestAPI.repository.ItemRepository;
 import via.dk.sep_t2.RestAPI.repository.PostRepository;
@@ -41,8 +42,10 @@ public class PostController
             method = RequestMethod.GET//,
             //produces = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ArrayList<Post> all()
+    public ArrayList<Post> all(@RequestParam(required = false) int creatorId,
+                               @RequestParam(required = false) int cheaperThan)
     {
+        SearchPostParameters searchPostParameters = new SearchPostParameters(creatorId,cheaperThan);
         return repository.findAll();
     }
 

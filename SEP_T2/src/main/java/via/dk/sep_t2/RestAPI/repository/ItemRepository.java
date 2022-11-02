@@ -4,11 +4,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.ResponseBody;
 import via.dk.sep_t2.RestAPI.model.Item;
 import via.dk.sep_t2.RestAPI.model.Post;
+import via.dk.sep_t2.RestAPI.model.SearchItemParameters;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class ItemRepository
@@ -22,12 +20,12 @@ public class ItemRepository
 
     private static void initDataSource()
     {
-        Item item1 = new Item(1,"Motherboard", 35.7, "Used");
-        Item item2 = new Item(2,"Processor", 23.7, "Used");
-        Item item3 = new Item(3,"Graphics card", 60.0, "Used");
-        Item item4 = new Item(4,"Power unit", 19.46, "Broken");
-        Item item5 = new Item(5,"Internet card", 85.3, "New");
-        Item item6 = new Item(6,"Fan", 22.9, "Used");
+        Item item1 = new Item(1,"Micro-ATX motherboard", 35.7, "Used","Motherboard");
+        Item item2 = new Item(2,"4core Intel processor", 23.7, "Used", "Processor");
+        Item item3 = new Item(3,"Nvidia RTX 3060‑Ti graphics card", 60.0, "Used", "Graphics card");
+        Item item4 = new Item(4,"EVGA Supernova 1000 T2 power supply", 19.46, "Broken", "Power supply");
+        Item item5 = new Item(5,"TP-Link WiFi 6 AX3000 PCle WiFi Card", 85.3, "New","Internet card");
+        Item item6 = new Item(6,"Arctic F12-120 fan", 22.9, "Used", "Fan");
 
         itemMap.put(item1.getId(),item1);
         itemMap.put(item2.getId(),item2);
@@ -79,5 +77,24 @@ public class ItemRepository
             returns.add(item);
         }
         return returns;
+    }
+
+    public ArrayList<Item> findWithFilters(SearchItemParameters parameters)
+    {
+        if (parameters.isEmpty())
+            return new ArrayList<Item>(itemMap.values());
+
+        ArrayList<Item> result = new ArrayList<>();
+        for (Item a : itemMap.values())
+        {
+            if (Objects.equals(parameters.getType(), a.getType())
+                    || Objects.equals(parameters.getCondition(), a.getCondition())
+            )
+            //add more potential filters here
+            {
+                result.add(a);
+            }
+        }
+        return result;
     }
 }

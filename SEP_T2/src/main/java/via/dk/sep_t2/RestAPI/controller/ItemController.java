@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import via.dk.sep_t2.RestAPI.model.Item;
+import via.dk.sep_t2.RestAPI.model.SearchItemParameters;
 import via.dk.sep_t2.RestAPI.repository.ItemRepository;
 
 import java.time.LocalDate;
@@ -41,19 +42,11 @@ public class ItemController
             method = RequestMethod.GET//,
             //produces = {MediaType.APPLICATION_XML_VALUE}
     )
-    public ArrayList<Item> all(@RequestParam(required = false) String condition)
+    public ArrayList<Item> all(@RequestParam(required = false) String condition,
+                               @RequestParam(required = false) String type)
     {
-        ArrayList<Item> result = new ArrayList<>();
-        if (condition != null)
-        {
-            for (Item i:repository.findAll()) {
-                if (i.getCondition().equals(condition))
-                {
-                    result.add(i);
-                }
-            }
-        }
-        return repository.findAll();
+        SearchItemParameters searchItemParameters = new SearchItemParameters(condition,type);
+        return repository.findWithFilters(searchItemParameters);
     }
 
 

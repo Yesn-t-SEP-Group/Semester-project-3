@@ -6,11 +6,14 @@ public class Item {
     private double price;
     private String condition;
 
-    public Item(int id, String name, double price, String condition) {
+    private String type;
+
+    public Item(int id, String name, double price, String conditio, String type) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.condition = condition;
+        this.type = type;
     }
 
     public int getId() {
@@ -45,6 +48,10 @@ public class Item {
         this.condition = condition;
     }
 
+    public String getType() {
+        return type;
+    }
+
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
@@ -52,6 +59,12 @@ public class Item {
 
     @Override
     public String toString() {
-        return "Name:" + name + "/nPrice:" + price;
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", condition='" + condition + '\'' +
+                ", type='" + type + '\'' +
+                '}';
     }
 }

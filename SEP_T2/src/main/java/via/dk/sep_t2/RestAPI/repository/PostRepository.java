@@ -3,12 +3,10 @@ package via.dk.sep_t2.RestAPI.repository;
 import org.springframework.stereotype.Repository;
 import via.dk.sep_t2.RestAPI.model.Item;
 import via.dk.sep_t2.RestAPI.model.Post;
+import via.dk.sep_t2.RestAPI.model.SearchPostParameters;
 import via.dk.sep_t2.RestAPI.model.User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Repository
 public class PostRepository 
@@ -36,8 +34,8 @@ public class PostRepository
         list1.add(itemRepository.read(6));
 
 
-        Post post1 = new Post(1,1, list1, "Changed some stuff in my PC, componetents in good shape.","Old components");
-        Post post2 = new Post(2,2, list2, "Stuff I found", "Diverse");
+        Post post1 = new Post(1,1, list1, "Changed some stuff in my PC, components in good shape.");
+        Post post2 = new Post(2,2, list2, "Stuff I found");
     }
 
     //C
@@ -83,4 +81,24 @@ public class PostRepository
         }
         return returns;
     }
+
+    public ArrayList<Post> findWithFilters(SearchPostParameters parameters)
+    {
+        if (parameters.isEmpty())
+            return new ArrayList<Post>(postMap.values());
+
+        ArrayList<Post> result = new ArrayList<>();
+        for (Post a : postMap.values())
+        {
+            if (Objects.equals(parameters.getCreatorId(), a.getCreatorId())
+                    || a.getTotalPrice() <= parameters.getCheaperThan()
+            )
+            //add more potential filters here
+            {
+                result.add(a);
+            }
+        }
+        return result;
+    }
+
 }

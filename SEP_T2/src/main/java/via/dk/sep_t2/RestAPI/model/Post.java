@@ -9,14 +9,12 @@ public class Post {
 
     private double totalPrice;
     private String description;
-    private String type;
 
-    public Post(int id, int creatorId, ArrayList<Item> items, String description, String type) {
+    public Post(int id, int creatorId, ArrayList<Item> items, String description) {
         this.id = id;
         this.creatorId = creatorId;
         this.items = items;
         this.description = description;
-        this.type = type;
         this.totalPrice = 0;
         for (Item i:items)
         {
@@ -52,14 +50,6 @@ public class Post {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public Item getItem(int index)
     {
         return items.get(index);
@@ -78,5 +68,16 @@ public class Post {
     @Override
     public boolean equals(Object obj) {
         return super.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", creatorId=" + creatorId +
+                ", items=" + items +
+                ", totalPrice=" + totalPrice +
+                ", description='" + description + '\'' +
+                '}';
     }
 }
