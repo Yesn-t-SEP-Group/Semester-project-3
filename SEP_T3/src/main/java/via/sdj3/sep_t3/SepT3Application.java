@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "via.sdj3.sep_t3.*")
-@EntityScan(basePackages="via.dk.sdj3.sep_t3.model")
+@EntityScan(basePackages="via.sdj3.sep_t3.model*")
 @EnableJpaRepositories(basePackages = {"via.sdj3.sep_t3.repository*"})
 public class SepT3Application
 {
