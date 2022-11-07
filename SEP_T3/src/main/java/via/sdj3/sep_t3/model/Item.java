@@ -3,7 +3,7 @@ package via.sdj3.sep_t3.model;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity(name="item")
+@Entity(name="items")
 public class Item
 {
     @Id

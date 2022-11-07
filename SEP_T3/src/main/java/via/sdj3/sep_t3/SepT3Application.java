@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import via.sdj3.sep_t3.rabbitMQ.Receiver;
 
@@ -39,6 +40,12 @@ public class SepT3Application
     Binding binding(Queue queue, TopicExchange exchange) {
         //todo change this
         return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+    }
+
+    @Profile("receiver")
+    @Bean
+    public Receiver receiver() {
+        return new Receiver();
     }
 
     @Bean

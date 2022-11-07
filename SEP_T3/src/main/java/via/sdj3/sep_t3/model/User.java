@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity(name = "user")
+@Entity(name = "users")
 public class User
 {
     @Id

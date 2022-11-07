@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-@Entity(name ="post")
+@Entity(name ="posts")
 public class Post
 {
     @Id
@@ -27,9 +27,6 @@ public class Post
 
     @Column(name = "category", nullable = false, length = 50)
     private String category;
-
-    @Column(name = "seller", nullable = false, length = 16)
-    private String seller;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
@@ -57,16 +54,6 @@ public class Post
     public void setSellerid(User sellerid)
     {
         this.sellerid = sellerid;
-    }
-
-    public String getSeller()
-    {
-        return seller;
-    }
-
-    public void setSeller(String seller)
-    {
-        this.seller = seller;
     }
 
     public String getCategory()
