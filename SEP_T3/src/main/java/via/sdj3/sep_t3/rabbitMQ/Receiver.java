@@ -1,7 +1,11 @@
 package via.sdj3.sep_t3.rabbitMQ;
 
 import com.google.gson.Gson;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageBuilder;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import via.sdj3.sep_t3.backendModel.BackendUser;
@@ -9,8 +13,8 @@ import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
-import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Receiver
@@ -19,38 +23,43 @@ public class Receiver
     private UserRegistry userRegistry;
 
     @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @Autowired
     private PostRegistry postRegistry;
 
-    @RabbitHandler
-    public void receiveMessage(byte[] body)
+    @RabbitListener(queues = RabbitMqConfig.RPC_MESSAGE_QUEUE)
+    public void receiveMessage(Message fromClient)
     {
-        String message = null;
         try
         {
-            message = new String(body, "UTF-8");
+            String message = new String(fromClient.getBody(),"UTF-8");
+            System.out.println("Received <" + message + ">");
             Gson gson = new Gson();
 
             String[] messageSplit = message.split(";");
 
             switch (messageSplit[0])
             {
-                case"createNewUser":
+                case "createNewUser":
                 {
                     BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
-                    User user =new User();
-
-                    user.setUsername(fromJson.getUsername());
-                    user.setUserpass(fromJson.getPassword());
-                    user.setAddress(fromJson.getAddress());
-                    user.setFullName(fromJson.getFullName());
-                    user.setEmail("test");
-                    user.setPhoneNumber(fromJson.getPhoneNo());
-                    user.setAddress(fromJson.getAddress());
-                    user.setRating(BigDecimal.valueOf(fromJson.getRating()));
+                    User user = new User();
+                    user.convertFromBackendUser(fromJson);
 
                     userRegistry.save(user);
-
                     break;
+                }
+                case "getUsers":
+                {
+                    List<BackendUser> ret = new ArrayList<>();
+                    userRegistry.findAll().forEach(user -> ret.add(user.convertToBackendUser()));
+
+                    String returnMessage = gson.toJson(ret);
+
+                    Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
+                    CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
+                    rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_REPLY_MESSAGE_QUEUE, build, correlationData);
                 }
             }
             /*
@@ -67,13 +76,9 @@ public class Receiver
 
             userRegistry.save(test);
              */
-
-
-        } catch (UnsupportedEncodingException e)
+        }catch (Exception e)
         {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
-        System.out.println("Received <" + message + ">");
-
     }
 }

@@ -1,5 +1,7 @@
 package via.sdj3.sep_t3.model;
 
+import via.sdj3.sep_t3.backendModel.BackendUser;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.LinkedHashSet;
@@ -126,4 +128,26 @@ public class User
     {
         this.id = id;
     }
+
+    /**
+     * Convert from backend user.
+     *
+     * @param user the user
+     */
+    public void convertFromBackendUser(BackendUser user)
+    {
+        this.username=user.getUsername();
+        this.userpass=user.getPassword();
+        this.fullName=user.getFullName();
+        //todo fix this before presentation
+        this.email="test";
+        this.phoneNumber=user.getPhoneNo();
+        this.address=user.getAddress();
+        this.rating= BigDecimal.valueOf(user.getRating());
+    }
+    public BackendUser convertToBackendUser()
+    {
+        return new BackendUser(id,username,userpass,fullName,phoneNumber,address);
+    }
+
 }

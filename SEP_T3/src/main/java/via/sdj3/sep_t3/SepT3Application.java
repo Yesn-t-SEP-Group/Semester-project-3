@@ -23,7 +23,7 @@ import via.sdj3.sep_t3.rabbitMQ.Receiver;
 @EnableJpaRepositories(basePackages = {"via.sdj3.sep_t3.repository*"})
 public class SepT3Application
 {
-
+    /*
     static final String TOPIC_EXCHANGE_NAME = "SEP3-exchange";
     static final String QUEUE_NAME="database_queue";
 
@@ -38,8 +38,7 @@ public class SepT3Application
 
     @Bean
     Binding binding(Queue queue, TopicExchange exchange) {
-        //todo change this
-        return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
+            return BindingBuilder.bind(queue).to(exchange).with("foo.bar.#");
     }
 
     @Profile("receiver")
@@ -62,6 +61,7 @@ public class SepT3Application
     MessageListenerAdapter listenerAdapter(Receiver receiver) {
         return new MessageListenerAdapter(receiver, "receiveMessage");
     }
+     */
     public static void main(String[] args)
     {
         SpringApplication.run(SepT3Application.class, args);

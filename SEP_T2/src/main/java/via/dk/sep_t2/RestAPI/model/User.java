@@ -10,6 +10,21 @@ public class User {
     private String phoneNo;
     private String address;
 
+    @Override
+    public String toString()
+    {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", email='" + email + '\'' +
+                ", rating=" + rating +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
     public User(int id, String username, String password, String fullName, String email, String phoneNo, String address) {
         this.id = id;
         this.username = username;
