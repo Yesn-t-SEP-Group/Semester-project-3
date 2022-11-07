@@ -26,25 +26,51 @@ public class Sender
 
             while (true)
             {
-                System.out.println("Enter [Username]:");
-                String username = input.nextLine();
-                System.out.println("Enter [Password]:");
-                String password = input.nextLine();
-                System.out.println("Enter [Fullname]:");
-                String fullName = input.nextLine();
-                System.out.println("Enter [Email]:");
-                String email = input.nextLine();
-                System.out.println("Enter [Phone No.] (must start with +45):");
-                String phoneNumber = input.nextLine();
-                System.out.println("Enter [Address]:");
-                String address = input.nextLine();
+                System.out.println("1) Add user");
+                System.out.println("2) Get user");
+                int n = input.nextInt();
+                input.nextLine();
+                switch (n)
+                {
+                    case 1:
+                    {
+                        System.out.println("Enter [Username]:");
+                        String username = input.nextLine();
+                        System.out.println("Enter [Password]:");
+                        String password = input.nextLine();
+                        System.out.println("Enter [Fullname]:");
+                        String fullName = input.nextLine();
+                        System.out.println("Enter [Email]:");
+                        String email = input.nextLine();
+                        System.out.println("Enter [Phone No.] (must start with +45):");
+                        String phoneNumber = input.nextLine();
+                        System.out.println("Enter [Address]:");
+                        String address = input.nextLine();
 
-                User user = new User(1,username,password,fullName,email,phoneNumber,address);
+                        User user = new User(1,username,password,fullName,email,phoneNumber,address);
 
-                String message = "createNewUser;" + gson.toJson(user);
+                        String message = "createNewUser;" + gson.toJson(user);
 
-                channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-                System.out.println("SENT >> " + message);
+                        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+                        System.out.println("SENT >> " + message);
+                        break;
+                    }
+                    case 2:
+                    {
+                        String message = "getUsers;NOTHING";
+
+                        channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
+                        System.out.println("SENT >> " + message);
+                        break;
+                    }
+                }
+
+
+
+
+
+
+
             }
         }
     }
