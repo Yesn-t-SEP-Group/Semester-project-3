@@ -1,8 +1,10 @@
 package via.dk.sep_t2.RabbitMQ.sender;
 
+import com.google.gson.Gson;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
+import via.dk.sep_t2.RestAPI.model.User;
 
 import java.util.Scanner;
 
@@ -12,10 +14,10 @@ public class Sender
     private final static String HOST = "localhost";
     public static void main(String[] args) throws Exception
     {
-        String[] viaProducts = {"Cappuccino Cafe Latte", "Deep fried Hawai Vegan Pizza"};
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost(HOST);
         Scanner input = new Scanner(System.in);
+        Gson gson = new Gson();
 
         try (Connection conn = factory.newConnection();
              Channel channel = conn.createChannel())
@@ -24,17 +26,24 @@ public class Sender
 
             while (true)
             {
-                System.out.println("Type message:");
-                String message = input.nextLine();
+                System.out.println("Enter [Username]:");
+                String username = input.nextLine();
+                System.out.println("Enter [Password]:");
+                String password = input.nextLine();
+                System.out.println("Enter [Fullname]:");
+                String fullName = input.nextLine();
+                System.out.println("Enter [Phone No.] (must start with +45):");
+                String phoneNumber = input.nextLine();
+                System.out.println("Enter [Address]:");
+                String address = input.nextLine();
+
+                User user = new User(1,username,password,fullName,phoneNumber,address);
+
+                String message = "createNewUser;" + gson.toJson(user);
 
                 channel.basicPublish("", QUEUE_NAME, null, message.getBytes());
-                if (message.equals("CLOSE"))
-                {
-                    break;
-                }
                 System.out.println("SENT >> " + message);
             }
         }
-        System.out.println("CONNECTION TERMINATED");
     }
 }
