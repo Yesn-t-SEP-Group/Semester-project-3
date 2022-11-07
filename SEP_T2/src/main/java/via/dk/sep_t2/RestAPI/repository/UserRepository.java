@@ -17,10 +17,10 @@ public class UserRepository
 
     private static void initDataSource()
     {
-        User user1 = new User(1,"Lev","lev", "Levente Szejko", "+45 00 00 00 01", "Address1");
-        User user2 = new User(2,"Gabe","gabe", "Eduard-Gabriel Vlad", "+45 00 00 00 02", "Address2");
-        User user3 = new User(3,"Marti","marti", "Martin Rozendhal", "+45 00 00 00 03", "Address3");
-        User user4 = new User(4,"Kruno","kruno", "Kruno Neric", "+45 00 00 00 04", "Address4");
+        User user1 = new User(1,"Lev","lev", "Levente Szejko", "test1@mail.com","+45 00 00 00 01", "Address1");
+        User user2 = new User(2,"Gabe","gabe", "Eduard-Gabriel Vlad", "test2@mail.com", "+45 00 00 00 02", "Address2");
+        User user3 = new User(3,"Marti","marti", "Martin Rozendhal", "test2@mail.com", "+45 00 00 00 03", "Address3");
+        User user4 = new User(4,"Kruno","kruno", "Kruno Neric", "test4@mail.com", "+45 00 00 00 04", "Address4");
 
         userMap.put(user1.getId(),user1);
         userMap.put(user2.getId(),user2);

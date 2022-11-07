@@ -32,12 +32,14 @@ public class Sender
                 String password = input.nextLine();
                 System.out.println("Enter [Fullname]:");
                 String fullName = input.nextLine();
+                System.out.println("Enter [Email]:");
+                String email = input.nextLine();
                 System.out.println("Enter [Phone No.] (must start with +45):");
                 String phoneNumber = input.nextLine();
                 System.out.println("Enter [Address]:");
                 String address = input.nextLine();
 
-                User user = new User(1,username,password,fullName,phoneNumber,address);
+                User user = new User(1,username,password,fullName,email,phoneNumber,address);
 
                 String message = "createNewUser;" + gson.toJson(user);
 

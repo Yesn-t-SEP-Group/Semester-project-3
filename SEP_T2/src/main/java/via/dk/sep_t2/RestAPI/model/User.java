@@ -5,15 +5,17 @@ public class User {
     private String username;
     private String password;
     private String fullName;
+    private String email;
     private Double rating;
     private String phoneNo;
     private String address;
 
-    public User(int id, String username, String password, String fullName, String phoneNo, String address) {
+    public User(int id, String username, String password, String fullName, String email, String phoneNo, String address) {
         this.id = id;
         this.username = username;
         this.password = password;
         this.fullName = fullName;
+        this.email = email;
         this.rating = 3.0;
         this.phoneNo = phoneNo;
         this.address = address;
@@ -73,6 +75,16 @@ public class User {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
     }
 
     @Override
