@@ -1,8 +1,13 @@
 using System.Text;
+using Application.DaoInterfaces;
+using Application.Logic;
+using Application.LogicInterfaces;
+using Domain.Auth;
+using FileData;
+using FileData.DAOs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
-using Shared.Auth;
-using WebApi.Services;
+using WebAPI.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,10 +18,15 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddScoped<FileContext>();
+builder.Services.AddScoped<IUserDao, UserFileDao>();
+builder.Services.AddScoped<IUserLogic, UserLogic>();
 
+builder.Services.AddScoped<IPostDao, PostFileDao>();
+builder.Services.AddScoped<IPostLogic, PostLogic>();
+AuthorizationPolicies.AddPolicies(builder.Services);
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-// added auth handling
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -31,13 +41,13 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
-
-
-// adding policies
-AuthorizationPolicies.AddPolicies(builder.Services);
-
-
 var app = builder.Build();
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    .AllowCredentials());
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -46,18 +56,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+
+
 app.UseHttpsRedirection();
-app.UseAuthentication(); // now using authentication middleware
 
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true) // allow any origin
-    .AllowCredentials());
-
-//---
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseAuthentication();
 
 app.Run();

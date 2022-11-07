@@ -1,7 +1,8 @@
 ﻿@page "/Login"
-@using BlazorWasm.Services
+@using HttpClients.ClientInterfaces
 @inject IAuthService authService
 @inject NavigationManager navMgr
+
 
 <AuthorizeView>
     <NotAuthorized>
@@ -35,6 +36,7 @@
     </Authorized>
 </AuthorizeView>
 
+
 @code {
     private string userName;
     private string password;
@@ -54,5 +56,4 @@
             errorLabel = $"Error: {e.Message}";
         }
     }
-
 }

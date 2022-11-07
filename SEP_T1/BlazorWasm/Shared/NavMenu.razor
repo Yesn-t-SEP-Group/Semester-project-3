@@ -1,6 +1,6 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">BlazorWasm</a>
+        <a class="navbar-brand" href="">BlazorWASM</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -15,26 +15,30 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="signup">
-                <span class="oi oi-plus" aria-hidden="true"></span> Sign Up
+            <NavLink class="nav-link" href="CreateUser">
+                <span class="oi oi-plus" aria-hidden="true"></span> Create user
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="listings">
-                <span class="oi oi-plus" aria-hidden="true"></span> Listings
+            <NavLink class="nav-link" href="ViewUsers">
+                <span class="oi oi-list" aria-hidden="true"></span> View users
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="myposts">
-                <span class="oi oi-plus" aria-hidden="true"></span> My Posts
+            <NavLink class="nav-link" href="CreatePost">
+                <span class="oi oi-plus" aria-hidden="true"></span> Create post
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="myprofile">
-                <span class="oi oi-plus" aria-hidden="true"></span> My Profile
+            <NavLink class="nav-link" href="ViewPosts">
+                <span class="oi oi-list" aria-hidden="true"></span> View posts
             </NavLink>
         </div>
-
+        <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="MyPosts">
+                        <span class="oi oi-list" aria-hidden="true"></span> My posts
+                    </NavLink>
+                </div>
     </nav>
 </div>
 

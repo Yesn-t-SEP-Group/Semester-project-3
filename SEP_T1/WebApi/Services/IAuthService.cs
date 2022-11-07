@@ -1,6 +1,6 @@
-﻿using Shared.Models;
+﻿using Domain.Models;
 
-namespace WebApi.Services;
+namespace WebAPI.Services;
 
 public interface IAuthService
 {

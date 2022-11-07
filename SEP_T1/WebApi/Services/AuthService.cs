@@ -1,20 +1,33 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Shared.Models;
+using System.Text.Json;
+using Domain.Models;
+using FileData;
 
-namespace WebApi.Services;
-
+namespace WebAPI.Services;
 
 public class AuthService : IAuthService
 {
-    private static  IList<User> users = new List<User>
+    private FileContext file = new FileContext();
+    private readonly IList<User> Users = new List<User>();
+
+    public AuthService()
     {
-        new User("martin","password","martin","abc@gmail.com","45555555","denmark",true)
-    };
-    
+    file.LoadData();
+    }
 
     public Task<User> ValidateUser(string username, string password)
     {
-        User? existingUser = users.FirstOrDefault(u => u.Username.Equals(username, StringComparison.OrdinalIgnoreCase));
+    //    file.LoadData();
+    //    User? existingUser = file.Users.FirstOrDefault(u => 
+     //       u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+     ;
+     file.LoadData();
+     
+     Console.WriteLine(username+password);
+     User? existingUser = file.Users.FirstOrDefault(u => 
+            u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
+     
+        
         if (existingUser == null)
         {
             throw new Exception("User not found");
@@ -27,11 +40,12 @@ public class AuthService : IAuthService
 
         return Task.FromResult(existingUser);
     }
+    
 
     public Task RegisterUser(User user)
     {
 
-        if (string.IsNullOrEmpty(user.Username))
+        if (string.IsNullOrEmpty(user.UserName))
         {
             throw new ValidationException("Username cannot be null");
         }
@@ -40,29 +54,12 @@ public class AuthService : IAuthService
         {
             throw new ValidationException("Password cannot be null");
         }
-        
-        if (string.IsNullOrEmpty(user.Name))
-        {
-            throw new ValidationException("Name cannot be null");
-        }
-        if (string.IsNullOrEmpty(user.Email))
-        {
-            throw new ValidationException("Email cannot be null");
-        }
-        if (string.IsNullOrEmpty(user.PhoneNumber))
-        {
-            throw new ValidationException("PhoneNumber cannot be null");
-        }
-        if (string.IsNullOrEmpty(user.Address))
-        {
-            throw new ValidationException("Address cannot be null");
-        }
         // Do more user info validation here
         
         // save to persistence instead of list
         
-        users.Add(user);
-
+   //     file.Users.Add(user);
+   //     file.SaveChanges();
         
         return Task.CompletedTask;
     }
