@@ -1,4 +1,4 @@
-package via.sdj3.sep_t3.rabbitMQ;
+package via.sdj3.sep_t3.config;
 
 
 import org.springframework.amqp.core.Binding;

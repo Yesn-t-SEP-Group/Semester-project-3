@@ -9,6 +9,7 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import via.sdj3.sep_t3.backendModel.BackendUser;
+import via.sdj3.sep_t3.config.RabbitMqConfig;
 import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
@@ -33,7 +34,7 @@ public class Receiver
     {
         try
         {
-            String message = new String(fromClient.getBody(),"UTF-8");
+            String message = new String(fromClient.getBody(), "UTF-8");
             System.out.println("Received <" + message + ">");
             Gson gson = new Gson();
 
@@ -45,9 +46,20 @@ public class Receiver
                 {
                     BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
                     User user = new User();
+                    String returnMessage = "";
                     user.convertFromBackendUser(fromJson);
+                    try
+                    {
+                        userRegistry.save(user);
+                        returnMessage = "success";
+                    } catch (Exception e)
+                    {
+                        returnMessage = e.getMessage();
+                    }
+                    Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
+                    CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
+                    rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_REPLY_MESSAGE_QUEUE, build, correlationData);
 
-                    userRegistry.save(user);
                     break;
                 }
                 case "getUsers":
@@ -56,6 +68,19 @@ public class Receiver
                     userRegistry.findAll().forEach(user -> ret.add(user.convertToBackendUser()));
 
                     String returnMessage = gson.toJson(ret);
+
+                    Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
+                    CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
+                    rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_REPLY_MESSAGE_QUEUE, build, correlationData);
+                }
+                case "login":
+                {
+                    BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
+                    String returnMessage = "";
+
+                    if (userRegistry.findByUsernameAndUserpass(fromJson.getUsername(), fromJson.getPassword()).isPresent())
+                        returnMessage = "success";
+                    else returnMessage = "something wrong";
 
                     Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
                     CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
@@ -76,7 +101,7 @@ public class Receiver
 
             userRegistry.save(test);
              */
-        }catch (Exception e)
+        } catch (Exception e)
         {
             e.printStackTrace();
         }
