@@ -56,5 +56,22 @@
       "rating": 5
     }
   ],
-  "Posts": []
+  "Posts": [
+    {
+      "Id": 1,
+      "Owner": {
+        "Id": 1,
+        "UserName": "admin",
+        "Password": "admin",
+        "Name": "admin",
+        "Email": "admin@gmail.com",
+        "PhoneNumber": "4060606060",
+        "Address": "denmark",
+        "Role": "Admin",
+        "rating": 5
+      },
+      "Title": "admin test",
+      "Body": "testing"
+    }
+  ]
 }
