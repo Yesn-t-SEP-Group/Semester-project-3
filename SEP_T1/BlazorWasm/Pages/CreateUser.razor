@@ -102,6 +102,7 @@
 
         try
         {
+            
             await userService.Create(new UserCreationDto(username, password, full_name, email, phone_number, address));
             username = "";
             password = "";

@@ -1,6 +1,7 @@
 ﻿using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
+using GrpcDemo.Impl;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -21,6 +22,9 @@ public class UsersController : ControllerBase
     {
         try
         {
+            Client client = new Client();
+            
+            var test = client.ExecuteTask;
             User user = await userLogic.CreateAsync(dto);
             return Created($"/users/{user.Id}", user);
         }
