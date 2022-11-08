@@ -1,5 +1,6 @@
 package via.sdj3.sep_t3.backendModel;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class BackendUser
@@ -14,12 +15,12 @@ public class BackendUser
         private String address;
         private int rating;
 
-        private Date registeredOn;
+        private LocalDate registeredOn;
 
-        private Date lastSeen;
+        private LocalDate lastSeen;
 
 
-    public BackendUser(int id, String username, String password, String fullName, String email, String phoneNo, String address, int rating, Date registeredOn, Date lastSeen)
+    public BackendUser(int id, String username, String password, String fullName, String email, String phoneNo, String address, int rating, LocalDate registeredOn, LocalDate lastSeen)
     {
         this.id = id;
         this.username = username;
@@ -113,22 +114,22 @@ public class BackendUser
         this.rating = rating;
     }
 
-    public Date getRegisteredOn()
+    public LocalDate getRegisteredOn()
     {
         return registeredOn;
     }
 
-    public void setRegisteredOn(Date registeredOn)
+    public void setRegisteredOn(LocalDate registeredOn)
     {
         this.registeredOn = registeredOn;
     }
 
-    public Date getLastSeen()
+    public LocalDate getLastSeen()
     {
         return lastSeen;
     }
 
-    public void setLastSeen(Date lastSeen)
+    public void setLastSeen(LocalDate lastSeen)
     {
         this.lastSeen = lastSeen;
     }

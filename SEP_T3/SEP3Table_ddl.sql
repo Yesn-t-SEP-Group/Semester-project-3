@@ -6,55 +6,55 @@ SET SCHEMA 'sep3';
 DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE IF NOT EXISTS Users
 (
-    userId       SERIAL UNIQUE PRIMARY KEY,
-    userName     VARCHAR(16) UNIQUE NOT NULL,
-    userPass     VARCHAR(32)        NOT NULL,
-    full_Name    VARCHAR(100)       NOT NULL,
-    email        VARCHAR(100)       NOT NULL,
-    phone_Number VARCHAR(16)        NOT NULL CHECK ( Users.phone_Number LIKE '+45%' ),
-    address      VARCHAR(50)        NOT NULL,
-    rating       DECIMAL(3, 2)      NOT NULL
+    user_id       SERIAL UNIQUE PRIMARY KEY,
+    username      VARCHAR(16) UNIQUE NOT NULL,
+    user_pass     VARCHAR(32)        NOT NULL,
+    full_name     VARCHAR(100),
+    email         VARCHAR(100),
+    phone_number  VARCHAR(11)        NOT NULL CHECK ( Users.phone_Number LIKE '+45%' ),
+    address       VARCHAR(50)        NOT NULL,
+    registered_on DATE DEFAULT CURRENT_DATE,
+    last_seen     DATE DEFAULT CURRENT_DATE
 );
 
-INSERT INTO users (username, userpass, full_name, email, phone_number, address, rating)
-VALUES ('Raedrim', '12345678', 'Levente Szajko', 'levente.szajko@outlook.com', '+4522334455', 'Horsens', 4);
+DROP TABLE IF EXISTS Ratings CASCADE;
+CREATE TABLE IF NOT EXISTS Ratings
+(
+    rating_id    SERIAL UNIQUE PRIMARY KEY,
+    rating_value INT NOT NULL,
+    user_from    INT NOT NULL,
+    user_to      INT NOT NULL,
+    FOREIGN KEY (user_from) REFERENCES Users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (user_to) REFERENCES Users (user_id) ON DELETE CASCADE
+);
+DROP TABLE IF EXISTS Categories CASCADE;
+CREATE TABLE Categories
+(
+    category_id SERIAL PRIMARY KEY,
+    description VARCHAR(50)
+);
 
-INSERT INTO users (username, userpass, full_name, email, phone_number, address, rating)
-VALUES ('Kruno', 'no', 'Kruno Ne-ric', 'bing@bong.fuckyou', '+4522334455', 'Aarhus', 4);
 
 DROP TABLE IF EXISTS Posts CASCADE;
 CREATE TABLE Posts
 (
-    postId      SERIAL PRIMARY KEY,
-    description VARCHAR(300) NOT NULL,
-    date        DATE         NOT NULL,
-    location    VARCHAR(100) NOT NULL,
-    category    VARCHAR(50)  NOT NULL,
-    sellerId    INT          NOT NULL,
-    FOREIGN KEY (sellerId) REFERENCES Users (userId) ON DELETE CASCADE
+    post_id       SERIAL PRIMARY KEY,
+    creation_date DATE NOT NULL,
+    description   TEXT,
+    location      VARCHAR(100),
+    category_id   INT  NOT NULL,
+    sellerId      INT  NOT NULL,
+    picture_url   VARCHAR(50),
+    price         INT  NOT NULL,
+
+    FOREIGN KEY (sellerId) REFERENCES Users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO posts (description, date, location, category, sellerId)
-VALUES ('no', NOW(), 'Horsens', 'trash', 1);
+INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','fuck@you.com','+4591773044','Horsens');
 
-INSERT INTO posts (description, date, location, category, sellerId)
-VALUES ('no', NOW(), 'Aarhus', 'trash', 1);
 
-DROP TABLE IF EXISTS Items CASCADE;
-CREATE TABLE Items
-(
-    itemId  SERIAL PRIMARY KEY,
-    postId  INT,
-    price   DECIMAL(9, 2) NOT NULL,
-    picture VARCHAR(100),
-    FOREIGN KEY (postId) REFERENCES posts (postId)
-);
 
-INSERT INTO items (postId, price, picture)
-VALUES (1, 20, 'google.com');
-
-SELECT *
-FROM items;
 SELECT *
 FROM users;
 SELECT *

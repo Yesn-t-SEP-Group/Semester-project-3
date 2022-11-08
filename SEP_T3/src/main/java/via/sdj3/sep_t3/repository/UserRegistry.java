@@ -1,15 +1,15 @@
 package via.sdj3.sep_t3.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import via.sdj3.sep_t3.model.User;
+import via.sdj3.sep_t3.model.Users;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface UserRegistry extends CrudRepository<User,Integer>
+public interface UserRegistry extends CrudRepository<Users,Integer>
 {
-    List<User> findByAddress(String address);
+    List<Users> findByAddress(String address);
 
-    Optional<User> findByUsernameAndUserpass(String username, String userpass);
+    Optional<Users> findByUsernameAndUserpass(String username, String userpass);
 
 }

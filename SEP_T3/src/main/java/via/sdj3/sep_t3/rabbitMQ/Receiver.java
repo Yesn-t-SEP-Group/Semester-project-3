@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import via.sdj3.sep_t3.backendModel.BackendUser;
 import via.sdj3.sep_t3.config.RabbitMqConfig;
-import via.sdj3.sep_t3.model.User;
+import via.sdj3.sep_t3.model.Users;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
@@ -45,12 +45,12 @@ public class Receiver
                 case "createNewUser":
                 {
                     BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
-                    User user = new User();
+                    Users users = new Users();
                     String returnMessage = "";
-                    user.convertFromBackendUser(fromJson);
+                    users.convertFromBackendUser(fromJson);
                     try
                     {
-                        userRegistry.save(user);
+                        userRegistry.save(users);
                         returnMessage = "success";
                     } catch (Exception e)
                     {
@@ -65,7 +65,7 @@ public class Receiver
                 case "getUsers":
                 {
                     List<BackendUser> ret = new ArrayList<>();
-                    userRegistry.findAll().forEach(user -> ret.add(user.convertToBackendUser()));
+                    //userRegistry.findAll().forEach(users -> ret.add(users.convertToBackendUser()));
 
                     String returnMessage = gson.toJson(ret);
 

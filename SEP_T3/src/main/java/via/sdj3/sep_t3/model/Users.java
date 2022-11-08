@@ -3,60 +3,60 @@ package via.sdj3.sep_t3.model;
 import via.sdj3.sep_t3.backendModel.BackendUser;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.time.LocalDate;
 
 @Entity(name = "users")
-public class User
+public class Users
 {
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "userid", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer id;
 
     @Column(name = "username", nullable = false, length = 16)
     private String username;
 
-    @Column(name = "userpass", nullable = false, length = 32)
-    private String userpass;
+    @Column(name = "user_pass", nullable = false, length = 32)
+    private String userPass;
 
-    @Column(name = "full_name", nullable = false, length = 100)
+    @Column(name = "full_name", length = 100)
     private String fullName;
 
-    @Column(name = "email", nullable = false, length = 100)
+    @Column(name = "email", length = 100)
     private String email;
 
-    @Column(name = "phone_number", nullable = false, length = 16)
+    @Column(name = "phone_number", nullable = false, length = 11)
     private String phoneNumber;
 
     @Column(name = "address", nullable = false, length = 50)
     private String address;
 
-    @Column(name = "rating", nullable = false, precision = 3, scale = 2)
-    private BigDecimal rating;
+    @Column(name = "registered_on")
+    private LocalDate registeredOn;
 
-    @OneToMany(mappedBy = "sellerid")
-    private Set<Post> posts = new LinkedHashSet<>();
+    @Column(name = "last_seen")
+    private LocalDate lastSeen;
 
-    public Set<Post> getPosts()
+    public LocalDate getLastSeen()
     {
-        return posts;
+        return lastSeen;
     }
 
-    public void setPosts(Set<Post> posts)
+    public void setLastSeen(LocalDate lastSeen)
     {
-        this.posts = posts;
+        this.lastSeen = lastSeen;
     }
 
-    public BigDecimal getRating()
+    public LocalDate getRegisteredOn()
     {
-        return rating;
+        return registeredOn;
     }
 
-    public void setRating(BigDecimal rating)
+    public void setRegisteredOn(LocalDate registeredOn)
     {
-        this.rating = rating;
+        this.registeredOn = registeredOn;
     }
 
     public String getAddress()
@@ -99,14 +99,14 @@ public class User
         this.fullName = fullName;
     }
 
-    public String getUserpass()
+    public String getUserPass()
     {
-        return userpass;
+        return userPass;
     }
 
-    public void setUserpass(String userpass)
+    public void setUserPass(String userPass)
     {
-        this.userpass = userpass;
+        this.userPass = userPass;
     }
 
     public String getUsername()
@@ -136,17 +136,13 @@ public class User
      */
     public void convertFromBackendUser(BackendUser user)
     {
-        this.username=user.getUsername();
-        this.userpass=user.getPassword();
-        this.fullName=user.getFullName();
-        this.email=user.getEmail();
-        this.phoneNumber=user.getPhoneNo();
-        this.address=user.getAddress();
-        this.rating= BigDecimal.valueOf(user.getRating());
+        this.username = user.getUsername();
+        this.userPass = user.getPassword();
+        this.fullName = user.getFullName();
+        this.email = user.getEmail();
+        this.phoneNumber = user.getPhoneNo();
+        this.address = user.getAddress();
+        this.lastSeen=user.getLastSeen();
+        this.registeredOn=user.getRegisteredOn();
     }
-    public BackendUser convertToBackendUser()
-    {
-        return new BackendUser(id,username,userpass,fullName,phoneNumber,address);
-    }
-
 }
