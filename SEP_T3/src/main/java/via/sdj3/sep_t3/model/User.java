@@ -139,8 +139,7 @@ public class User
         this.username=user.getUsername();
         this.userpass=user.getPassword();
         this.fullName=user.getFullName();
-        //todo fix this before presentation
-        this.email="test";
+        this.email=user.getEmail();
         this.phoneNumber=user.getPhoneNo();
         this.address=user.getAddress();
         this.rating= BigDecimal.valueOf(user.getRating());
