@@ -1,13 +1,11 @@
 package via.dk.sep_t2.RestAPI.controller;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import via.dk.sep_t2.RestAPI.model.Item;
 import via.dk.sep_t2.RestAPI.model.SearchItemParameters;
 import via.dk.sep_t2.RestAPI.repository.ItemRepository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 @RestController

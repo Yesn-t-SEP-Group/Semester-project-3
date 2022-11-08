@@ -3,7 +3,6 @@ package via.dk.sep_t2.RabbitMQ.reciever;
 import com.rabbitmq.client.*;
 
 import java.io.IOException;
-import java.util.Scanner;
 import java.util.concurrent.TimeoutException;
 
 public class Reciever

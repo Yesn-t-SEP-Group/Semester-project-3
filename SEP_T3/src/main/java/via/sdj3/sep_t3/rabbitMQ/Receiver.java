@@ -72,6 +72,7 @@ public class Receiver
                     Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
                     CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
                     rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_REPLY_MESSAGE_QUEUE, build, correlationData);
+                    break;
                 }
                 case "login":
                 {
@@ -85,6 +86,7 @@ public class Receiver
                     Message build = MessageBuilder.withBody(returnMessage.getBytes()).build();
                     CorrelationData correlationData = new CorrelationData(fromClient.getMessageProperties().getCorrelationId());
                     rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_REPLY_MESSAGE_QUEUE, build, correlationData);
+                    break;
                 }
             }
             /*

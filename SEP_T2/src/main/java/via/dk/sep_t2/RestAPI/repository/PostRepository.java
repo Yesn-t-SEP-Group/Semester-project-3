@@ -4,7 +4,6 @@ import org.springframework.stereotype.Repository;
 import via.dk.sep_t2.RestAPI.model.Item;
 import via.dk.sep_t2.RestAPI.model.Post;
 import via.dk.sep_t2.RestAPI.model.SearchPostParameters;
-import via.dk.sep_t2.RestAPI.model.User;
 
 import java.util.*;
 

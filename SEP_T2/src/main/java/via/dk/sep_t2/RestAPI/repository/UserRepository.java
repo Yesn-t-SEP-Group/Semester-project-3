@@ -3,7 +3,10 @@ package via.dk.sep_t2.RestAPI.repository;
 import org.springframework.stereotype.Repository;
 import via.dk.sep_t2.RestAPI.model.User;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class UserRepository

@@ -1,7 +1,5 @@
 package via.dk.sep_t2.RestAPI.model;
 
-import org.springframework.lang.Nullable;
-
 public class SearchPostParameters
 {
     private int creatorId = 0;

@@ -4,8 +4,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import via.dk.sep_t2.RestAPI.model.Post;
 import via.dk.sep_t2.RestAPI.model.SearchPostParameters;
-import via.dk.sep_t2.RestAPI.model.User;
-import via.dk.sep_t2.RestAPI.repository.ItemRepository;
 import via.dk.sep_t2.RestAPI.repository.PostRepository;
 
 import java.util.ArrayList;

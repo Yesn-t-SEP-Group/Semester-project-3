@@ -6,33 +6,34 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import via.dk.sep_t2.RabbitMQ.config.RabbitMqConfig;
 import via.dk.sep_t2.RestAPI.model.User;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 @RestController
 public class RabbitClient
 {
+    /*
+
     @Autowired
     RabbitTemplate rabbitTemplate;
-
     private Gson gson = new Gson();
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('ROLE_USER')")
-    public String getAllUsers(String message)
+    public String getAllUsers(String message, Principal principal)
     {
+        System.out.println(principal.getName());
         Message newMessage = MessageBuilder.withBody(message.getBytes()).build();
 
         Message result = rabbitTemplate.sendAndReceive(RabbitMqConfig.RPC_EXCHANGE, RabbitMqConfig.RPC_MESSAGE_QUEUE, newMessage);
@@ -104,4 +105,6 @@ public class RabbitClient
         }
         return response;
     }
+
+     */
 }

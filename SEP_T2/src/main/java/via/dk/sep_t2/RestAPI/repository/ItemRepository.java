@@ -1,9 +1,7 @@
 package via.dk.sep_t2.RestAPI.repository;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.ResponseBody;
 import via.dk.sep_t2.RestAPI.model.Item;
-import via.dk.sep_t2.RestAPI.model.Post;
 import via.dk.sep_t2.RestAPI.model.SearchItemParameters;
 
 import java.util.*;
