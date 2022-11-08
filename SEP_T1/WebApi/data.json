@@ -32,6 +32,28 @@
       "Address": "denmark",
       "Role": "User",
       "rating": 5
+    },
+    {
+      "Id": 4,
+      "UserName": "abc123",
+      "Password": "abc123",
+      "Name": "abc123",
+      "Email": "abc@gmail.com",
+      "PhoneNumber": "\u002B4550505051",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5
+    },
+    {
+      "Id": 5,
+      "UserName": "abc124",
+      "Password": "abc124",
+      "Name": "abc",
+      "Email": "abc4@gmail.com",
+      "PhoneNumber": "\u002B4530303030",
+      "Address": "horsens",
+      "Role": "User",
+      "rating": 5
     }
   ],
   "Posts": []
