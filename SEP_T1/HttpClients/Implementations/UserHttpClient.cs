@@ -8,49 +8,74 @@ namespace HttpClients.Implementations;
 
 public class UserHttpClient : IUserService
 {
-    private readonly HttpClient client;
+    private readonly HttpClient _client;
+
 
     public UserHttpClient(HttpClient client)
     {
-        this.client = client;
+        this._client = client;
     }
 
-    public async Task<User> Create(UserCreationDto dto)
+    public async Task<UserReadDto> Create(UserCreationDto dto)
     {
-        HttpResponseMessage response = await client.PostAsJsonAsync("/users", dto);
+        HttpResponseMessage response = await this._client.PostAsJsonAsync("/users", dto);
         string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(result);
         }
 
-        User user = JsonSerializer.Deserialize<User>(result, new JsonSerializerOptions
+        var convert = JsonSerializer.Deserialize<UserReadDto>(result, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
-        return user;
+
+        return convert;
     }
     
     
 
-    public async Task<IEnumerable<User>> GetUsers(string? usernameContains = null)
+    public async Task<IEnumerable<UserReadDto>> GetUsers()
     {
-        string uri = "/users";
-        if (!string.IsNullOrEmpty(usernameContains))
+        /*
+        var moq = new List<UserReadDto>()
+            {
+                new UserReadDto() { UserName = "Test", Id = 1, RegistrationDateTime = DateTime.Now },
+                new UserReadDto() { UserName = "Test2", Id = 2, RegistrationDateTime = DateTime.Now },
+                new UserReadDto() { UserName = "Test3", Id = 3, RegistrationDateTime = DateTime.Now },
+            };
+
+        string jsonString = JsonSerializer.Serialize(moq);
+
+
+        return JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(jsonString, new JsonSerializerOptions
         {
-            uri += $"?username={usernameContains}";
-        }
-        HttpResponseMessage response = await client.GetAsync(uri);
+            PropertyNameCaseInsensitive = true,
+        })!;
+        */
+
+        HttpResponseMessage response = await this._client.GetAsync("/users");
         string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(result);
         }
 
-        IEnumerable<User> users = JsonSerializer.Deserialize<IEnumerable<User>>(result, new JsonSerializerOptions
+        var convert = JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(result, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true
+            PropertyNameCaseInsensitive = true,
         })!;
-        return users;
+
+        return convert;
+    }
+
+    public async Task DeleteUser(int id)
+    {
+        HttpResponseMessage response = await this._client.GetAsync($"/users/{id}/delete");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
     }
 }

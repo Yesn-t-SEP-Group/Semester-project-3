@@ -1,6 +1,7 @@
 ﻿@page "/ViewUsers"
 @attribute [Authorize]
 @using Domain.Models
+@using Domain.DTOs
 @using HttpClients.ClientInterfaces
 @using System.Security.Claims
 @inject IUserService userService;
@@ -29,14 +30,11 @@
     else
     {
         <div class="users-container">
-            @foreach (User user in users)
+            @foreach (UserReadDto user in users)
             {
                 <div class="user-card">
                     <div>
                         <label>Username: @user.UserName</label>
-                    </div>
-                    <div>
-                        <label>Password: @user.Password</label>
                     </div>
                     <div>
                         <label>Role: @user.Role</label>
@@ -54,7 +52,7 @@
                         <label>Address: @user.Address</label>
                     </div>
                     <div>
-                        <label>Rating: @user.rating</label>
+                        <label>Rating: @user.Rating</label>
                     </div>
                 </div>
             }
@@ -71,7 +69,7 @@ else
     
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
-    private IEnumerable<User>? users;
+    private IEnumerable<UserReadDto>? users;
     private string msg = "";
 
     private string? name;
@@ -85,7 +83,8 @@ else
         isAdmin = user.IsInRole("Admin");
 
         try
-        {users = await userService.GetUsers();
+        {
+            users = await userService.GetUsers();
         }
         catch (Exception e)
         {

@@ -48,7 +48,7 @@
 
     private PostUpdateDto dto = null!;
     private string msg = "";
-    private IEnumerable<User>? users;
+    private IEnumerable<UserReadDto>? users;
     
     protected override async Task OnInitializedAsync()
     {
@@ -57,7 +57,7 @@
         {
             users = await userService.GetUsers();
             PostBasicDto todoData = await postService.GetByIdAsync(Id);
-            User currentlyAssigned = users.First(user => user.UserName.Equals(todoData.OwnerName));
+            UserReadDto currentlyAssigned = users.First(user => user.UserName.Equals(todoData.OwnerName));
 
             dto = new(Id)
             {

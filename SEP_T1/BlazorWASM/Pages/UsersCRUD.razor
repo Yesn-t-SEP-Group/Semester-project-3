@@ -1,0 +1,121 @@
+﻿@page "/usersCRUD"
+@using Domain.DTOs
+@inject HttpClient Http
+@using HttpClients.ClientInterfaces
+@inject IUserService userService;
+
+<h1>User Data CRUD</h1>
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="ShowAddUserModal">Add User</button>
+    </div>
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search user by name" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterUser" />
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>
+</div>
+<br />
+@if (userList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>RegistrationDateTime</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in userList)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.UserName</td>
+                    <td>@user.RegistrationDateTime</td>
+                    <td>
+
+                        <a href='/user/edit/@user.Id' class="btn btn-outline-dark" role="button">
+                            Edit
+                        </a>
+
+                        <button class="btn btn-outline-danger" @onclick="(async () => await DeleteElement(user.Id))">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+}
+@code {
+    [CascadingParameter] public IModalService Modal { get; set; }
+
+    protected IEnumerable<UserReadDto> userList = new List<UserReadDto>();
+    protected IEnumerable<UserReadDto> searchUserData = new List<UserReadDto>();
+    protected UserReadDto user = new();
+    protected string SearchString { get; set; } = string.Empty;
+    protected override async Task OnInitializedAsync()
+    {
+        await GetUser();
+    }
+    protected async Task GetUser()
+    {
+        userList = await userService.GetUsers();
+        searchUserData = userList;
+    }
+    protected void FilterUser()
+    {
+        if (!string.IsNullOrEmpty(SearchString))
+        {
+            userList = searchUserData
+                .Where(x => x.UserName.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) != -1)
+                .ToList();
+        }
+        else
+        {
+            userList = searchUserData;
+        }
+    }
+    protected void DeleteConfirm(int userID)
+    {
+        user = userList.FirstOrDefault(x => x.Id == userID);
+    }
+
+    public void ResetSearch()
+    {
+        SearchString = string.Empty;
+        userList = searchUserData;
+    }
+
+    protected async Task DeleteElement(int id)
+    {
+        await userService.DeleteUser(id);
+        await this.LoadElements();
+        StateHasChanged();
+    }
+
+    private async Task ShowAddUserModal()
+    {
+        var moviesModal = Modal.Show<CreateUser>("Add User");
+        var result = await moviesModal.Result;
+
+        await this.LoadElements();
+        StateHasChanged();
+    }
+
+    protected async Task LoadElements()
+    {
+        userList = await userService.GetUsers();
+    }
+}
