@@ -10,6 +10,7 @@ public interface UserRegistry extends CrudRepository<Users,Integer>
 {
     List<Users> findByAddress(String address);
 
-    Optional<Users> findByUsernameAndUserpass(String username, String userpass);
+    Optional<Users> findByUsernameAndUserPass(String username, String userPass);
+
 
 }

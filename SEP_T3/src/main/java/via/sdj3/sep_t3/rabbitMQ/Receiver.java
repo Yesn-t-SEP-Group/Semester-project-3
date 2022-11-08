@@ -79,7 +79,7 @@ public class Receiver
                     BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
                     String returnMessage = "";
 
-                    if (userRegistry.findByUsernameAndUserpass(fromJson.getUsername(), fromJson.getPassword()).isPresent())
+                    if (userRegistry.findByUsernameAndUserPass(fromJson.getUsername(), fromJson.getPassword()).isPresent())
                         returnMessage = "success";
                     else returnMessage = "something wrong";
 
