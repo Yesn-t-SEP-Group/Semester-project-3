@@ -33,6 +33,7 @@ public class AuthController : ControllerBase
             new Claim("Name", user.UserName),
             new Claim("Password",user.Password.ToString()),
             new Claim(ClaimTypes.Role,user.Role),
+            new Claim("Role",user.Role),
             new Claim("Id",user.Id.ToString()),
             new Claim("Name",user.Name.ToString()),
             new Claim("PhoneNumber",user.PhoneNumber.ToString()),

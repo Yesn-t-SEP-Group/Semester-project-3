@@ -19,8 +19,24 @@
                     </li>
                 }
                 <li>
-                    <label>@context.User.FindFirst("Name").@claim.Value</label>
+                    <label>@context.User.FindFirst("Name").Value</label>
                 </li>
+                <li>
+                    <label>@context.User.FindFirst("Username").Value</label>
+                </li>
+                <li>
+                    <label>@context.User.FindFirst("Password").Value</label>
+                </li>
+                <li>
+                    <label>@context.User.FindFirst("Role").Value</label>
+                </li>
+                <li>
+                    <label>@context.User.FindFirst("PhoneNumber").Value</label>
+                </li>
+                <li>
+                    <label>@context.User.FindFirst("Name").Value</label>
+                </li>
+                
                 
             </ol>
         </p>
