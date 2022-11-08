@@ -30,7 +30,7 @@ public class UserCreationDto
         PhoneNumber = phoneNumber;
         Address = address;
         rating = 5.0;
-        registeredOn = DateTime.Today;
-        lastSeen = DateTime.Today;
+        registeredOn = DateTime.Today.Date;
+        lastSeen = DateTime.Today.Date;
     }
 }
