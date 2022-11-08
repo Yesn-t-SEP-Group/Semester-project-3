@@ -4,109 +4,35 @@
       "Id": 1,
       "UserName": "admin",
       "Password": "admin",
-      "Role": "Admin"
+      "Name": "admin",
+      "Email": "admin@gmail.com",
+      "PhoneNumber": "4060606060",
+      "Address": "denmark",
+      "Role": "Admin",
+      "rating": 5
     },
     {
       "Id": 2,
       "UserName": "user",
       "Password": "user",
-      "Role": "User"
+      "Name": "user",
+      "Email": "user@gmail.com",
+      "PhoneNumber": "4050505050",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5
     },
     {
       "Id": 3,
-      "UserName": "bingbong",
-      "Password": "bingbong",
-      "Role": "User"
+      "UserName": "bob",
+      "Password": "test123",
+      "Name": "bob test",
+      "Email": "bob@gmail.com",
+      "PhoneNumber": "\u002B4540505060",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5
     }
   ],
-  "Posts": [
-    {
-      "Id": 1,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Role": "Admin"
-      },
-      "Title": "test user to admin",
-      "Body": "testing"
-    },
-    {
-      "Id": 5,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Role": "Admin"
-      },
-      "Title": "test 4 ",
-      "Body": "sadfa"
-    },
-    {
-      "Id": 6,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Role": "Admin"
-      },
-      "Title": "test 5 asd",
-      "Body": ";lkj"
-    },
-    {
-      "Id": 7,
-      "Owner": {
-        "Id": 3,
-        "UserName": "bingbong",
-        "Password": "bingbong",
-        "Role": "User"
-      },
-      "Title": "bingbong",
-      "Body": "bingbongggg"
-    },
-    {
-      "Id": 8,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test post id sort",
-      "Body": "post id 5"
-    },
-    {
-      "Id": 3,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 2",
-      "Body": "asfd;aslkfj remake last post"
-    },
-    {
-      "Id": 2,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 1",
-      "Body": "moved to bottom? 2 =\u003E last?"
-    },
-    {
-      "Id": 4,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 3",
-      "Body": "4 =\u003E last?"
-    }
-  ]
+  "Posts": []
 }
