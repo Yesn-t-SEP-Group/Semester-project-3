@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Blazored.Modal;
 using BlazorWASM;
 using BlazorWASM.Auth;
 using Domain.Auth;
@@ -23,5 +24,6 @@ builder.Services.AddScoped<IPostService, PostHttpClient>();
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 AuthorizationPolicies.AddPolicies(builder.Services);
+builder.Services.AddBlazoredModal();
 
 await builder.Build().RunAsync();
