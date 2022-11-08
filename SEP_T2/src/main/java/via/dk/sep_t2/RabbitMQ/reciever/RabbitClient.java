@@ -6,13 +6,13 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import via.dk.sep_t2.RabbitMQ.config.RabbitMqConfig;
 import via.dk.sep_t2.RestAPI.model.User;
 
@@ -30,6 +30,7 @@ public class RabbitClient
     private Gson gson = new Gson();
 
     @GetMapping("/user")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public String getAllUsers(String message)
     {
         Message newMessage = MessageBuilder.withBody(message.getBytes()).build();
