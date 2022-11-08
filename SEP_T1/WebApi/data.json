@@ -1,0 +1,89 @@
+{
+  "Users": [
+    {
+      "Id": 1,
+      "UserName": "admin",
+      "Password": "admin",
+      "Name": "admin",
+      "Email": "admin@gmail.com",
+      "PhoneNumber": "4060606060",
+      "Address": "denmark",
+      "Role": "Admin",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "2022-11-08T00:00:00+01:00"
+    },
+    {
+      "Id": 2,
+      "UserName": "user",
+      "Password": "user",
+      "Name": "user",
+      "Email": "user@gmail.com",
+      "PhoneNumber": "4050505050",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 3,
+      "UserName": "bob",
+      "Password": "test123",
+      "Name": "bob test",
+      "Email": "bob@gmail.com",
+      "PhoneNumber": "\u002B4540505060",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 4,
+      "UserName": "abc123",
+      "Password": "abc123",
+      "Name": "abc123",
+      "Email": "abc@gmail.com",
+      "PhoneNumber": "\u002B4550505051",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 5,
+      "UserName": "abc124",
+      "Password": "abc124",
+      "Name": "abc",
+      "Email": "abc4@gmail.com",
+      "PhoneNumber": "\u002B4530303030",
+      "Address": "horsens",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    }
+  ],
+  "Posts": [
+    {
+      "Id": 1,
+      "Owner": {
+        "Id": 1,
+        "UserName": "admin",
+        "Password": "admin",
+        "Name": "admin",
+        "Email": "admin@gmail.com",
+        "PhoneNumber": "4060606060",
+        "Address": "denmark",
+        "Role": "Admin",
+        "rating": 5,
+        "registeredOn": "0001-01-01T00:00:00",
+        "lastSeen": "0001-01-01T00:00:00"
+      },
+      "Title": "admin test",
+      "Body": "testing"
+    }
+  ]
+}

@@ -1,0 +1,46 @@
+﻿@page "/MyAccount"
+@using System.Security.Claims
+@attribute [Authorize]
+
+
+<h3>MyAccount</h3>
+<AuthorizeView>
+    <Authorized>
+        <p>
+            Your claims include:
+            <ol>
+                <li>
+                    <label>Name: @context.User.FindFirst("Name").Value</label>
+                </li>
+                <li>
+                    <label>Id: @context.User.FindFirst("Id").Value</label>
+                </li>
+                
+                <li>
+                    <label>Username: @context.User.FindFirst("Username").Value</label>
+                </li>
+                <li>
+                    <label>Password: @context.User.FindFirst("Password").Value</label>
+                </li>
+                <li>
+                    <label>Role: @context.User.FindFirst("Role").Value</label>
+                </li>
+                <li>
+                    <label>Phone Number: @context.User.FindFirst("PhoneNumber").Value</label>
+                </li>
+                <li>
+                    <label>Email: @context.User.FindFirst("Email").Value</label>
+                </li>
+                <li>
+                    <label>Address: @context.User.FindFirst("Address").Value</label>
+                </li>
+                
+                
+                
+            </ol>
+        </p>
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not logged in.</p>
+    </NotAuthorized>
+</AuthorizeView>
