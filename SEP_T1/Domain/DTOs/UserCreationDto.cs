@@ -15,6 +15,10 @@ public class UserCreationDto
     
     public double rating { get; set; }
     
+    public DateTime registeredOn { get; set; }
+    
+    public DateTime lastSeen { get; set; }
+    
 
     public UserCreationDto(string userName,string passWord, string name, string email, string phoneNumber, string address)
     {
@@ -26,5 +30,7 @@ public class UserCreationDto
         PhoneNumber = phoneNumber;
         Address = address;
         rating = 5.0;
+        registeredOn = DateTime.Today;
+        lastSeen = DateTime.Today;
     }
 }

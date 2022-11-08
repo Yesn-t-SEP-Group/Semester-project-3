@@ -37,7 +37,8 @@ public class AuthService : IAuthService
         {
             throw new Exception("Password mismatch");
         }
-
+        existingUser.lastSeen = DateTime.Today;
+        file.SaveChanges();
         return Task.FromResult(existingUser);
     }
     
