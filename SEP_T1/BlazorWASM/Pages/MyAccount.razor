@@ -4,38 +4,37 @@
 
 
 <h3>MyAccount</h3>
-<p>Here we can see the users credentials</p>
 <AuthorizeView>
     <Authorized>
-        <h3>Hello @context.User.Identity.Name</h3>
-        <p>@context.User.Claims.First(claim => claim.Type.Equals(ClaimTypes.Role)).Value</p>
         <p>
             Your claims include:
             <ol>
-                @foreach (Claim claim in context.User.Claims)
-                {
-                    <li>
-                        <label>@claim.Type: @claim.Value</label>
-                    </li>
-                }
                 <li>
-                    <label>@context.User.FindFirst("Name").Value</label>
+                    <label>Name: @context.User.FindFirst("Name").Value</label>
                 </li>
                 <li>
-                    <label>@context.User.FindFirst("Username").Value</label>
+                    <label>Id: @context.User.FindFirst("Id").Value</label>
+                </li>
+                
+                <li>
+                    <label>Username: @context.User.FindFirst("Username").Value</label>
                 </li>
                 <li>
-                    <label>@context.User.FindFirst("Password").Value</label>
+                    <label>Password: @context.User.FindFirst("Password").Value</label>
                 </li>
                 <li>
-                    <label>@context.User.FindFirst("Role").Value</label>
+                    <label>Role: @context.User.FindFirst("Role").Value</label>
                 </li>
                 <li>
-                    <label>@context.User.FindFirst("PhoneNumber").Value</label>
+                    <label>Phone Number: @context.User.FindFirst("PhoneNumber").Value</label>
                 </li>
                 <li>
-                    <label>@context.User.FindFirst("Name").Value</label>
+                    <label>Email: @context.User.FindFirst("Email").Value</label>
                 </li>
+                <li>
+                    <label>Address: @context.User.FindFirst("Address").Value</label>
+                </li>
+                
                 
                 
             </ol>
