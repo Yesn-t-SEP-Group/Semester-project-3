@@ -1,6 +1,5 @@
 package via.sdj3.sep_t3.model;
 
-import via.sdj3.sep_t3.backendModel.BackendUser;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -127,22 +126,5 @@ public class Users
     public void setId(Integer id)
     {
         this.id = id;
-    }
-
-    /**
-     * Convert from backend user.
-     *
-     * @param user the user
-     */
-    public void convertFromBackendUser(BackendUser user)
-    {
-        this.username = user.getUsername();
-        this.userPass = user.getPassword();
-        this.fullName = user.getFullName();
-        this.email = user.getEmail();
-        this.phoneNumber = user.getPhoneNo();
-        this.address = user.getAddress();
-        this.lastSeen=user.getLastSeen();
-        this.registeredOn=user.getRegisteredOn();
     }
 }

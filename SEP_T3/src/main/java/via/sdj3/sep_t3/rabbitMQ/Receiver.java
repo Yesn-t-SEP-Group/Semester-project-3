@@ -1,5 +1,5 @@
 package via.sdj3.sep_t3.rabbitMQ;
-
+/*
 import com.google.gson.Gson;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageBuilder;
@@ -26,8 +26,6 @@ public class Receiver
     @Autowired
     RabbitTemplate rabbitTemplate;
 
-    @Autowired
-    private PostRegistry postRegistry;
 
     @RabbitListener(queues = RabbitMqConfig.RPC_MESSAGE_QUEUE)
     public void receiveMessage(Message fromClient)
@@ -39,12 +37,13 @@ public class Receiver
             Gson gson = new Gson();
 
             String[] messageSplit = message.split(";");
+            /*
 
             switch (messageSplit[0])
             {
                 case "createNewUser":
                 {
-                    BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
+                   //BackendUser fromJson = gson.fromJson(messageSplit[1], BackendUser.class);
                     Users users = new Users();
                     String returnMessage = "";
                     users.convertFromBackendUser(fromJson);
@@ -89,7 +88,8 @@ public class Receiver
                     break;
                 }
             }
-            /*
+
+
             for (User user : userRegistry.findAll())
             {
                 System.out.println(user.getFullName());
@@ -102,10 +102,11 @@ public class Receiver
             User test = new User();
 
             userRegistry.save(test);
-             */
+
         } catch (Exception e)
         {
             e.printStackTrace();
         }
     }
 }
+*/

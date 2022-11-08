@@ -7,9 +7,4 @@ import org.springframework.boot.test.context.SpringBootTest;
 class SepT3ApplicationTests
 {
 
-    @Test
-    void contextLoads()
-    {
-    }
-
 }
