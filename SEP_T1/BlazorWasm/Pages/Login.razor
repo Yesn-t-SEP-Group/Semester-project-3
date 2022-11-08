@@ -1,5 +1,6 @@
 ﻿@page "/Login"
 @using HttpClients.ClientInterfaces
+@using Domain.DTOs
 @inject IAuthService authService
 @inject NavigationManager navMgr
 
@@ -46,13 +47,18 @@
     private string userName;
     private string password;
     private string errorLabel;
+    UserLoginDto dto;
 
     private async Task LoginAsync()
     {
         errorLabel = "";
         try
         {
-            await authService.LoginAsync(userName, password);
+            dto = new UserLoginDto()
+            {
+                Username = userName, Password = password
+            };
+            await authService.LoginAsync(dto);
             navMgr.NavigateTo("/");
         }
         catch (Exception e)

@@ -30,6 +30,8 @@ public class UserHttpClient : IUserService
         })!;
         return user;
     }
+    
+    
 
     public async Task<IEnumerable<User>> GetUsers(string? usernameContains = null)
     {
