@@ -77,6 +77,32 @@
       "rating": 0,
       "registeredOn": "0001-01-01T00:00:00",
       "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 7,
+      "UserName": "jklsaldjlaskdj",
+      "Password": "Bob22",
+      "Name": "Bob build",
+      "Email": "email",
+      "PhoneNumber": "\u002B452",
+      "Address": "here",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 8,
+      "UserName": "asd",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
     }
   ],
   "Posts": [
