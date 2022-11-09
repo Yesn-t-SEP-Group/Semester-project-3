@@ -11,7 +11,7 @@
       "Role": "Admin",
       "rating": 5,
       "registeredOn": "0001-01-01T00:00:00",
-      "lastSeen": "2022-11-08T00:00:00+01:00"
+      "lastSeen": "2022-11-09T00:00:00+01:00"
     },
     {
       "Id": 2,
@@ -64,6 +64,97 @@
       "rating": 5,
       "registeredOn": "0001-01-01T00:00:00",
       "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 6,
+      "UserName": "string",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 7,
+      "UserName": "jklsaldjlaskdj",
+      "Password": "Bob22",
+      "Name": "Bob build",
+      "Email": "email",
+      "PhoneNumber": "\u002B452",
+      "Address": "here",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 8,
+      "UserName": "asd",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 9,
+      "UserName": "martin",
+      "Password": "password",
+      "Name": "Martin Rosendahl",
+      "Email": "martin.rosendahl4@gmail.com",
+      "PhoneNumber": "\u002B4560606060",
+      "Address": "349 Drake Court",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 10,
+      "UserName": "maxmax",
+      "Password": "maxmax1",
+      "Name": "max",
+      "Email": "max@gmail.com",
+      "PhoneNumber": "\u002B4560606060",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 11,
+      "UserName": "max",
+      "Password": "maxmax1",
+      "Name": "max",
+      "Email": "max@gmail.com",
+      "PhoneNumber": "\u002B4570707070",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "2022-11-09T00:00:00+01:00"
+    },
+    {
+      "Id": 12,
+      "UserName": "jack",
+      "Password": "jack1",
+      "Name": "jack",
+      "Email": "jack@gmail.com",
+      "PhoneNumber": "\u002B4580808080",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "2022-11-09T00:00:00+01:00"
     }
   ],
   "Posts": [

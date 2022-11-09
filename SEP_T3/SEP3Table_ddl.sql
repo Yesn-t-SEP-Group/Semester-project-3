@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS Users
     user_pass     VARCHAR(32)        NOT NULL,
     full_name     VARCHAR(100),
     email         VARCHAR(100),
-    phone_number  VARCHAR(11)        NOT NULL CHECK ( Users.phone_Number LIKE '+45%' ),
+    phone_number  VARCHAR(11)        NOT NULL,
     address       VARCHAR(50)        NOT NULL,
-    registered_on DATE DEFAULT CURRENT_DATE,
-    last_seen     DATE DEFAULT CURRENT_DATE
+    registered_on DATE,
+    last_seen     DATE
 );
 
 DROP TABLE IF EXISTS Ratings CASCADE;
@@ -51,7 +51,7 @@ CREATE TABLE Posts
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','fuck@you.com','+4591773044','Horsens');
+INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens');
 
 
 
