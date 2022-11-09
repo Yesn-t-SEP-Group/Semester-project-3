@@ -64,6 +64,19 @@
       "rating": 5,
       "registeredOn": "0001-01-01T00:00:00",
       "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 6,
+      "UserName": "string",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
     }
   ],
   "Posts": [

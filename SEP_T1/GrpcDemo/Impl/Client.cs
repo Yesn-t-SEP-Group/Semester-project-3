@@ -4,7 +4,7 @@ namespace GrpcDemo.Impl;
 
 public class Client : BackgroundService
 {
-    private string _url = "localhost";
+    private string _url = "http://localhost:6565";
 
     
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -13,6 +13,7 @@ public class Client : BackgroundService
         var client = new sepService.sepServiceClient(channel);
         while (!stoppingToken.IsCancellationRequested)
         {
+            //TODO not hardcode,get from POST
             UserDTO dto = new UserDTO{
                 Address = "Horsens",
                 Email = "test@test.dk",
