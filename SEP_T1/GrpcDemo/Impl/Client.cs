@@ -19,7 +19,7 @@ public class Client : BackgroundService
         }
     }
 
-    public async Task<string> createUser(UserCreationDto creationDto)
+    public async Task<User> createUser(UserCreationDto creationDto)
     {
         using var channel = GrpcChannel.ForAddress(_url);
         client = new sepService.sepServiceClient(channel);
@@ -33,6 +33,6 @@ public class Client : BackgroundService
         dto.PhoneNumber = creationDto.PhoneNumber;
         var reply = await client.createUserAsync(dto);
         source.Cancel();
-        return reply.Message;
+        return reply;
     }
 }

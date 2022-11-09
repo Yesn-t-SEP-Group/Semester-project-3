@@ -1,8 +1,13 @@
 package via.sdj3.sep_t3.model;
 
 
+import via.sdj3.sep_t3.protobuf.User;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 
 @Entity(name = "users")
 public class Users
@@ -126,5 +131,42 @@ public class Users
     public void setId(Integer id)
     {
         this.id = id;
+    }
+
+    /**
+     * Sets all the variables from a grpc user
+     * @param userFromGrpc protobuf.User
+     */
+    public void convertFromGrpc(User userFromGrpc)
+    {
+        id=userFromGrpc.getId();
+        username=userFromGrpc.getUsername();
+        userPass=userFromGrpc.getUserPass();
+        fullName=userFromGrpc.getFullName();
+        email=userFromGrpc.getEmail();
+        phoneNumber=userFromGrpc.getPhoneNumber();
+        address=userFromGrpc.getAddress();
+        registeredOn = new Timestamp(userFromGrpc.getRegisteredOn()).toLocalDateTime().toLocalDate();
+        lastSeen = new Timestamp(userFromGrpc.getLastSeen()).toLocalDateTime().toLocalDate();
+    }
+
+    /**
+     * Use this to convert to the Grpc class
+     * @return protobuf.User
+     */
+    public User convertToGrpc()
+    {
+        User user= User.newBuilder()
+                .setId(id)
+                .setUsername(username)
+                .setUserPass(userPass)
+                .setFullName(fullName)
+                .setEmail(email)
+                .setPhoneNumber(phoneNumber)
+                .setAddress(address)
+                .setRegisteredOn((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setLastSeen((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .build();
+        return user;
     }
 }

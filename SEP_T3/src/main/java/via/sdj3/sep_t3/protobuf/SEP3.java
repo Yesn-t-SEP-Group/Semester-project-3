@@ -57,10 +57,10 @@ public final class SEP3 {
       "(\t\022\020\n\010fullName\030\004 \001(\t\022\017\n\007address\030\005 \001(\t\022\023\n" +
       "\013phoneNumber\030\006 \001(\t\"\007\n\005Empty\"\037\n\014GenericRe" +
       "ply\022\017\n\007message\030\001 \001(\t\"!\n\tUsersGrpc\022\024\n\005use" +
-      "rs\030\001 \003(\0132\005.User2V\n\nsepService\022!\n\013getAllU" +
-      "sers\022\006.Empty\032\n.UsersGrpc\022%\n\ncreateUser\022\010" +
-      ".UserDTO\032\r.GenericReplyB\034\n\030via.sdj3.sep_" +
-      "t3.protobufP\001b\006proto3"
+      "rs\030\001 \003(\0132\005.User2N\n\nsepService\022!\n\013getAllU" +
+      "sers\022\006.Empty\032\n.UsersGrpc\022\035\n\ncreateUser\022\010" +
+      ".UserDTO\032\005.UserB\034\n\030via.sdj3.sep_t3.proto" +
+      "bufP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

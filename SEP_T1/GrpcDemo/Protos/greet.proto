@@ -39,5 +39,5 @@ message UsersGrpc
 service sepService
 {
   rpc getAllUsers(Empty) returns (UsersGrpc);
-  rpc createUser(UserDTO) returns(GenericReply);
+  rpc createUser(UserDTO) returns(User);
 }
