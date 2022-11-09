@@ -51,7 +51,7 @@ CREATE TABLE Posts
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','fuck@you.com','+4591773044','Horsens');
+INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens');
 
 
 
