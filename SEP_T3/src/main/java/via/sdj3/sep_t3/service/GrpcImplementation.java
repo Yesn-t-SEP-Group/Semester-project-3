@@ -12,8 +12,7 @@ import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.ZoneOffset;
+
 import java.util.ArrayList;
 import java.util.List;
 

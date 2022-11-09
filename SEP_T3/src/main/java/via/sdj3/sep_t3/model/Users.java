@@ -156,7 +156,7 @@ public class Users
      */
     public User convertToGrpc()
     {
-        User user= User.newBuilder()
+        return User.newBuilder()
                 .setId(id)
                 .setUsername(username)
                 .setUserPass(userPass)
@@ -167,6 +167,5 @@ public class Users
                 .setRegisteredOn((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .setLastSeen((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .build();
-        return user;
     }
 }
