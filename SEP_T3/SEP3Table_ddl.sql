@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS Users
     email         VARCHAR(100),
     phone_number  VARCHAR(11)        NOT NULL,
     address       VARCHAR(50)        NOT NULL,
-    registered_on DATE,
-    last_seen     DATE
+    registered_on TIMESTAMP ,
+    last_seen     TIMESTAMP
 );
 
 DROP TABLE IF EXISTS Ratings CASCADE;
@@ -51,7 +51,8 @@ CREATE TABLE Posts
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO users(username, user_pass, full_name, email, phone_number, address) VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens');
+INSERT INTO users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen)
+VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now());
 
 
 

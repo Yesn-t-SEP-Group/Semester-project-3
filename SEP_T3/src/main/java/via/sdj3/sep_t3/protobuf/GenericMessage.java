@@ -4,18 +4,18 @@
 package via.sdj3.sep_t3.protobuf;
 
 /**
- * Protobuf type {@code GenericReply}
+ * Protobuf type {@code GenericMessage}
  */
-public final class GenericReply extends
+public final class GenericMessage extends
     com.google.protobuf.GeneratedMessageV3 implements
-    // @@protoc_insertion_point(message_implements:GenericReply)
-    GenericReplyOrBuilder {
+    // @@protoc_insertion_point(message_implements:GenericMessage)
+    GenericMessageOrBuilder {
 private static final long serialVersionUID = 0L;
-  // Use GenericReply.newBuilder() to construct.
-  private GenericReply(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+  // Use GenericMessage.newBuilder() to construct.
+  private GenericMessage(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
     super(builder);
   }
-  private GenericReply() {
+  private GenericMessage() {
     message_ = "";
   }
 
@@ -23,7 +23,7 @@ private static final long serialVersionUID = 0L;
   @SuppressWarnings({"unused"})
   protected java.lang.Object newInstance(
       UnusedPrivateParameter unused) {
-    return new GenericReply();
+    return new GenericMessage();
   }
 
   @java.lang.Override
@@ -31,7 +31,7 @@ private static final long serialVersionUID = 0L;
   getUnknownFields() {
     return this.unknownFields;
   }
-  private GenericReply(
+  private GenericMessage(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
@@ -78,15 +78,15 @@ private static final long serialVersionUID = 0L;
   }
   public static final com.google.protobuf.Descriptors.Descriptor
       getDescriptor() {
-    return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericReply_descriptor;
+    return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericMessage_descriptor;
   }
 
   @java.lang.Override
   protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internalGetFieldAccessorTable() {
-    return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericReply_fieldAccessorTable
+    return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericMessage_fieldAccessorTable
         .ensureFieldAccessorsInitialized(
-            via.sdj3.sep_t3.protobuf.GenericReply.class, via.sdj3.sep_t3.protobuf.GenericReply.Builder.class);
+            via.sdj3.sep_t3.protobuf.GenericMessage.class, via.sdj3.sep_t3.protobuf.GenericMessage.Builder.class);
   }
 
   public static final int MESSAGE_FIELD_NUMBER = 1;
@@ -166,10 +166,10 @@ private static final long serialVersionUID = 0L;
     if (obj == this) {
      return true;
     }
-    if (!(obj instanceof via.sdj3.sep_t3.protobuf.GenericReply)) {
+    if (!(obj instanceof via.sdj3.sep_t3.protobuf.GenericMessage)) {
       return super.equals(obj);
     }
-    via.sdj3.sep_t3.protobuf.GenericReply other = (via.sdj3.sep_t3.protobuf.GenericReply) obj;
+    via.sdj3.sep_t3.protobuf.GenericMessage other = (via.sdj3.sep_t3.protobuf.GenericMessage) obj;
 
     if (!getMessage()
         .equals(other.getMessage())) return false;
@@ -191,69 +191,69 @@ private static final long serialVersionUID = 0L;
     return hash;
   }
 
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       java.nio.ByteBuffer data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       java.nio.ByteBuffer data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       com.google.protobuf.ByteString data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       com.google.protobuf.ByteString data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(byte[] data)
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(byte[] data)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       byte[] data,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws com.google.protobuf.InvalidProtocolBufferException {
     return PARSER.parseFrom(data, extensionRegistry);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(java.io.InputStream input)
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseDelimitedFrom(java.io.InputStream input)
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseDelimitedFrom(java.io.InputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseDelimitedFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseDelimitedFrom(
       java.io.InputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       com.google.protobuf.CodedInputStream input)
       throws java.io.IOException {
     return com.google.protobuf.GeneratedMessageV3
         .parseWithIOException(PARSER, input);
   }
-  public static via.sdj3.sep_t3.protobuf.GenericReply parseFrom(
+  public static via.sdj3.sep_t3.protobuf.GenericMessage parseFrom(
       com.google.protobuf.CodedInputStream input,
       com.google.protobuf.ExtensionRegistryLite extensionRegistry)
       throws java.io.IOException {
@@ -266,7 +266,7 @@ private static final long serialVersionUID = 0L;
   public static Builder newBuilder() {
     return DEFAULT_INSTANCE.toBuilder();
   }
-  public static Builder newBuilder(via.sdj3.sep_t3.protobuf.GenericReply prototype) {
+  public static Builder newBuilder(via.sdj3.sep_t3.protobuf.GenericMessage prototype) {
     return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
   }
   @java.lang.Override
@@ -282,26 +282,26 @@ private static final long serialVersionUID = 0L;
     return builder;
   }
   /**
-   * Protobuf type {@code GenericReply}
+   * Protobuf type {@code GenericMessage}
    */
   public static final class Builder extends
       com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-      // @@protoc_insertion_point(builder_implements:GenericReply)
-      via.sdj3.sep_t3.protobuf.GenericReplyOrBuilder {
+      // @@protoc_insertion_point(builder_implements:GenericMessage)
+      via.sdj3.sep_t3.protobuf.GenericMessageOrBuilder {
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericReply_descriptor;
+      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericMessage_descriptor;
     }
 
     @java.lang.Override
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericReply_fieldAccessorTable
+      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericMessage_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              via.sdj3.sep_t3.protobuf.GenericReply.class, via.sdj3.sep_t3.protobuf.GenericReply.Builder.class);
+              via.sdj3.sep_t3.protobuf.GenericMessage.class, via.sdj3.sep_t3.protobuf.GenericMessage.Builder.class);
     }
 
-    // Construct using via.sdj3.sep_t3.protobuf.GenericReply.newBuilder()
+    // Construct using via.sdj3.sep_t3.protobuf.GenericMessage.newBuilder()
     private Builder() {
       maybeForceBuilderInitialization();
     }
@@ -327,17 +327,17 @@ private static final long serialVersionUID = 0L;
     @java.lang.Override
     public com.google.protobuf.Descriptors.Descriptor
         getDescriptorForType() {
-      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericReply_descriptor;
+      return via.sdj3.sep_t3.protobuf.SEP3.internal_static_GenericMessage_descriptor;
     }
 
     @java.lang.Override
-    public via.sdj3.sep_t3.protobuf.GenericReply getDefaultInstanceForType() {
-      return via.sdj3.sep_t3.protobuf.GenericReply.getDefaultInstance();
+    public via.sdj3.sep_t3.protobuf.GenericMessage getDefaultInstanceForType() {
+      return via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance();
     }
 
     @java.lang.Override
-    public via.sdj3.sep_t3.protobuf.GenericReply build() {
-      via.sdj3.sep_t3.protobuf.GenericReply result = buildPartial();
+    public via.sdj3.sep_t3.protobuf.GenericMessage build() {
+      via.sdj3.sep_t3.protobuf.GenericMessage result = buildPartial();
       if (!result.isInitialized()) {
         throw newUninitializedMessageException(result);
       }
@@ -345,8 +345,8 @@ private static final long serialVersionUID = 0L;
     }
 
     @java.lang.Override
-    public via.sdj3.sep_t3.protobuf.GenericReply buildPartial() {
-      via.sdj3.sep_t3.protobuf.GenericReply result = new via.sdj3.sep_t3.protobuf.GenericReply(this);
+    public via.sdj3.sep_t3.protobuf.GenericMessage buildPartial() {
+      via.sdj3.sep_t3.protobuf.GenericMessage result = new via.sdj3.sep_t3.protobuf.GenericMessage(this);
       result.message_ = message_;
       onBuilt();
       return result;
@@ -386,16 +386,16 @@ private static final long serialVersionUID = 0L;
     }
     @java.lang.Override
     public Builder mergeFrom(com.google.protobuf.Message other) {
-      if (other instanceof via.sdj3.sep_t3.protobuf.GenericReply) {
-        return mergeFrom((via.sdj3.sep_t3.protobuf.GenericReply)other);
+      if (other instanceof via.sdj3.sep_t3.protobuf.GenericMessage) {
+        return mergeFrom((via.sdj3.sep_t3.protobuf.GenericMessage)other);
       } else {
         super.mergeFrom(other);
         return this;
       }
     }
 
-    public Builder mergeFrom(via.sdj3.sep_t3.protobuf.GenericReply other) {
-      if (other == via.sdj3.sep_t3.protobuf.GenericReply.getDefaultInstance()) return this;
+    public Builder mergeFrom(via.sdj3.sep_t3.protobuf.GenericMessage other) {
+      if (other == via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()) return this;
       if (!other.getMessage().isEmpty()) {
         message_ = other.message_;
         onChanged();
@@ -415,11 +415,11 @@ private static final long serialVersionUID = 0L;
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
-      via.sdj3.sep_t3.protobuf.GenericReply parsedMessage = null;
+      via.sdj3.sep_t3.protobuf.GenericMessage parsedMessage = null;
       try {
         parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-        parsedMessage = (via.sdj3.sep_t3.protobuf.GenericReply) e.getUnfinishedMessage();
+        parsedMessage = (via.sdj3.sep_t3.protobuf.GenericMessage) e.getUnfinishedMessage();
         throw e.unwrapIOException();
       } finally {
         if (parsedMessage != null) {
@@ -517,41 +517,41 @@ private static final long serialVersionUID = 0L;
     }
 
 
-    // @@protoc_insertion_point(builder_scope:GenericReply)
+    // @@protoc_insertion_point(builder_scope:GenericMessage)
   }
 
-  // @@protoc_insertion_point(class_scope:GenericReply)
-  private static final via.sdj3.sep_t3.protobuf.GenericReply DEFAULT_INSTANCE;
+  // @@protoc_insertion_point(class_scope:GenericMessage)
+  private static final via.sdj3.sep_t3.protobuf.GenericMessage DEFAULT_INSTANCE;
   static {
-    DEFAULT_INSTANCE = new via.sdj3.sep_t3.protobuf.GenericReply();
+    DEFAULT_INSTANCE = new via.sdj3.sep_t3.protobuf.GenericMessage();
   }
 
-  public static via.sdj3.sep_t3.protobuf.GenericReply getDefaultInstance() {
+  public static via.sdj3.sep_t3.protobuf.GenericMessage getDefaultInstance() {
     return DEFAULT_INSTANCE;
   }
 
-  private static final com.google.protobuf.Parser<GenericReply>
-      PARSER = new com.google.protobuf.AbstractParser<GenericReply>() {
+  private static final com.google.protobuf.Parser<GenericMessage>
+      PARSER = new com.google.protobuf.AbstractParser<GenericMessage>() {
     @java.lang.Override
-    public GenericReply parsePartialFrom(
+    public GenericMessage parsePartialFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
-      return new GenericReply(input, extensionRegistry);
+      return new GenericMessage(input, extensionRegistry);
     }
   };
 
-  public static com.google.protobuf.Parser<GenericReply> parser() {
+  public static com.google.protobuf.Parser<GenericMessage> parser() {
     return PARSER;
   }
 
   @java.lang.Override
-  public com.google.protobuf.Parser<GenericReply> getParserForType() {
+  public com.google.protobuf.Parser<GenericMessage> getParserForType() {
     return PARSER;
   }
 
   @java.lang.Override
-  public via.sdj3.sep_t3.protobuf.GenericReply getDefaultInstanceForType() {
+  public via.sdj3.sep_t3.protobuf.GenericMessage getDefaultInstanceForType() {
     return DEFAULT_INSTANCE;
   }
 
