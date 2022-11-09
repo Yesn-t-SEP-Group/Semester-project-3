@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Domain.Models;
 using FileData;
+using GrpcDemo.Impl;
 
 namespace WebAPI.Services;
 
@@ -22,7 +23,6 @@ public class AuthService : IAuthService
      //       u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
      ;
      file.LoadData();
-     
      Console.WriteLine(username+password);
      User? existingUser = file.Users.FirstOrDefault(u => 
             u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
@@ -37,7 +37,8 @@ public class AuthService : IAuthService
         {
             throw new Exception("Password mismatch");
         }
-
+        existingUser.lastSeen = DateTime.Today.Date;
+        file.SaveChanges();
         return Task.FromResult(existingUser);
     }
     

@@ -4,19 +4,157 @@
       "Id": 1,
       "UserName": "admin",
       "Password": "admin",
-      "Role": "Admin"
+      "Name": "admin",
+      "Email": "admin@gmail.com",
+      "PhoneNumber": "4060606060",
+      "Address": "denmark",
+      "Role": "Admin",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "2022-11-09T00:00:00+01:00"
     },
     {
       "Id": 2,
       "UserName": "user",
       "Password": "user",
-      "Role": "User"
+      "Name": "user",
+      "Email": "user@gmail.com",
+      "PhoneNumber": "4050505050",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
     },
     {
       "Id": 3,
-      "UserName": "bingbong",
-      "Password": "bingbong",
-      "Role": "User"
+      "UserName": "bob",
+      "Password": "test123",
+      "Name": "bob test",
+      "Email": "bob@gmail.com",
+      "PhoneNumber": "\u002B4540505060",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 4,
+      "UserName": "abc123",
+      "Password": "abc123",
+      "Name": "abc123",
+      "Email": "abc@gmail.com",
+      "PhoneNumber": "\u002B4550505051",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 5,
+      "UserName": "abc124",
+      "Password": "abc124",
+      "Name": "abc",
+      "Email": "abc4@gmail.com",
+      "PhoneNumber": "\u002B4530303030",
+      "Address": "horsens",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 6,
+      "UserName": "string",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 7,
+      "UserName": "jklsaldjlaskdj",
+      "Password": "Bob22",
+      "Name": "Bob build",
+      "Email": "email",
+      "PhoneNumber": "\u002B452",
+      "Address": "here",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 8,
+      "UserName": "asd",
+      "Password": "string",
+      "Name": "string",
+      "Email": "string",
+      "PhoneNumber": "string",
+      "Address": "string",
+      "Role": "User",
+      "rating": 0,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 9,
+      "UserName": "martin",
+      "Password": "password",
+      "Name": "Martin Rosendahl",
+      "Email": "martin.rosendahl4@gmail.com",
+      "PhoneNumber": "\u002B4560606060",
+      "Address": "349 Drake Court",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "0001-01-01T00:00:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 10,
+      "UserName": "maxmax",
+      "Password": "maxmax1",
+      "Name": "max",
+      "Email": "max@gmail.com",
+      "PhoneNumber": "\u002B4560606060",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "0001-01-01T00:00:00"
+    },
+    {
+      "Id": 11,
+      "UserName": "max",
+      "Password": "maxmax1",
+      "Name": "max",
+      "Email": "max@gmail.com",
+      "PhoneNumber": "\u002B4570707070",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "2022-11-09T00:00:00+01:00"
+    },
+    {
+      "Id": 12,
+      "UserName": "jack",
+      "Password": "jack1",
+      "Name": "jack",
+      "Email": "jack@gmail.com",
+      "PhoneNumber": "\u002B4580808080",
+      "Address": "denmark",
+      "Role": "User",
+      "rating": 5,
+      "registeredOn": "2022-11-09T00:00:00+01:00",
+      "lastSeen": "2022-11-09T00:00:00+01:00"
     }
   ],
   "Posts": [
@@ -26,87 +164,17 @@
         "Id": 1,
         "UserName": "admin",
         "Password": "admin",
-        "Role": "Admin"
+        "Name": "admin",
+        "Email": "admin@gmail.com",
+        "PhoneNumber": "4060606060",
+        "Address": "denmark",
+        "Role": "Admin",
+        "rating": 5,
+        "registeredOn": "0001-01-01T00:00:00",
+        "lastSeen": "0001-01-01T00:00:00"
       },
-      "Title": "test user to admin",
+      "Title": "admin test",
       "Body": "testing"
-    },
-    {
-      "Id": 5,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Role": "Admin"
-      },
-      "Title": "test 4 ",
-      "Body": "sadfa"
-    },
-    {
-      "Id": 6,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Role": "Admin"
-      },
-      "Title": "test 5 asd",
-      "Body": ";lkj"
-    },
-    {
-      "Id": 7,
-      "Owner": {
-        "Id": 3,
-        "UserName": "bingbong",
-        "Password": "bingbong",
-        "Role": "User"
-      },
-      "Title": "bingbong",
-      "Body": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddffffffffffffffffffffffffffff"
-    },
-    {
-      "Id": 8,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test post id sort",
-      "Body": "post id 5"
-    },
-    {
-      "Id": 3,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 2",
-      "Body": "asfd;aslkfj remake last post"
-    },
-    {
-      "Id": 2,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 1",
-      "Body": "moved to bottom? 2 =\u003E last?"
-    },
-    {
-      "Id": 4,
-      "Owner": {
-        "Id": 2,
-        "UserName": "user",
-        "Password": "user",
-        "Role": "User"
-      },
-      "Title": "test 3",
-      "Body": "4 =\u003E last?"
     }
   ]
 }

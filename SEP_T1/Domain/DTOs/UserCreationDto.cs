@@ -7,10 +7,30 @@ public class UserCreationDto
 
     public string Role { get;}
 
-    public UserCreationDto(string userName,string passWord)
+    public string Name { get; set; }
+
+    public string Email { get; set; }
+    public string PhoneNumber { get; set; }
+    public string Address { get; set; }
+    
+    public double rating { get; set; }
+    
+    public DateTime registeredOn { get; set; }
+    
+    public DateTime lastSeen { get; set; }
+    
+
+    public UserCreationDto(string userName,string passWord, string name, string email, string phoneNumber, string address)
     {
         UserName = userName;
         Password = passWord;
-        Role = "User";
+        Role = "User"; 
+        Name = name;
+        Email = email;
+        PhoneNumber = phoneNumber;
+        Address = address;
+        rating = 5.0;
+        registeredOn = DateTime.Today.Date;
+        lastSeen = DateTime.Today.Date;
     }
 }
