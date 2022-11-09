@@ -23,7 +23,8 @@ public class UsersController : ControllerBase
         try
         {
             Client client = new Client();
-            var test = client.StartAsync(new CancellationToken(false));
+            var test = client.createUser(dto);
+            Console.WriteLine(test);
             User user = await userLogic.CreateAsync(dto);
             return Created($"/users/{user.Id}", user);
         }
