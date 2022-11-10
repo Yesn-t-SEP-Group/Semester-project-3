@@ -1,6 +1,8 @@
 package via.sdj3.sep_t3.model;
 
 
+import lombok.*;
+import org.hibernate.Hibernate;
 import via.sdj3.sep_t3.protobuf.User;
 
 import javax.persistence.*;
@@ -8,12 +10,15 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
+import java.util.Objects;
 
 @Entity(name = "users")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Users
 {
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", nullable = false)
@@ -42,96 +47,6 @@ public class Users
 
     @Column(name = "last_seen")
     private LocalDate lastSeen;
-
-    public LocalDate getLastSeen()
-    {
-        return lastSeen;
-    }
-
-    public void setLastSeen(LocalDate lastSeen)
-    {
-        this.lastSeen = lastSeen;
-    }
-
-    public LocalDate getRegisteredOn()
-    {
-        return registeredOn;
-    }
-
-    public void setRegisteredOn(LocalDate registeredOn)
-    {
-        this.registeredOn = registeredOn;
-    }
-
-    public String getAddress()
-    {
-        return address;
-    }
-
-    public void setAddress(String address)
-    {
-        this.address = address;
-    }
-
-    public String getPhoneNumber()
-    {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber)
-    {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail()
-    {
-        return email;
-    }
-
-    public void setEmail(String email)
-    {
-        this.email = email;
-    }
-
-    public String getFullName()
-    {
-        return fullName;
-    }
-
-    public void setFullName(String fullName)
-    {
-        this.fullName = fullName;
-    }
-
-    public String getUserPass()
-    {
-        return userPass;
-    }
-
-    public void setUserPass(String userPass)
-    {
-        this.userPass = userPass;
-    }
-
-    public String getUsername()
-    {
-        return username;
-    }
-
-    public void setUsername(String username)
-    {
-        this.username = username;
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
-    }
 
     /**
      * Sets all the variables from a grpc user
@@ -167,5 +82,14 @@ public class Users
                 .setRegisteredOn((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .setLastSeen((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .build();
+    }
+
+    @Override
+    public boolean equals(Object o)
+    {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Users users = (Users) o;
+        return id != null && Objects.equals(id, users.id);
     }
 }

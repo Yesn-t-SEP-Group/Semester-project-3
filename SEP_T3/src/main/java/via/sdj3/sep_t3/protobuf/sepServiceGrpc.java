@@ -76,6 +76,68 @@ public final class sepServiceGrpc {
     return getCreateUserMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
+      via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "getUserById",
+      requestType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
+      responseType = via.sdj3.sep_t3.protobuf.User.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
+      via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod;
+    if ((getGetUserByIdMethod = sepServiceGrpc.getGetUserByIdMethod) == null) {
+      synchronized (sepServiceGrpc.class) {
+        if ((getGetUserByIdMethod = sepServiceGrpc.getGetUserByIdMethod) == null) {
+          sepServiceGrpc.getGetUserByIdMethod = getGetUserByIdMethod =
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.User>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getUserById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.User.getDefaultInstance()))
+              .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("getUserById"))
+              .build();
+        }
+      }
+    }
+    return getGetUserByIdMethod;
+  }
+
+  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials,
+      via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "validateLogin",
+      requestType = via.sdj3.sep_t3.protobuf.loginCredentials.class,
+      responseType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials,
+      via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
+    if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
+      synchronized (sepServiceGrpc.class) {
+        if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
+          sepServiceGrpc.getValidateLoginMethod = getValidateLoginMethod =
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.loginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "validateLogin"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.loginCredentials.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
+              .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("validateLogin"))
+              .build();
+        }
+      }
+    }
+    return getValidateLoginMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -138,6 +200,20 @@ public final class sepServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateUserMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetUserByIdMethod(), responseObserver);
+    }
+
+    /**
+     */
+    public void validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateLoginMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -154,6 +230,20 @@ public final class sepServiceGrpc {
                 via.sdj3.sep_t3.protobuf.UserDTO,
                 via.sdj3.sep_t3.protobuf.User>(
                   this, METHODID_CREATE_USER)))
+          .addMethod(
+            getGetUserByIdMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                via.sdj3.sep_t3.protobuf.GenericMessage,
+                via.sdj3.sep_t3.protobuf.User>(
+                  this, METHODID_GET_USER_BY_ID)))
+          .addMethod(
+            getValidateLoginMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                via.sdj3.sep_t3.protobuf.loginCredentials,
+                via.sdj3.sep_t3.protobuf.GenericMessage>(
+                  this, METHODID_VALIDATE_LOGIN)))
           .build();
     }
   }
@@ -187,6 +277,22 @@ public final class sepServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCreateUserMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getGetUserByIdMethod(), getCallOptions()), request, responseObserver);
+    }
+
+    /**
+     */
+    public void validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -215,6 +321,20 @@ public final class sepServiceGrpc {
     public via.sdj3.sep_t3.protobuf.User createUser(via.sdj3.sep_t3.protobuf.UserDTO request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCreateUserMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public via.sdj3.sep_t3.protobuf.User getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getGetUserByIdMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public via.sdj3.sep_t3.protobuf.GenericMessage validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getValidateLoginMethod(), getCallOptions(), request);
     }
   }
 
@@ -247,10 +367,28 @@ public final class sepServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCreateUserMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.User> getUserById(
+        via.sdj3.sep_t3.protobuf.GenericMessage request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getGetUserByIdMethod(), getCallOptions()), request);
+    }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.GenericMessage> validateLogin(
+        via.sdj3.sep_t3.protobuf.loginCredentials request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_ALL_USERS = 0;
   private static final int METHODID_CREATE_USER = 1;
+  private static final int METHODID_GET_USER_BY_ID = 2;
+  private static final int METHODID_VALIDATE_LOGIN = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -276,6 +414,14 @@ public final class sepServiceGrpc {
         case METHODID_CREATE_USER:
           serviceImpl.createUser((via.sdj3.sep_t3.protobuf.UserDTO) request,
               (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User>) responseObserver);
+          break;
+        case METHODID_GET_USER_BY_ID:
+          serviceImpl.getUserById((via.sdj3.sep_t3.protobuf.GenericMessage) request,
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User>) responseObserver);
+          break;
+        case METHODID_VALIDATE_LOGIN:
+          serviceImpl.validateLogin((via.sdj3.sep_t3.protobuf.loginCredentials) request,
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -340,6 +486,8 @@ public final class sepServiceGrpc {
               .setSchemaDescriptor(new sepServiceFileDescriptorSupplier())
               .addMethod(getGetAllUsersMethod())
               .addMethod(getCreateUserMethod())
+              .addMethod(getGetUserByIdMethod())
+              .addMethod(getValidateLoginMethod())
               .build();
         }
       }

@@ -1,10 +1,18 @@
 package via.sdj3.sep_t3.model;
 
+import lombok.*;
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.LinkedHashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "categories")
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 public class Categories
 {
     @Id
@@ -16,35 +24,15 @@ public class Categories
     private String description;
 
     @OneToMany(mappedBy = "category")
+    @ToString.Exclude
     private Set<Posts> posts = new LinkedHashSet<>();
 
-    public Set<Posts> getPosts()
+    @Override
+    public boolean equals(Object o)
     {
-        return posts;
-    }
-
-    public void setPosts(Set<Posts> posts)
-    {
-        this.posts = posts;
-    }
-
-    public String getDescription()
-    {
-        return description;
-    }
-
-    public void setDescription(String description)
-    {
-        this.description = description;
-    }
-
-    public Integer getId()
-    {
-        return id;
-    }
-
-    public void setId(Integer id)
-    {
-        this.id = id;
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Categories that = (Categories) o;
+        return id != null && Objects.equals(id, that.id);
     }
 }

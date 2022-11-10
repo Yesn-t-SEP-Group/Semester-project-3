@@ -29,7 +29,13 @@ message UserDTO
 message Empty {
 
 }
-message GenericReply
+message loginCredentials
+{
+  string userName=1;
+  string password=2;
+}
+
+message GenericMessage
 {
   string message=1;
 }
@@ -42,4 +48,6 @@ service sepService
 {
   rpc getAllUsers(Empty) returns (UsersGrpc);
   rpc createUser(UserDTO) returns(User);
+  rpc getUserById(GenericMessage)returns(User);
+  rpc validateLogin(loginCredentials) returns(GenericMessage);
 }

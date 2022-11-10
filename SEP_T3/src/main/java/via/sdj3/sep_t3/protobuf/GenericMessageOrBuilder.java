@@ -3,8 +3,8 @@
 
 package via.sdj3.sep_t3.protobuf;
 
-public interface GenericReplyOrBuilder extends
-    // @@protoc_insertion_point(interface_extends:GenericReply)
+public interface GenericMessageOrBuilder extends
+    // @@protoc_insertion_point(interface_extends:GenericMessage)
     com.google.protobuf.MessageOrBuilder {
 
   /**
