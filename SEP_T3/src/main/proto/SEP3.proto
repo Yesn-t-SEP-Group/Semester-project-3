@@ -4,34 +4,42 @@ option java_multiple_files = true;
 option java_package = "via.sdj3.sep_t3.protobuf";
 //Service definition
 
-
-message User
-{
-  int32 id=1;
-  string username = 2;
-  string userPass = 3;
-  string fullName = 4;
-  string email = 5;
-  string phoneNumber = 6;
-  string address = 7;
-  int32 registeredOn=8;
-  int32 lastSeen=9;
-}
-message UserDTO
+message UserCreationGrpcDto
 {
   string username = 1;
-  string userPass = 2;
-  string email = 3;
-  string fullName=4;
-  string address = 5;
-  string phoneNumber = 6;
+  string password = 2;
+  string role=3;
+  string email = 4;
+  string fullName=5;
+  string address = 6;
+  string phoneNumber = 7;
 }
 message Empty {
 
 }
+
+//we store the date as an integer, which is the seconds passed since Unix Epoch
+message UserReadGrpcDTO
+{
+  string id=1;
+  string username=2;
+  string role=3;
+  string fullName=4;
+  string email=5;
+  string phoneNumber=6;
+  string address=7;
+  int32 rating=8;
+  int32 registrationDate=9;
+  int32 lastSeenDate=10;
+}
+message allUsers
+{
+  repeated UserReadGrpcDTO users=1;
+}
+
 message loginCredentials
 {
-  string userName=1;
+  string username=1;
   string password=2;
 }
 
@@ -39,15 +47,11 @@ message GenericMessage
 {
   string message=1;
 }
-message UsersGrpc
-{
-  repeated User users = 1;
-}
 
 service sepService
 {
-  rpc getAllUsers(Empty) returns (UsersGrpc);
-  rpc createUser(UserDTO) returns(User);
-  rpc getUserById(GenericMessage)returns(User);
+  rpc getAllUsers(Empty) returns (allUsers);
+  rpc createUser(UserCreationGrpcDto) returns(UserReadGrpcDTO);
+  rpc getUserById(GenericMessage)returns(UserReadGrpcDTO);
   rpc validateLogin(loginCredentials) returns(GenericMessage);
 }
