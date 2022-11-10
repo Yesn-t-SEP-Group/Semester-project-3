@@ -21,7 +21,7 @@ message Empty {
 //we store the date as an integer, which is the seconds passed since Unix Epoch
 message UserReadGrpcDTO
 {
-  string id=1;
+  int32 id=1;
   string username=2;
   string role=3;
   string fullName=4;
@@ -32,12 +32,12 @@ message UserReadGrpcDTO
   int32 registrationDate=9;
   int32 lastSeenDate=10;
 }
-message allUsers
+message AllUsers
 {
   repeated UserReadGrpcDTO users=1;
 }
 
-message loginCredentials
+message LoginCredentials
 {
   string username=1;
   string password=2;
@@ -50,8 +50,8 @@ message GenericMessage
 
 service sepService
 {
-  rpc getAllUsers(Empty) returns (allUsers);
+  rpc getAllUsers(Empty) returns (AllUsers);
   rpc createUser(UserCreationGrpcDto) returns(UserReadGrpcDTO);
   rpc getUserById(GenericMessage)returns(UserReadGrpcDTO);
-  rpc validateLogin(loginCredentials) returns(GenericMessage);
+  rpc validateLogin(LoginCredentials) returns(GenericMessage);
 }

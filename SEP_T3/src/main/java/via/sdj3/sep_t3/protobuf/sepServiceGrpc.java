@@ -6,7 +6,7 @@ import static io.grpc.MethodDescriptor.generateFullMethodName;
  */
 @javax.annotation.Generated(
     value = "by gRPC proto compiler (version 1.39.0)",
-    comments = "Source: SEP3.proto")
+    comments = "Source: UserGrpcModel.proto")
 public final class sepServiceGrpc {
 
   private sepServiceGrpc() {}
@@ -15,28 +15,28 @@ public final class sepServiceGrpc {
 
   // Static method descriptors that strictly reflect the proto.
   private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.Empty,
-      via.sdj3.sep_t3.protobuf.UsersGrpc> getGetAllUsersMethod;
+      via.sdj3.sep_t3.protobuf.AllUsers> getGetAllUsersMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "getAllUsers",
       requestType = via.sdj3.sep_t3.protobuf.Empty.class,
-      responseType = via.sdj3.sep_t3.protobuf.UsersGrpc.class,
+      responseType = via.sdj3.sep_t3.protobuf.AllUsers.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.Empty,
-      via.sdj3.sep_t3.protobuf.UsersGrpc> getGetAllUsersMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.Empty, via.sdj3.sep_t3.protobuf.UsersGrpc> getGetAllUsersMethod;
+      via.sdj3.sep_t3.protobuf.AllUsers> getGetAllUsersMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.Empty, via.sdj3.sep_t3.protobuf.AllUsers> getGetAllUsersMethod;
     if ((getGetAllUsersMethod = sepServiceGrpc.getGetAllUsersMethod) == null) {
       synchronized (sepServiceGrpc.class) {
         if ((getGetAllUsersMethod = sepServiceGrpc.getGetAllUsersMethod) == null) {
           sepServiceGrpc.getGetAllUsersMethod = getGetAllUsersMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.Empty, via.sdj3.sep_t3.protobuf.UsersGrpc>newBuilder()
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.Empty, via.sdj3.sep_t3.protobuf.AllUsers>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getAllUsers"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sdj3.sep_t3.protobuf.Empty.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.UsersGrpc.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.AllUsers.getDefaultInstance()))
               .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("getAllUsers"))
               .build();
         }
@@ -45,29 +45,29 @@ public final class sepServiceGrpc {
     return getGetAllUsersMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserDTO,
-      via.sdj3.sep_t3.protobuf.User> getCreateUserMethod;
+  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserCreationGrpcDto,
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getCreateUserMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "createUser",
-      requestType = via.sdj3.sep_t3.protobuf.UserDTO.class,
-      responseType = via.sdj3.sep_t3.protobuf.User.class,
+      requestType = via.sdj3.sep_t3.protobuf.UserCreationGrpcDto.class,
+      responseType = via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserDTO,
-      via.sdj3.sep_t3.protobuf.User> getCreateUserMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserDTO, via.sdj3.sep_t3.protobuf.User> getCreateUserMethod;
+  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserCreationGrpcDto,
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getCreateUserMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.UserCreationGrpcDto, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getCreateUserMethod;
     if ((getCreateUserMethod = sepServiceGrpc.getCreateUserMethod) == null) {
       synchronized (sepServiceGrpc.class) {
         if ((getCreateUserMethod = sepServiceGrpc.getCreateUserMethod) == null) {
           sepServiceGrpc.getCreateUserMethod = getCreateUserMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.UserDTO, via.sdj3.sep_t3.protobuf.User>newBuilder()
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.UserCreationGrpcDto, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "createUser"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.UserDTO.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.UserCreationGrpcDto.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.User.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.getDefaultInstance()))
               .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("createUser"))
               .build();
         }
@@ -77,28 +77,28 @@ public final class sepServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
-      via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod;
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getGetUserByIdMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "getUserById",
       requestType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
-      responseType = via.sdj3.sep_t3.protobuf.User.class,
+      responseType = via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
-      via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.User> getGetUserByIdMethod;
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getGetUserByIdMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getGetUserByIdMethod;
     if ((getGetUserByIdMethod = sepServiceGrpc.getGetUserByIdMethod) == null) {
       synchronized (sepServiceGrpc.class) {
         if ((getGetUserByIdMethod = sepServiceGrpc.getGetUserByIdMethod) == null) {
           sepServiceGrpc.getGetUserByIdMethod = getGetUserByIdMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.User>newBuilder()
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "getUserById"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.User.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.getDefaultInstance()))
               .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("getUserById"))
               .build();
         }
@@ -107,27 +107,27 @@ public final class sepServiceGrpc {
     return getGetUserByIdMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials,
+  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials,
       via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "validateLogin",
-      requestType = via.sdj3.sep_t3.protobuf.loginCredentials.class,
+      requestType = via.sdj3.sep_t3.protobuf.LoginCredentials.class,
       responseType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials,
+  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials,
       via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.loginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
     if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
       synchronized (sepServiceGrpc.class) {
         if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
           sepServiceGrpc.getValidateLoginMethod = getValidateLoginMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.loginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage>newBuilder()
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "validateLogin"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.loginCredentials.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.LoginCredentials.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
               .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("validateLogin"))
@@ -189,27 +189,27 @@ public final class sepServiceGrpc {
     /**
      */
     public void getAllUsers(via.sdj3.sep_t3.protobuf.Empty request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UsersGrpc> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.AllUsers> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetAllUsersMethod(), responseObserver);
     }
 
     /**
      */
-    public void createUser(via.sdj3.sep_t3.protobuf.UserDTO request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+    public void createUser(via.sdj3.sep_t3.protobuf.UserCreationGrpcDto request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getCreateUserMethod(), responseObserver);
     }
 
     /**
      */
     public void getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetUserByIdMethod(), responseObserver);
     }
 
     /**
      */
-    public void validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request,
+    public void validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request,
         io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateLoginMethod(), responseObserver);
     }
@@ -221,27 +221,27 @@ public final class sepServiceGrpc {
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 via.sdj3.sep_t3.protobuf.Empty,
-                via.sdj3.sep_t3.protobuf.UsersGrpc>(
+                via.sdj3.sep_t3.protobuf.AllUsers>(
                   this, METHODID_GET_ALL_USERS)))
           .addMethod(
             getCreateUserMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                via.sdj3.sep_t3.protobuf.UserDTO,
-                via.sdj3.sep_t3.protobuf.User>(
+                via.sdj3.sep_t3.protobuf.UserCreationGrpcDto,
+                via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>(
                   this, METHODID_CREATE_USER)))
           .addMethod(
             getGetUserByIdMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 via.sdj3.sep_t3.protobuf.GenericMessage,
-                via.sdj3.sep_t3.protobuf.User>(
+                via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>(
                   this, METHODID_GET_USER_BY_ID)))
           .addMethod(
             getValidateLoginMethod(),
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
-                via.sdj3.sep_t3.protobuf.loginCredentials,
+                via.sdj3.sep_t3.protobuf.LoginCredentials,
                 via.sdj3.sep_t3.protobuf.GenericMessage>(
                   this, METHODID_VALIDATE_LOGIN)))
           .build();
@@ -265,15 +265,15 @@ public final class sepServiceGrpc {
     /**
      */
     public void getAllUsers(via.sdj3.sep_t3.protobuf.Empty request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UsersGrpc> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.AllUsers> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetAllUsersMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void createUser(via.sdj3.sep_t3.protobuf.UserDTO request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+    public void createUser(via.sdj3.sep_t3.protobuf.UserCreationGrpcDto request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getCreateUserMethod(), getCallOptions()), request, responseObserver);
     }
@@ -281,14 +281,14 @@ public final class sepServiceGrpc {
     /**
      */
     public void getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetUserByIdMethod(), getCallOptions()), request, responseObserver);
     }
 
     /**
      */
-    public void validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request,
+    public void validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request,
         io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request, responseObserver);
@@ -311,28 +311,28 @@ public final class sepServiceGrpc {
 
     /**
      */
-    public via.sdj3.sep_t3.protobuf.UsersGrpc getAllUsers(via.sdj3.sep_t3.protobuf.Empty request) {
+    public via.sdj3.sep_t3.protobuf.AllUsers getAllUsers(via.sdj3.sep_t3.protobuf.Empty request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetAllUsersMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public via.sdj3.sep_t3.protobuf.User createUser(via.sdj3.sep_t3.protobuf.UserDTO request) {
+    public via.sdj3.sep_t3.protobuf.UserReadGrpcDTO createUser(via.sdj3.sep_t3.protobuf.UserCreationGrpcDto request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getCreateUserMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public via.sdj3.sep_t3.protobuf.User getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request) {
+    public via.sdj3.sep_t3.protobuf.UserReadGrpcDTO getUserById(via.sdj3.sep_t3.protobuf.GenericMessage request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetUserByIdMethod(), getCallOptions(), request);
     }
 
     /**
      */
-    public via.sdj3.sep_t3.protobuf.GenericMessage validateLogin(via.sdj3.sep_t3.protobuf.loginCredentials request) {
+    public via.sdj3.sep_t3.protobuf.GenericMessage validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateLoginMethod(), getCallOptions(), request);
     }
@@ -354,7 +354,7 @@ public final class sepServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.UsersGrpc> getAllUsers(
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.AllUsers> getAllUsers(
         via.sdj3.sep_t3.protobuf.Empty request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetAllUsersMethod(), getCallOptions()), request);
@@ -362,15 +362,15 @@ public final class sepServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.User> createUser(
-        via.sdj3.sep_t3.protobuf.UserDTO request) {
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> createUser(
+        via.sdj3.sep_t3.protobuf.UserCreationGrpcDto request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getCreateUserMethod(), getCallOptions()), request);
     }
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.User> getUserById(
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getUserById(
         via.sdj3.sep_t3.protobuf.GenericMessage request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetUserByIdMethod(), getCallOptions()), request);
@@ -379,7 +379,7 @@ public final class sepServiceGrpc {
     /**
      */
     public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.GenericMessage> validateLogin(
-        via.sdj3.sep_t3.protobuf.loginCredentials request) {
+        via.sdj3.sep_t3.protobuf.LoginCredentials request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request);
     }
@@ -409,18 +409,18 @@ public final class sepServiceGrpc {
       switch (methodId) {
         case METHODID_GET_ALL_USERS:
           serviceImpl.getAllUsers((via.sdj3.sep_t3.protobuf.Empty) request,
-              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UsersGrpc>) responseObserver);
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.AllUsers>) responseObserver);
           break;
         case METHODID_CREATE_USER:
-          serviceImpl.createUser((via.sdj3.sep_t3.protobuf.UserDTO) request,
-              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User>) responseObserver);
+          serviceImpl.createUser((via.sdj3.sep_t3.protobuf.UserCreationGrpcDto) request,
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>) responseObserver);
           break;
         case METHODID_GET_USER_BY_ID:
           serviceImpl.getUserById((via.sdj3.sep_t3.protobuf.GenericMessage) request,
-              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.User>) responseObserver);
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>) responseObserver);
           break;
         case METHODID_VALIDATE_LOGIN:
-          serviceImpl.validateLogin((via.sdj3.sep_t3.protobuf.loginCredentials) request,
+          serviceImpl.validateLogin((via.sdj3.sep_t3.protobuf.LoginCredentials) request,
               (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage>) responseObserver);
           break;
         default:
@@ -445,7 +445,7 @@ public final class sepServiceGrpc {
 
     @java.lang.Override
     public com.google.protobuf.Descriptors.FileDescriptor getFileDescriptor() {
-      return via.sdj3.sep_t3.protobuf.SEP3.getDescriptor();
+      return via.sdj3.sep_t3.protobuf.UserGrpcModel.getDescriptor();
     }
 
     @java.lang.Override

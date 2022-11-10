@@ -2,7 +2,6 @@
 using Domain.DTOs;
 using Domain.Models;
 using GrpcData.DI;
-using GrpcData.Protos;
 
 namespace GrpcData.DAOs;
 

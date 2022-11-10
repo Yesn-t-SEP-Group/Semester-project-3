@@ -3,10 +3,10 @@ package via.sdj3.sep_t3.model;
 
 import lombok.*;
 import org.hibernate.Hibernate;
-import via.sdj3.sep_t3.protobuf.User;
+import via.sdj3.sep_t3.protobuf.UserReadGrpcDTO;
+
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
@@ -48,10 +48,14 @@ public class Users
     @Column(name = "last_seen")
     private LocalDate lastSeen;
 
+    @Column(name = "role", length = 20)
+    private String role;
+
     /**
      * Sets all the variables from a grpc user
      * @param userFromGrpc protobuf.User
-     */
+    */
+    /*
     public void convertFromGrpc(User userFromGrpc)
     {
         id=userFromGrpc.getId();
@@ -65,22 +69,23 @@ public class Users
         lastSeen = new Timestamp(userFromGrpc.getLastSeen()).toLocalDateTime().toLocalDate();
     }
 
-    /**
-     * Use this to convert to the Grpc class
-     * @return protobuf.User
      */
-    public User convertToGrpc()
+
+    /**
+     * Use this to map to the grpc DTO
+     * @return converted and filled UserReadDTO
+     */
+    public UserReadGrpcDTO convertToUserReadGrpcDto()
     {
-        return User.newBuilder()
+        return UserReadGrpcDTO.newBuilder()
                 .setId(id)
                 .setUsername(username)
-                .setUserPass(userPass)
                 .setFullName(fullName)
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setAddress(address)
-                .setRegisteredOn((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
-                .setLastSeen((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setRegistrationDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setLastSeenDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .build();
     }
 
@@ -92,4 +97,5 @@ public class Users
         Users users = (Users) o;
         return id != null && Objects.equals(id, users.id);
     }
+
 }

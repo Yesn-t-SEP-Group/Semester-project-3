@@ -15,66 +15,82 @@ import java.time.LocalDate;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @GRpcService
+
 public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
 {
     @Autowired
     UserRegistry userRegistry;
 
     @Override
-    public void getAllUsers(Empty request, StreamObserver<UsersGrpc> responseObserver)
+    public void getAllUsers(Empty request, StreamObserver<AllUsers> responseObserver)
     {
         System.out.println("new request for getting all users");
-        List<User>userGrpc=new ArrayList<>();
+        List<UserReadGrpcDTO> allUsers=new ArrayList<>();
 
         for (Users user: userRegistry.findAll())
         {
             System.out.println(user);
-            User temp=user.convertToGrpc();
-            userGrpc.add(temp);
+            var temp=user.convertToUserReadGrpcDto();
+            allUsers.add(temp);
         }
-        UsersGrpc usersGrpc = UsersGrpc.newBuilder().addAllUsers(userGrpc).build();
-        responseObserver.onNext(usersGrpc);
+        var ret = AllUsers.newBuilder().addAllUsers(allUsers).build();
+        responseObserver.onNext(ret);
         responseObserver.onCompleted();
     }
 
     @Override
-    public void createUser(UserDTO request, StreamObserver<User> responseObserver)
+    public void createUser(UserCreationGrpcDto request, StreamObserver<UserReadGrpcDTO> responseObserver)
     {
         System.out.println("new request for creating a new user with credentials "+request.toString());
         var newUser=new Users();
         newUser.setUsername(request.getUsername());
-        newUser.setUserPass(request.getUserPass());
+        newUser.setUserPass(request.getPassword());
         newUser.setFullName(request.getFullName());
         newUser.setEmail(request.getEmail());
         newUser.setAddress(request.getAddress());
         newUser.setPhoneNumber(request.getPhoneNumber());
+        newUser.setRole(request.getRole());
         newUser.setRegisteredOn(LocalDate.now());
         newUser.setLastSeen(LocalDate.now());
         try
         {
             userRegistry.save(newUser);
             System.out.println("saved new user with username: "+request.getUsername());
-            responseObserver.onNext(newUser.convertToGrpc());
+            responseObserver.onNext(newUser.convertToUserReadGrpcDto());
         }
         catch (Exception e)
         {
-            var status=generateCustomError(e.getMessage());
+            var status=generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
-        responseObserver.onCompleted();
+        responseObserver.onCompleted();    }
+
+    @Override
+    public void getUserById(GenericMessage request, StreamObserver<UserReadGrpcDTO> responseObserver)
+    {
+        System.out.println("new request for getting user by id:"+ request.getMessage());
+        var temp= userRegistry.findById(Integer.parseInt(request.getMessage()));
+        if (temp.isPresent())
+        {
+            responseObserver.onNext(temp.get().convertToUserReadGrpcDto());
+            responseObserver.onCompleted();
+            return;
+        }
+        //if we got this far we know that there is no user with that ID
+        var status=generateCustomError("No user found with this id: "+request.getMessage(),Code.INVALID_ARGUMENT);
+        responseObserver.onError(StatusProto.toStatusRuntimeException(status));
     }
 
     @Override
-    public void validateLogin(loginCredentials request, StreamObserver<GenericMessage> responseObserver)
+    public void validateLogin(LoginCredentials request, StreamObserver<GenericMessage> responseObserver)
     {
         System.out.println("Someone trying to login with the following information: "
-                +request.getUserName()+" : "+request.getPassword());
+                +request.getUsername()+" : "+request.getPassword());
 
         var user= userRegistry.findByUsernameAndUserPass(
-                request.getUserName(),
+                request.getUsername(),
                 request.getPassword());
 
         if (user.isPresent())
@@ -84,36 +100,22 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             user.get().setLastSeen(LocalDate.now());
             return;
         }
-        var status=generateCustomError("Username or password wrong for user: "+request.getUserName());
+        var status=generateCustomError("Username or password wrong for user: "+request.getUsername(),Code.INVALID_ARGUMENT);
         responseObserver.onError(StatusProto.toStatusRuntimeException(status));
     }
 
     /**
-     * Getting a user from the database by supplying the id
-     * @param request contains the ID
-     * @param responseObserver we use to send back on gRPC
+     * Use this to create a better error on gRPC
+     * @param message the message shown on the client
+     * @return Status to be passed into onError
      */
-    @Override
-    public void getUserById(GenericMessage request, StreamObserver<User> responseObserver)
-    {
-        System.out.println("new request for getting user by id:"+ request.getMessage());
-        var temp= userRegistry.findById(Integer.parseInt(request.getMessage()));
-        if (temp.isPresent())
-        {
-            responseObserver.onNext(temp.get().convertToGrpc());
-            responseObserver.onCompleted();
-            return;
-        }
-        //if we got this far we know that there is no user with that ID
-        var status=generateCustomError("No user found with this id: "+request.getMessage());
-        responseObserver.onError(StatusProto.toStatusRuntimeException(status));
-    }
-    public Status generateCustomError(String message)
+    public Status generateCustomError(String message,Code code)
     {
         return Status.newBuilder()
-                .setCode(Code.INVALID_ARGUMENT.getNumber())
+                .setCode(code.getNumber())
                 .setMessage(message)
                 .build();
     }
-}
 
+
+}
