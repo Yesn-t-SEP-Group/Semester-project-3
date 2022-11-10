@@ -44,7 +44,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
     public void createUser(UserDTO request, StreamObserver<User> responseObserver)
     {
         System.out.println("new request for creating a new user with credentials "+request.toString());
-        Users newUser=new Users();
+        var newUser=new Users();
         newUser.setUsername(request.getUsername());
         newUser.setUserPass(request.getUserPass());
         newUser.setFullName(request.getFullName());
@@ -61,10 +61,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         }
         catch (Exception e)
         {
-            Status status= Status.newBuilder()
-                    .setCode(Code.INVALID_ARGUMENT.getNumber())
-                    .setMessage(e.getMessage())
-                    .build();
+            var status=generateCustomError(e.getMessage());
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
         responseObserver.onCompleted();
@@ -76,7 +73,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         System.out.println("Someone trying to login with the following information: "
                 +request.getUserName()+" : "+request.getPassword());
 
-        Optional<Users> user= userRegistry.findByUsernameAndUserPass(
+        var user= userRegistry.findByUsernameAndUserPass(
                 request.getUserName(),
                 request.getPassword());
 
@@ -87,10 +84,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             user.get().setLastSeen(LocalDate.now());
             return;
         }
-        Status status= Status.newBuilder()
-                .setCode(Code.INVALID_ARGUMENT.getNumber())
-                .setMessage("Username or password wrong for user: "+request.getUserName())
-                .build();
+        var status=generateCustomError("Username or password wrong for user: "+request.getUserName());
         responseObserver.onError(StatusProto.toStatusRuntimeException(status));
     }
 
@@ -103,7 +97,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
     public void getUserById(GenericMessage request, StreamObserver<User> responseObserver)
     {
         System.out.println("new request for getting user by id:"+ request.getMessage());
-        Optional<Users> temp= userRegistry.findById(Integer.parseInt(request.getMessage()));
+        var temp= userRegistry.findById(Integer.parseInt(request.getMessage()));
         if (temp.isPresent())
         {
             responseObserver.onNext(temp.get().convertToGrpc());
@@ -111,11 +105,15 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             return;
         }
         //if we got this far we know that there is no user with that ID
-        Status status= Status.newBuilder()
-                .setCode(Code.INVALID_ARGUMENT.getNumber())
-                .setMessage("No user found with this id: "+request.getMessage())
-                .build();
+        var status=generateCustomError("No user found with this id: "+request.getMessage());
         responseObserver.onError(StatusProto.toStatusRuntimeException(status));
+    }
+    public Status generateCustomError(String message)
+    {
+        return Status.newBuilder()
+                .setCode(Code.INVALID_ARGUMENT.getNumber())
+                .setMessage(message)
+                .build();
     }
 }
 
