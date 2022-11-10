@@ -37,13 +37,14 @@ public class PostFileDao : IPostDao
         if (!string.IsNullOrEmpty(searchParams.Username))
         {
             // we know username is unique, so just fetch the first
-            result = context.Todos.Where(todo =>
-                todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
+            // todo
+            //result = context.Todos.Where(todo =>
+            //    todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
         }
 
         if (searchParams.UserId != null)
         {
-            result = result.Where(t => t.Owner.Id == searchParams.UserId);
+            result = result.Where(t => t.OwnerId == searchParams.UserId);
         }
 
         /*if (searchParams.CompletedStatus != null)

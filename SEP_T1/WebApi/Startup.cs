@@ -50,9 +50,19 @@ namespace WebAPI
             var services = builder.Services;
             services.AddSingleton<IConfiguration>(config);
 
-            services.AddGrpcServices();
             services.AddBusinessLogic();
-            services.AddFileDaos();
+
+            bool useGRPC = config.GetValue<bool>("UseGRPC");
+            if (useGRPC)
+            {
+                services.AddGrpcDaos();
+                Log.Logger.Information("Using GRPC DAOs");
+            }
+            else
+            {
+                services.AddFileDaos();
+                Log.Logger.Information("Using file DAOs");
+            }
 
             AuthorizationPolicies.AddPolicies(builder.Services);
             builder.Services.AddScoped<IAuthService, AuthService>();

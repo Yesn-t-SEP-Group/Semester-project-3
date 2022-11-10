@@ -20,6 +20,11 @@ public class UserGrpcDao : IUserDao
         throw new NotImplementedException();
     }
 
+    public Task DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<IEnumerable<UserReadDto>> GetAllAsync()
     {
         throw new NotImplementedException();

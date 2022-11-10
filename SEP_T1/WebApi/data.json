@@ -118,61 +118,23 @@
       "lastSeen": "0001-01-01T00:00:00"
     },
     {
-      "Id": 10,
-      "UserName": "maxmax",
-      "Password": "maxmax1",
-      "Name": "max",
-      "Email": "max@gmail.com",
-      "PhoneNumber": "\u002B4560606060",
-      "Address": "denmark",
+      "Id": 13,
+      "UserName": "daweq2",
+      "Password": "31231",
+      "Name": "daweq2",
+      "Email": "231",
+      "PhoneNumber": "231",
+      "Address": "23123",
       "Role": "User",
       "rating": 5,
-      "registeredOn": "2022-11-09T00:00:00+01:00",
-      "lastSeen": "0001-01-01T00:00:00"
-    },
-    {
-      "Id": 11,
-      "UserName": "max",
-      "Password": "maxmax1",
-      "Name": "max",
-      "Email": "max@gmail.com",
-      "PhoneNumber": "\u002B4570707070",
-      "Address": "denmark",
-      "Role": "User",
-      "rating": 5,
-      "registeredOn": "2022-11-09T00:00:00+01:00",
-      "lastSeen": "2022-11-09T00:00:00+01:00"
-    },
-    {
-      "Id": 12,
-      "UserName": "jack",
-      "Password": "jack1",
-      "Name": "jack",
-      "Email": "jack@gmail.com",
-      "PhoneNumber": "\u002B4580808080",
-      "Address": "denmark",
-      "Role": "User",
-      "rating": 5,
-      "registeredOn": "2022-11-09T00:00:00+01:00",
-      "lastSeen": "2022-11-09T00:00:00+01:00"
+      "registeredOn": "2022-11-10T19:42:38.7485029+01:00",
+      "lastSeen": "2022-11-10T19:42:38.7485011+01:00"
     }
   ],
   "Posts": [
     {
       "Id": 1,
-      "Owner": {
-        "Id": 1,
-        "UserName": "admin",
-        "Password": "admin",
-        "Name": "admin",
-        "Email": "admin@gmail.com",
-        "PhoneNumber": "4060606060",
-        "Address": "denmark",
-        "Role": "Admin",
-        "rating": 5,
-        "registeredOn": "0001-01-01T00:00:00",
-        "lastSeen": "0001-01-01T00:00:00"
-      },
+      "OwnerId": 0,
       "Title": "admin test",
       "Body": "testing"
     }
