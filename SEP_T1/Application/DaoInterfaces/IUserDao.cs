@@ -12,4 +12,6 @@ public interface IUserDao
     Task<IEnumerable<UserReadDto>> GetAllAsync();
 
     Task<UserReadDto?> GetByIdAsync(int id);
+
+    Task DeleteAsync(int id);
 }

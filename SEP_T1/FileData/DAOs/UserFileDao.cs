@@ -1,5 +1,6 @@
 ﻿using Application.DaoInterfaces;
 using Domain.DTOs;
+using Domain.Mappings;
 using Domain.Models;
 
 namespace FileData.DAOs;
@@ -13,7 +14,24 @@ public class UserFileDao : IUserDao
         this.context = context;
     }
 
-    public Task<User> CreateAsync(User user)
+    public Task<UserReadDto?> GetByUsernameAsync(string userName)
+    {
+        User? existing = context.Users.FirstOrDefault(u =>
+            u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
+        );
+
+        return Task.Run(() =>
+        {
+            if (existing == null)
+            {
+                return null;
+            }
+
+            return UserMapping.UserReadDtoFromUser(existing);
+        });
+    }
+
+    public Task<UserReadDto> CreateAsync(UserCreationDto user)
     {
         int userId = 1;
         if (context.Users.Any())
@@ -22,47 +40,53 @@ public class UserFileDao : IUserDao
             userId++;
         }
 
-        user.Id = userId;
+        User u = UserMapping.UserFromUserCreationDto(user);
+        u.Id = userId;
 
-        context.Users.Add(user);
-        context.SaveChanges();
+        return Task.Run(() =>
+        {
+            context.Users.Add(u);
+            context.SaveChanges();
 
-        return Task.FromResult(user);
-    }
-
-    public Task<User?> GetByUsernameAsync(string userName)
-    {
-        User? existing = context.Users.FirstOrDefault(u =>
-            u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
-        );
-        return Task.FromResult(existing);
-    }
-
-    public Task<User?> GetByIdAsync(int id)
-    {
-        User? existing = context.Users.FirstOrDefault(u =>
-            u.Id == id
-        );
-        return Task.FromResult(existing);
-    }
-
-    Task<UserReadDto?> IUserDao.GetByUsernameAsync(string userName)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<UserReadDto> CreateAsync(UserCreationDto user)
-    {
-        throw new NotImplementedException();
+            return UserMapping.UserReadDtoFromUser(u);
+        });
     }
 
     public Task<IEnumerable<UserReadDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        return Task.Run(() =>
+        {
+            return this.context.Users.Select(x=> UserMapping.UserReadDtoFromUser(x));
+        });
     }
 
     Task<UserReadDto?> IUserDao.GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        return Task.Run(() =>
+        {
+            User? existing = context.Users.FirstOrDefault(u =>
+                u.Id == id
+            );
+
+            if (existing == null)
+            {
+                return null;
+            }
+
+            return UserMapping.UserReadDtoFromUser(existing);
+        });
+    }
+
+    public Task DeleteAsync(int id)
+    {
+        return Task.Run(() =>
+        {
+            var user = context.Users.FirstOrDefault(x=>x.Id== id);
+            if(user != null)
+            {
+                context.Users.Remove(user);
+                context.SaveChanges();
+            }
+        });
     }
 }

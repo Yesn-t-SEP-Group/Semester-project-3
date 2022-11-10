@@ -32,17 +32,16 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAsync([FromQuery] string? username)
+    public async Task<ActionResult<IEnumerable<UserReadDto>>> Get()
     {
-        try
-        {
-            IEnumerable<UserReadDto> users = await userLogic.GetAllAsync();
-            return Ok(users);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
+        IEnumerable<UserReadDto> users = await userLogic.GetAllAsync();
+        return Ok(users);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await userLogic.DeleteAsync(id);
+        return Ok();
     }
 }

@@ -10,4 +10,7 @@ public interface IUserLogic
     Task<IEnumerable<UserReadDto>> GetAllAsync();
 
     Task<UserReadDto?> GetByIdAsync(int id);
+
+    Task DeleteAsync(int id);
+
 }

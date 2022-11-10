@@ -63,6 +63,11 @@ public class UserLogic : IUserLogic
 
     public Task<UserReadDto?> GetByIdAsync(int id)
     {
-        return userDao.GetByIdAsync(id);
+        return this.userDao.GetByIdAsync(id);
+    }
+
+    public Task DeleteAsync(int id)
+    {
+        return this.userDao.DeleteAsync(id);
     }
 }
