@@ -1,6 +1,7 @@
 ﻿using Application.DaoInterfaces;
 using Domain.DTOs;
 using Domain.Models;
+using GrpcData.Adapters;
 using GrpcData.DI;
 
 namespace GrpcData.DAOs;
@@ -14,14 +15,19 @@ public class UserGrpcDao : IUserDao
         this._grpcService = grpcService;
     }
 
-    public Task<UserReadDto> CreateAsync(UserCreationDto user)
+    public Task<UserReadDto?> GetByUsernameAsync(string userName)
     {
+        //todo do we need this
         throw new NotImplementedException();
     }
 
-    public Task DeleteAsync(int id)
+    public async Task<UserReadDto> CreateAsync(UserCreationDto user)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreateServiceClient();
+        var convertedToGrpc = UserAdapters.ConvertToGrpcCreationDto(user);
+        
+        var result= await client.createUserAsync(convertedToGrpc);
+        return UserAdapters.ConvertFromGrpcReadDto(result);
     }
 
     public Task<IEnumerable<UserReadDto>> GetAllAsync()
@@ -34,7 +40,12 @@ public class UserGrpcDao : IUserDao
         throw new NotImplementedException();
     }
 
-    public Task<UserReadDto?> GetByUsernameAsync(string userName)
+    public Task DeleteAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<UserReadDto?> LoginAsync(UserLoginDto dto)
     {
         throw new NotImplementedException();
     }
@@ -126,4 +137,5 @@ public class UserGrpcDao : IUserDao
     }
 
     */
+    
 }

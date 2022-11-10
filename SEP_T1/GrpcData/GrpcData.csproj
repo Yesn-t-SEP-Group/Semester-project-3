@@ -17,7 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <Protobuf Include="**/*.proto"/>
+    <Protobuf Include="**/*.proto" />
   </ItemGroup>
 
 </Project>
