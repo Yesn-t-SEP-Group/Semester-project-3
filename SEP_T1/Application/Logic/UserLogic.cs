@@ -2,6 +2,7 @@
 using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Application.Logic;
 
@@ -14,26 +15,32 @@ public class UserLogic : IUserLogic
         this.userDao = userDao;
     }
 
-    public async Task<User> CreateAsync(UserCreationDto dto)
+    public async Task<UserReadDto> CreateAsync(UserCreationDto dto)
     {
-        User? existing = await userDao.GetByUsernameAsync(dto.UserName);
+        UserReadDto? existing = await userDao.GetByUsernameAsync(dto.UserName);
         if (existing != null)
-            throw new Exception("Username already taken!");
+            throw new ValidationException("Username already taken!");
 
         ValidateData(dto);
-        User toCreate = new User
+        UserCreationDto toCreate = new UserCreationDto()
         {
-            UserName = dto.UserName, Password = dto.Password,Role = dto.Role, Name = dto.Name,Email = dto.Email,Address = dto.Address, PhoneNumber = dto.PhoneNumber, rating = dto.rating, registeredOn = dto.registeredOn, lastSeen = dto.lastSeen
+            UserName = dto.UserName,
+            Password = dto.Password,
+            Role = dto.Role,
+            Name = dto.Name,
+            Email = dto.Email,
+            Address = dto.Address,
+            PhoneNumber = dto.PhoneNumber,
         };
         
-        User created = await userDao.CreateAsync(toCreate);
+        UserReadDto created = await userDao.CreateAsync(toCreate);
         
         return created;
     }
 
-    public Task<IEnumerable<User>> GetAsync(SearchUserParametersDto searchParameters)
+    public Task<IEnumerable<UserReadDto>> GetAllAsync()
     {
-        return userDao.GetAsync(searchParameters);
+        return userDao.GetAllAsync();
     }
 
     private static void ValidateData(UserCreationDto userToCreate)
@@ -52,5 +59,10 @@ public class UserLogic : IUserLogic
 
         if (passWord.Length > 15)
             throw new Exception("Password must be less than 16 characters!");
+    }
+
+    public Task<UserReadDto?> GetByIdAsync(int id)
+    {
+        return userDao.GetByIdAsync(id);
     }
 }

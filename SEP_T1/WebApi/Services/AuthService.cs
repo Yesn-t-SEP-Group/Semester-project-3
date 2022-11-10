@@ -2,7 +2,6 @@
 using System.Text.Json;
 using Domain.Models;
 using FileData;
-using GrpcDemo.Impl;
 
 namespace WebAPI.Services;
 

@@ -5,7 +5,7 @@ using Application.LogicInterfaces;
 using Domain.Auth;
 using FileData;
 using FileData.DAOs;
-using GrpcDemo;
+using GrpcData.DI;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Services;
@@ -27,7 +27,9 @@ builder.Services.AddScoped<IPostDao, PostFileDao>();
 builder.Services.AddScoped<IPostLogic, PostLogic>();
 AuthorizationPolicies.AddPolicies(builder.Services);
 builder.Services.AddScoped<IAuthService, AuthService>();
-builder.Services.AddGrpc();
+
+builder.Services.AddGrpcServices();
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
@@ -43,8 +45,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 
 var app = builder.Build();
-
-app.MapGrpcService<sepService.sepServiceClient>();
 
 app.UseCors(x => x
     .AllowAnyMethod()

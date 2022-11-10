@@ -103,7 +103,16 @@
         try
         {
             
-            await userService.Create(new UserCreationDto(username, password, full_name, email, phone_number, address));
+            await userService.Create(new UserCreationDto(){
+                Address = this.address,
+                Email = this.email,
+                Name = this.username,
+                Password = this.password,
+                UserName = this.username,
+                PhoneNumber = this.phone_number,
+                Role = "User",
+            });
+
             username = "";
             password = "";
             full_name = "";

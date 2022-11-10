@@ -1,7 +1,6 @@
 ﻿using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
-using GrpcDemo.Impl;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
@@ -22,10 +21,7 @@ public class UsersController : ControllerBase
     {
         try
         {
-            Client client = new Client();
-            var test = client.createUser(dto);
-            Console.WriteLine(test);
-            User user = await userLogic.CreateAsync(dto);
+            UserReadDto user = await userLogic.CreateAsync(dto);
             return Created($"/users/{user.Id}", user);
         }
         catch (Exception e)
@@ -36,12 +32,11 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetAsync([FromQuery] string? username)
+    public async Task<ActionResult<IEnumerable<UserReadDto>>> GetAsync([FromQuery] string? username)
     {
         try
         {
-            SearchUserParametersDto parameters = new(username);
-            IEnumerable<User> users = await userLogic.GetAsync(parameters);
+            IEnumerable<UserReadDto> users = await userLogic.GetAllAsync();
             return Ok(users);
         }
         catch (Exception e)
