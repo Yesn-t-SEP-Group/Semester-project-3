@@ -18,14 +18,20 @@ public class PostLogic : IPostLogic
 
     public async Task<Post> CreateAsync(PostCreationDto dto)
     {
-        User? user = await userDao.GetByIdAsync(dto.OwnerId);
+        UserReadDto? user = await userDao.GetByIdAsync(dto.OwnerId);
         if (user == null)
         {
             throw new Exception($"User with id {dto.OwnerId} was not found.");
         }
 
         ValidateTodo(dto);
-        Post post = new Post(user, dto.Title, dto.Body);
+        Post post = new Post()
+        {
+            OwnerId = user.Id,
+            Body = dto.Body,
+            Title = dto.Title,
+        };
+
         Post created = await _postDao.CreateAsync(post);
         return created;
     }
@@ -51,7 +57,7 @@ public class PostLogic : IPostLogic
             throw new Exception($"Todo with ID {dto.Id} not found!");
         }
 
-        User? user = null;
+        UserReadDto? user = null;
         if (dto.OwnerId != null)
         {
             user = await userDao.GetByIdAsync((int)dto.OwnerId);
@@ -60,13 +66,14 @@ public class PostLogic : IPostLogic
                 throw new Exception($"User with id {dto.OwnerId} was not found.");
             }
         }
-/*
-        if (dto.IsCompleted != null && existing.IsCompleted && !(bool)dto.IsCompleted)
-        {
-            throw new Exception("Cannot un-complete a completed Todo");
-        }
-        */
+        /*
+                if (dto.IsCompleted != null && existing.IsCompleted && !(bool)dto.IsCompleted)
+                {
+                    throw new Exception("Cannot un-complete a completed Todo");
+                }
+                */
 
+        /*
         User userToUse = user ?? existing.Owner;
         string titleToUse = dto.Title ?? existing.Title;
         string bodyToUse = dto.Body ?? existing.Body;
@@ -77,7 +84,9 @@ public class PostLogic : IPostLogic
         //    IsCompleted = completedToUse,
             Id = existing.Id,
         };
-
+        */
+        throw new ApplicationException("This needs to be updated...");
+        Post updated = new Post();
         ValidateTodo(updated);
 
         await _postDao.UpdateAsync(updated);
@@ -108,7 +117,7 @@ public class PostLogic : IPostLogic
             throw new Exception($"Todo with id {id} not found");
         }
 
-        return new PostBasicDto(todo.Id, todo.Owner.UserName, todo.Title, todo.Body); //,todo.IsCompleted);
+        return new PostBasicDto(todo.Id, todo.OwnerId.ToString(), todo.Title, todo.Body); //,todo.IsCompleted);
     }
     
     private  void ValidateTodo(Post dto)

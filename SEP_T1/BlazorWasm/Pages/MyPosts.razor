@@ -61,7 +61,7 @@ else
         {
             <tr>
                 <td>@item.Id</td>
-                <td>@item.Owner.UserName</td>
+                <td>@item.OwnerId</td>
                 <td>@item.Title</td>
                 <td>@item.Body</td>
                 <td>
@@ -115,7 +115,7 @@ else
             
             
             var list = new List<Post>(posts!);
-            list.RemoveAll(post => post.Owner.Id != int.Parse(user.FindFirst("Id").Value));
+            list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id").Value));
             list.Sort(CompareById);
             posts = list.AsEnumerable();
            
