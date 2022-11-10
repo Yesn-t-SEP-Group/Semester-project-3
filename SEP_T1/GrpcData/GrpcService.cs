@@ -8,12 +8,20 @@ using System.Threading.Channels;
 using System.Threading.Tasks;
 using GrpcData.Protos;
 using GrpcData.DI;
+using Microsoft.Extensions.Configuration;
 
 namespace GrpcData
 {
     internal class GrpcService : IGrpcService
     {
-        private readonly string _url = "http://localhost:6565";
+        private readonly string _url;
+        private readonly IConfiguration _config;
+
+        public GrpcService(IConfiguration _config)
+        {
+            this._config = _config;
+            this._url = this._config.GetValue<string>("GrpcUrl");
+        }
 
         public sepService.sepServiceClient CreateServiceClient()
         {
