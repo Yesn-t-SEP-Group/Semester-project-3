@@ -3,6 +3,9 @@ using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Intrinsics.Arm;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Application.Logic;
 
@@ -22,18 +25,9 @@ public class UserLogic : IUserLogic
             throw new ValidationException("Username already taken!");
 
         ValidateData(dto);
-        UserCreationDto toCreate = new UserCreationDto()
-        {
-            UserName = dto.UserName,
-            Password = dto.Password,
-            Role = dto.Role,
-            Name = dto.Name,
-            Email = dto.Email,
-            Address = dto.Address,
-            PhoneNumber = dto.PhoneNumber,
-        };
         
-        UserReadDto created = await userDao.CreateAsync(toCreate);
+        dto.Password = CalculatePasswordHash(dto.Password);
+        UserReadDto created = await userDao.CreateAsync(dto);
         
         return created;
     }
@@ -69,5 +63,20 @@ public class UserLogic : IUserLogic
     public Task DeleteAsync(int id)
     {
         return this.userDao.DeleteAsync(id);
+    }
+
+    public static string CalculatePasswordHash(string plaintext)
+    {
+        var sha1 = SHA1.Create();
+        var plaintextBytes = Encoding.UTF8.GetBytes(plaintext);
+        var hashBytes = sha1.ComputeHash(plaintextBytes);
+
+        var sb = new StringBuilder();
+        foreach (var hashByte in hashBytes)
+        {
+            sb.AppendFormat("{0:x2}", hashByte);
+        }
+
+        return sb.ToString();
     }
 }

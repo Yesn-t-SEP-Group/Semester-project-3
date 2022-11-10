@@ -23,28 +23,21 @@ public class AuthController : ControllerBase
         this.authService = authService;
     }
 
-    private List<Claim> GenerateClaims(User user)
+    private List<Claim> GenerateClaims(UserReadDto user)
     {
         var claims = new[]
         {
             new Claim(JwtRegisteredClaimNames.Sub, config["Jwt:Subject"]),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
-            new Claim("Name", user.Name),
-            new Claim("Username",user.UserName),
-            new Claim("Password",user.Password.ToString()),
-            new Claim(ClaimTypes.Role,user.Role),
+            new Claim(ClaimTypes.Role, user.Role),
             new Claim("Role",user.Role),
             new Claim("Id",user.Id.ToString()),
-            new Claim("Name",user.Name.ToString()),
-            new Claim("PhoneNumber",user.PhoneNumber.ToString()),
-            new Claim("Email",user.Email.ToString()),
-            new Claim("Address",user.Address.ToString()),
         };
         return claims.ToList();
     }
     
-    private string GenerateJwt(User user)
+    private string GenerateJwt(UserReadDto user)
     {
         List<Claim> claims = GenerateClaims(user);
     
@@ -69,17 +62,13 @@ public class AuthController : ControllerBase
     [HttpPost, Route("login")]
     public async Task<ActionResult> Login([FromBody] UserLoginDto userLoginDto)
     {
-        try
+        UserReadDto? user = await authService.Login(userLoginDto);
+        if (user == null)
         {
-            ;
-            User user = await authService.ValidateUser(userLoginDto.Username, userLoginDto.Password);
-            string token = GenerateJwt(user);
-    
-            return Ok(token);
+            return BadRequest();
         }
-        catch (Exception e)
-        {
-            return BadRequest(e.Message);
-        }
+        string token = GenerateJwt(user);
+
+        return Ok(token);
     }
 }

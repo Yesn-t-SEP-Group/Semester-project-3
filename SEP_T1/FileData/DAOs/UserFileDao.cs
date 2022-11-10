@@ -1,4 +1,5 @@
 ﻿using Application.DaoInterfaces;
+using Application.Logic;
 using Domain.DTOs;
 using Domain.Mappings;
 using Domain.Models;
@@ -87,6 +88,20 @@ public class UserFileDao : IUserDao
                 context.Users.Remove(user);
                 context.SaveChanges();
             }
+        });
+    }
+
+    public Task<UserReadDto?> LoginAsync(UserLoginDto dto)
+    {
+        return Task.Run(() =>
+        {
+            var user = context.Users.FirstOrDefault(x => x.UserName == dto.Username && x.Password == dto.Password);
+            if (user == null)
+            {
+                return null;
+            }
+
+            return UserMapping.UserReadDtoFromUser(user);
         });
     }
 }

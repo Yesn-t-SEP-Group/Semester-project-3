@@ -14,4 +14,6 @@ public interface IUserDao
     Task<UserReadDto?> GetByIdAsync(int id);
 
     Task DeleteAsync(int id);
+
+    Task<UserReadDto?> LoginAsync(UserLoginDto dto);
 }
