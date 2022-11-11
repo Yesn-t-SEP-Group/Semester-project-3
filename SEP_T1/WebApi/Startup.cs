@@ -81,7 +81,10 @@ namespace WebAPI
                 };
             });
 
+            services.AddAutoMapper(typeof(MapperConfiguration));
+
             services.AddControllers();
+
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

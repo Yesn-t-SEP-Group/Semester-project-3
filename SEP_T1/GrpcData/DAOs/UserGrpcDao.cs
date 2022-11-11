@@ -1,7 +1,7 @@
 ﻿using Application.DaoInterfaces;
+using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
-using GrpcData.Adapters;
 using GrpcData.DI;
 
 namespace GrpcData.DAOs;
@@ -9,10 +9,14 @@ namespace GrpcData.DAOs;
 public class UserGrpcDao : IUserDao
 {
     private readonly IGrpcService _grpcService;
+    private readonly IMapper _mapper;
 
-    public UserGrpcDao(IGrpcService grpcService)
+    public UserGrpcDao(
+        IGrpcService grpcService,
+        IMapper mapper)
     {
         this._grpcService = grpcService;
+        _mapper = mapper;
     }
 
     public Task<UserReadDto?> GetByUsernameAsync(string userName)
@@ -24,10 +28,11 @@ public class UserGrpcDao : IUserDao
     public async Task<UserReadDto> CreateAsync(UserCreationDto user)
     {
         var client = _grpcService.CreateServiceClient();
-        var convertedToGrpc = UserAdapters.ConvertToGrpcCreationDto(user);
+
+        var convertedToGrpc = this._mapper.Map<UserCreationGrpcDto>(user);
         
         var result= await client.createUserAsync(convertedToGrpc);
-        return UserAdapters.ConvertFromGrpcReadDto(result);
+        return this._mapper.Map<UserReadDto>(result);
     }
 
     public Task<IEnumerable<UserReadDto>> GetAllAsync()

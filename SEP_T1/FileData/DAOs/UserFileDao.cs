@@ -1,7 +1,7 @@
 ﻿using Application.DaoInterfaces;
 using Application.Logic;
+using AutoMapper;
 using Domain.DTOs;
-using Domain.Mappings;
 using Domain.Models;
 
 namespace FileData.DAOs;
@@ -9,10 +9,14 @@ namespace FileData.DAOs;
 public class UserFileDao : IUserDao
 {
     private readonly FileContext context;
+    private readonly IMapper _mapper;
 
-    public UserFileDao(FileContext context)
+    public UserFileDao(
+        FileContext context,
+        IMapper mapper)
     {
         this.context = context;
+        this._mapper = mapper;
     }
 
     public Task<UserReadDto> CreateAsync(UserCreationDto user)
@@ -24,7 +28,7 @@ public class UserFileDao : IUserDao
             userId++;
         }
 
-        User u = UserMapping.UserFromUserCreationDto(user);
+        User u = this._mapper.Map<User>(user);
         u.Id = userId;
 
         return Task.Run(() =>
@@ -32,7 +36,7 @@ public class UserFileDao : IUserDao
             context.Users.Add(u);
             context.SaveChanges();
 
-            return UserMapping.UserReadDtoFromUser(u);
+            return this._mapper.Map<UserReadDto>(user);
         });
     }
 
@@ -40,7 +44,7 @@ public class UserFileDao : IUserDao
     {
         return Task.Run(() =>
         {
-            return this.context.Users.Select(x=> UserMapping.UserReadDtoFromUser(x));
+            return this.context.Users.Select(x=> this._mapper.Map<UserReadDto>(x));
         });
     }
 
@@ -57,7 +61,7 @@ public class UserFileDao : IUserDao
                 return null;
             }
 
-            return UserMapping.UserReadDtoFromUser(existing);
+            return this._mapper.Map<UserReadDto>(existing);
         });
     }
 
@@ -84,7 +88,7 @@ public class UserFileDao : IUserDao
                 return null;
             }
 
-            return UserMapping.UserReadDtoFromUser(user);
+            return this._mapper.Map<UserReadDto>(user);
         });
     }
 }
