@@ -30,12 +30,12 @@ public class UserCreationDto
     public string Email { get; set; }
     
     [Required(ErrorMessage = "You must provide a phone number")]
-    [Display(Name = "Home Phone")]
+    [Display(Name = "Mobile Phone")]
     [DataType(DataType.PhoneNumber)]
-    [RegularExpression(@"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$", ErrorMessage = "Not a valid phone number")]
+    [RegularExpression(@"^(\+|00)45\d{8}", ErrorMessage = "The phone number must be from Denmark")]
     public string PhoneNumber { get; set; }
     
     [Required(ErrorMessage = "You must provide an address")]
-    [StringLength(200, MinimumLength = 50)]
+    [StringLength(200, MinimumLength = 5)]
     public string Address { get; set; }
 }
