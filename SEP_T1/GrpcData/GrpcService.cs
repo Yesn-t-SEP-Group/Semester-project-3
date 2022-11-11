@@ -24,7 +24,7 @@ namespace GrpcData
 
         public sepService.sepServiceClient CreateServiceClient()
         {
-            using var channel = GrpcChannel.ForAddress(_url);
+            var channel = GrpcChannel.ForAddress(_url);
             return new sepService.sepServiceClient(channel);
         }
 

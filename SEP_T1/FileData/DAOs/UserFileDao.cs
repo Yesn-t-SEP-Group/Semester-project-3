@@ -15,23 +15,6 @@ public class UserFileDao : IUserDao
         this.context = context;
     }
 
-    public Task<UserReadDto?> GetByUsernameAsync(string userName)
-    {
-        User? existing = context.Users.FirstOrDefault(u =>
-            u.UserName.Equals(userName, StringComparison.OrdinalIgnoreCase)
-        );
-
-        return Task.Run(() =>
-        {
-            if (existing == null)
-            {
-                return null;
-            }
-
-            return UserMapping.UserReadDtoFromUser(existing);
-        });
-    }
-
     public Task<UserReadDto> CreateAsync(UserCreationDto user)
     {
         int userId = 1;

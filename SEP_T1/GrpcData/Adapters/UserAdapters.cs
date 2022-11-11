@@ -15,7 +15,7 @@ public class UserAdapters
             Email = input.Email,
             FullName = input.Name,
             Address = input.Address,
-            PhoneNumber = input.PhoneNumber
+            PhoneNumber = input.PhoneNumber,
         };
     }
 
@@ -32,7 +32,8 @@ public class UserAdapters
             Address = input.Address,
             Rating = input.Rating,
             RegistrationDateTime = epoch.AddSeconds(input.RegistrationDate),
-            LastSeenDateTime = epoch.AddSeconds(input.LastSeenDate)
+            LastSeenDateTime = epoch.AddSeconds(input.LastSeenDate),
+            Name = input.FullName,
         };
     }
 }
