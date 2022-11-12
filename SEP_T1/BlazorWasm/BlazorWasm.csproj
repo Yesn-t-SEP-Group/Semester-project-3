@@ -17,4 +17,16 @@
       <ProjectReference Include="..\HttpClients\HttpClients.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Pages\CreateUser.css">
+        <DependentUpon>CreateUser.razor</DependentUpon>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Pages\CreateUser.razor.bk.css">
+        <DependentUpon>CreateUser.razor.bk</DependentUpon>
+      </Content>
+    </ItemGroup>
+
 </Project>
