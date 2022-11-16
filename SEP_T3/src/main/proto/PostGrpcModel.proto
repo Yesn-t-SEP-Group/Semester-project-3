@@ -8,32 +8,29 @@ service postService
   rpc getAllPosts(Empty) returns (AllPosts);
   rpc createPost(PostCreationGrpcDto) returns(PostReadGrpcDto);
   rpc getPostById(GenericMessage)returns(PostReadGrpcDto);
-  rpc updatePost(PostUpdateGrpcDto)returns(PostReadGrpcDto);
 }
 
 
 message PostCreationGrpcDto
 {
-  int32 ownerId = 1;
-  string title = 2;
-  string body = 3;
+  string description = 1;
+  string location = 2;
+  string categories = 3;
+  int32 sellerId = 4;
+  string picture = 5;
+  int32 price = 6;
 }
 
 message PostReadGrpcDto
 {
   int32 id = 1;
-  int32 ownerId = 2;
-  string title = 3;
-  string body = 4;
-}
-
-// same as PostReadGrpcDto, made separately for sake of clarity
-message PostUpdateGrpcDto
-{
-  int32 id = 1;
-  int32 ownerId = 2;
-  string title = 3;
-  string body = 4;
+  int32 creationDate = 2;
+  string description = 3;
+  string location = 4;
+  string categories = 5;
+  int32 sellerId = 6;
+  string picture = 7;
+  int32 price = 8;
 }
 
 message AllPosts

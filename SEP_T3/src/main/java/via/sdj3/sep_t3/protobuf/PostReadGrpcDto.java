@@ -16,8 +16,10 @@ private static final long serialVersionUID = 0L;
     super(builder);
   }
   private PostReadGrpcDto() {
-    title_ = "";
-    body_ = "";
+    description_ = "";
+    location_ = "";
+    categories_ = "";
+    picture_ = "";
   }
 
   @java.lang.Override
@@ -57,19 +59,41 @@ private static final long serialVersionUID = 0L;
           }
           case 16: {
 
-            ownerId_ = input.readInt32();
+            creationDate_ = input.readInt32();
             break;
           }
           case 26: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            title_ = s;
+            description_ = s;
             break;
           }
           case 34: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            body_ = s;
+            location_ = s;
+            break;
+          }
+          case 42: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            categories_ = s;
+            break;
+          }
+          case 48: {
+
+            sellerId_ = input.readInt32();
+            break;
+          }
+          case 58: {
+            java.lang.String s = input.readStringRequireUtf8();
+
+            picture_ = s;
+            break;
+          }
+          case 64: {
+
+            price_ = input.readInt32();
             break;
           }
           default: {
@@ -117,91 +141,189 @@ private static final long serialVersionUID = 0L;
     return id_;
   }
 
-  public static final int OWNERID_FIELD_NUMBER = 2;
-  private int ownerId_;
+  public static final int CREATIONDATE_FIELD_NUMBER = 2;
+  private int creationDate_;
   /**
-   * <code>int32 ownerId = 2;</code>
-   * @return The ownerId.
+   * <code>int32 creationDate = 2;</code>
+   * @return The creationDate.
    */
   @java.lang.Override
-  public int getOwnerId() {
-    return ownerId_;
+  public int getCreationDate() {
+    return creationDate_;
   }
 
-  public static final int TITLE_FIELD_NUMBER = 3;
-  private volatile java.lang.Object title_;
+  public static final int DESCRIPTION_FIELD_NUMBER = 3;
+  private volatile java.lang.Object description_;
   /**
-   * <code>string title = 3;</code>
-   * @return The title.
+   * <code>string description = 3;</code>
+   * @return The description.
    */
   @java.lang.Override
-  public java.lang.String getTitle() {
-    java.lang.Object ref = title_;
+  public java.lang.String getDescription() {
+    java.lang.Object ref = description_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      title_ = s;
+      description_ = s;
       return s;
     }
   }
   /**
-   * <code>string title = 3;</code>
-   * @return The bytes for title.
+   * <code>string description = 3;</code>
+   * @return The bytes for description.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getTitleBytes() {
-    java.lang.Object ref = title_;
+      getDescriptionBytes() {
+    java.lang.Object ref = description_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      title_ = b;
+      description_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
   }
 
-  public static final int BODY_FIELD_NUMBER = 4;
-  private volatile java.lang.Object body_;
+  public static final int LOCATION_FIELD_NUMBER = 4;
+  private volatile java.lang.Object location_;
   /**
-   * <code>string body = 4;</code>
-   * @return The body.
+   * <code>string location = 4;</code>
+   * @return The location.
    */
   @java.lang.Override
-  public java.lang.String getBody() {
-    java.lang.Object ref = body_;
+  public java.lang.String getLocation() {
+    java.lang.Object ref = location_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      body_ = s;
+      location_ = s;
       return s;
     }
   }
   /**
-   * <code>string body = 4;</code>
-   * @return The bytes for body.
+   * <code>string location = 4;</code>
+   * @return The bytes for location.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getBodyBytes() {
-    java.lang.Object ref = body_;
+      getLocationBytes() {
+    java.lang.Object ref = location_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      body_ = b;
+      location_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
     }
+  }
+
+  public static final int CATEGORIES_FIELD_NUMBER = 5;
+  private volatile java.lang.Object categories_;
+  /**
+   * <code>string categories = 5;</code>
+   * @return The categories.
+   */
+  @java.lang.Override
+  public java.lang.String getCategories() {
+    java.lang.Object ref = categories_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      categories_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string categories = 5;</code>
+   * @return The bytes for categories.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getCategoriesBytes() {
+    java.lang.Object ref = categories_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      categories_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int SELLERID_FIELD_NUMBER = 6;
+  private int sellerId_;
+  /**
+   * <code>int32 sellerId = 6;</code>
+   * @return The sellerId.
+   */
+  @java.lang.Override
+  public int getSellerId() {
+    return sellerId_;
+  }
+
+  public static final int PICTURE_FIELD_NUMBER = 7;
+  private volatile java.lang.Object picture_;
+  /**
+   * <code>string picture = 7;</code>
+   * @return The picture.
+   */
+  @java.lang.Override
+  public java.lang.String getPicture() {
+    java.lang.Object ref = picture_;
+    if (ref instanceof java.lang.String) {
+      return (java.lang.String) ref;
+    } else {
+      com.google.protobuf.ByteString bs = 
+          (com.google.protobuf.ByteString) ref;
+      java.lang.String s = bs.toStringUtf8();
+      picture_ = s;
+      return s;
+    }
+  }
+  /**
+   * <code>string picture = 7;</code>
+   * @return The bytes for picture.
+   */
+  @java.lang.Override
+  public com.google.protobuf.ByteString
+      getPictureBytes() {
+    java.lang.Object ref = picture_;
+    if (ref instanceof java.lang.String) {
+      com.google.protobuf.ByteString b = 
+          com.google.protobuf.ByteString.copyFromUtf8(
+              (java.lang.String) ref);
+      picture_ = b;
+      return b;
+    } else {
+      return (com.google.protobuf.ByteString) ref;
+    }
+  }
+
+  public static final int PRICE_FIELD_NUMBER = 8;
+  private int price_;
+  /**
+   * <code>int32 price = 8;</code>
+   * @return The price.
+   */
+  @java.lang.Override
+  public int getPrice() {
+    return price_;
   }
 
   private byte memoizedIsInitialized = -1;
@@ -221,14 +343,26 @@ private static final long serialVersionUID = 0L;
     if (id_ != 0) {
       output.writeInt32(1, id_);
     }
-    if (ownerId_ != 0) {
-      output.writeInt32(2, ownerId_);
+    if (creationDate_ != 0) {
+      output.writeInt32(2, creationDate_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(title_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, title_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(description_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 3, description_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(body_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, body_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 4, location_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(categories_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, categories_);
+    }
+    if (sellerId_ != 0) {
+      output.writeInt32(6, sellerId_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(picture_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 7, picture_);
+    }
+    if (price_ != 0) {
+      output.writeInt32(8, price_);
     }
     unknownFields.writeTo(output);
   }
@@ -243,15 +377,29 @@ private static final long serialVersionUID = 0L;
       size += com.google.protobuf.CodedOutputStream
         .computeInt32Size(1, id_);
     }
-    if (ownerId_ != 0) {
+    if (creationDate_ != 0) {
       size += com.google.protobuf.CodedOutputStream
-        .computeInt32Size(2, ownerId_);
+        .computeInt32Size(2, creationDate_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(title_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, title_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(description_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, description_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(body_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, body_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, location_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(categories_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, categories_);
+    }
+    if (sellerId_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(6, sellerId_);
+    }
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(picture_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(7, picture_);
+    }
+    if (price_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(8, price_);
     }
     size += unknownFields.getSerializedSize();
     memoizedSize = size;
@@ -270,12 +418,20 @@ private static final long serialVersionUID = 0L;
 
     if (getId()
         != other.getId()) return false;
-    if (getOwnerId()
-        != other.getOwnerId()) return false;
-    if (!getTitle()
-        .equals(other.getTitle())) return false;
-    if (!getBody()
-        .equals(other.getBody())) return false;
+    if (getCreationDate()
+        != other.getCreationDate()) return false;
+    if (!getDescription()
+        .equals(other.getDescription())) return false;
+    if (!getLocation()
+        .equals(other.getLocation())) return false;
+    if (!getCategories()
+        .equals(other.getCategories())) return false;
+    if (getSellerId()
+        != other.getSellerId()) return false;
+    if (!getPicture()
+        .equals(other.getPicture())) return false;
+    if (getPrice()
+        != other.getPrice()) return false;
     if (!unknownFields.equals(other.unknownFields)) return false;
     return true;
   }
@@ -289,12 +445,20 @@ private static final long serialVersionUID = 0L;
     hash = (19 * hash) + getDescriptor().hashCode();
     hash = (37 * hash) + ID_FIELD_NUMBER;
     hash = (53 * hash) + getId();
-    hash = (37 * hash) + OWNERID_FIELD_NUMBER;
-    hash = (53 * hash) + getOwnerId();
-    hash = (37 * hash) + TITLE_FIELD_NUMBER;
-    hash = (53 * hash) + getTitle().hashCode();
-    hash = (37 * hash) + BODY_FIELD_NUMBER;
-    hash = (53 * hash) + getBody().hashCode();
+    hash = (37 * hash) + CREATIONDATE_FIELD_NUMBER;
+    hash = (53 * hash) + getCreationDate();
+    hash = (37 * hash) + DESCRIPTION_FIELD_NUMBER;
+    hash = (53 * hash) + getDescription().hashCode();
+    hash = (37 * hash) + LOCATION_FIELD_NUMBER;
+    hash = (53 * hash) + getLocation().hashCode();
+    hash = (37 * hash) + CATEGORIES_FIELD_NUMBER;
+    hash = (53 * hash) + getCategories().hashCode();
+    hash = (37 * hash) + SELLERID_FIELD_NUMBER;
+    hash = (53 * hash) + getSellerId();
+    hash = (37 * hash) + PICTURE_FIELD_NUMBER;
+    hash = (53 * hash) + getPicture().hashCode();
+    hash = (37 * hash) + PRICE_FIELD_NUMBER;
+    hash = (53 * hash) + getPrice();
     hash = (29 * hash) + unknownFields.hashCode();
     memoizedHashCode = hash;
     return hash;
@@ -430,11 +594,19 @@ private static final long serialVersionUID = 0L;
       super.clear();
       id_ = 0;
 
-      ownerId_ = 0;
+      creationDate_ = 0;
 
-      title_ = "";
+      description_ = "";
 
-      body_ = "";
+      location_ = "";
+
+      categories_ = "";
+
+      sellerId_ = 0;
+
+      picture_ = "";
+
+      price_ = 0;
 
       return this;
     }
@@ -463,9 +635,13 @@ private static final long serialVersionUID = 0L;
     public via.sdj3.sep_t3.protobuf.PostReadGrpcDto buildPartial() {
       via.sdj3.sep_t3.protobuf.PostReadGrpcDto result = new via.sdj3.sep_t3.protobuf.PostReadGrpcDto(this);
       result.id_ = id_;
-      result.ownerId_ = ownerId_;
-      result.title_ = title_;
-      result.body_ = body_;
+      result.creationDate_ = creationDate_;
+      result.description_ = description_;
+      result.location_ = location_;
+      result.categories_ = categories_;
+      result.sellerId_ = sellerId_;
+      result.picture_ = picture_;
+      result.price_ = price_;
       onBuilt();
       return result;
     }
@@ -517,16 +693,30 @@ private static final long serialVersionUID = 0L;
       if (other.getId() != 0) {
         setId(other.getId());
       }
-      if (other.getOwnerId() != 0) {
-        setOwnerId(other.getOwnerId());
+      if (other.getCreationDate() != 0) {
+        setCreationDate(other.getCreationDate());
       }
-      if (!other.getTitle().isEmpty()) {
-        title_ = other.title_;
+      if (!other.getDescription().isEmpty()) {
+        description_ = other.description_;
         onChanged();
       }
-      if (!other.getBody().isEmpty()) {
-        body_ = other.body_;
+      if (!other.getLocation().isEmpty()) {
+        location_ = other.location_;
         onChanged();
+      }
+      if (!other.getCategories().isEmpty()) {
+        categories_ = other.categories_;
+        onChanged();
+      }
+      if (other.getSellerId() != 0) {
+        setSellerId(other.getSellerId());
+      }
+      if (!other.getPicture().isEmpty()) {
+        picture_ = other.picture_;
+        onChanged();
+      }
+      if (other.getPrice() != 0) {
+        setPrice(other.getPrice());
       }
       this.mergeUnknownFields(other.unknownFields);
       onChanged();
@@ -588,185 +778,399 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private int ownerId_ ;
+    private int creationDate_ ;
     /**
-     * <code>int32 ownerId = 2;</code>
-     * @return The ownerId.
+     * <code>int32 creationDate = 2;</code>
+     * @return The creationDate.
      */
     @java.lang.Override
-    public int getOwnerId() {
-      return ownerId_;
+    public int getCreationDate() {
+      return creationDate_;
     }
     /**
-     * <code>int32 ownerId = 2;</code>
-     * @param value The ownerId to set.
+     * <code>int32 creationDate = 2;</code>
+     * @param value The creationDate to set.
      * @return This builder for chaining.
      */
-    public Builder setOwnerId(int value) {
+    public Builder setCreationDate(int value) {
       
-      ownerId_ = value;
+      creationDate_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>int32 ownerId = 2;</code>
+     * <code>int32 creationDate = 2;</code>
      * @return This builder for chaining.
      */
-    public Builder clearOwnerId() {
+    public Builder clearCreationDate() {
       
-      ownerId_ = 0;
+      creationDate_ = 0;
       onChanged();
       return this;
     }
 
-    private java.lang.Object title_ = "";
+    private java.lang.Object description_ = "";
     /**
-     * <code>string title = 3;</code>
-     * @return The title.
+     * <code>string description = 3;</code>
+     * @return The description.
      */
-    public java.lang.String getTitle() {
-      java.lang.Object ref = title_;
+    public java.lang.String getDescription() {
+      java.lang.Object ref = description_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        title_ = s;
+        description_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string title = 3;</code>
-     * @return The bytes for title.
+     * <code>string description = 3;</code>
+     * @return The bytes for description.
      */
     public com.google.protobuf.ByteString
-        getTitleBytes() {
-      java.lang.Object ref = title_;
+        getDescriptionBytes() {
+      java.lang.Object ref = description_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        title_ = b;
+        description_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string title = 3;</code>
-     * @param value The title to set.
+     * <code>string description = 3;</code>
+     * @param value The description to set.
      * @return This builder for chaining.
      */
-    public Builder setTitle(
+    public Builder setDescription(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      title_ = value;
+      description_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 3;</code>
+     * <code>string description = 3;</code>
      * @return This builder for chaining.
      */
-    public Builder clearTitle() {
+    public Builder clearDescription() {
       
-      title_ = getDefaultInstance().getTitle();
+      description_ = getDefaultInstance().getDescription();
       onChanged();
       return this;
     }
     /**
-     * <code>string title = 3;</code>
-     * @param value The bytes for title to set.
+     * <code>string description = 3;</code>
+     * @param value The bytes for description to set.
      * @return This builder for chaining.
      */
-    public Builder setTitleBytes(
+    public Builder setDescriptionBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      title_ = value;
+      description_ = value;
       onChanged();
       return this;
     }
 
-    private java.lang.Object body_ = "";
+    private java.lang.Object location_ = "";
     /**
-     * <code>string body = 4;</code>
-     * @return The body.
+     * <code>string location = 4;</code>
+     * @return The location.
      */
-    public java.lang.String getBody() {
-      java.lang.Object ref = body_;
+    public java.lang.String getLocation() {
+      java.lang.Object ref = location_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        body_ = s;
+        location_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string body = 4;</code>
-     * @return The bytes for body.
+     * <code>string location = 4;</code>
+     * @return The bytes for location.
      */
     public com.google.protobuf.ByteString
-        getBodyBytes() {
-      java.lang.Object ref = body_;
+        getLocationBytes() {
+      java.lang.Object ref = location_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        body_ = b;
+        location_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string body = 4;</code>
-     * @param value The body to set.
+     * <code>string location = 4;</code>
+     * @param value The location to set.
      * @return This builder for chaining.
      */
-    public Builder setBody(
+    public Builder setLocation(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      body_ = value;
+      location_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string body = 4;</code>
+     * <code>string location = 4;</code>
      * @return This builder for chaining.
      */
-    public Builder clearBody() {
+    public Builder clearLocation() {
       
-      body_ = getDefaultInstance().getBody();
+      location_ = getDefaultInstance().getLocation();
       onChanged();
       return this;
     }
     /**
-     * <code>string body = 4;</code>
-     * @param value The bytes for body to set.
+     * <code>string location = 4;</code>
+     * @param value The bytes for location to set.
      * @return This builder for chaining.
      */
-    public Builder setBodyBytes(
+    public Builder setLocationBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      body_ = value;
+      location_ = value;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object categories_ = "";
+    /**
+     * <code>string categories = 5;</code>
+     * @return The categories.
+     */
+    public java.lang.String getCategories() {
+      java.lang.Object ref = categories_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        categories_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string categories = 5;</code>
+     * @return The bytes for categories.
+     */
+    public com.google.protobuf.ByteString
+        getCategoriesBytes() {
+      java.lang.Object ref = categories_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        categories_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string categories = 5;</code>
+     * @param value The categories to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCategories(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      categories_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string categories = 5;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearCategories() {
+      
+      categories_ = getDefaultInstance().getCategories();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string categories = 5;</code>
+     * @param value The bytes for categories to set.
+     * @return This builder for chaining.
+     */
+    public Builder setCategoriesBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      categories_ = value;
+      onChanged();
+      return this;
+    }
+
+    private int sellerId_ ;
+    /**
+     * <code>int32 sellerId = 6;</code>
+     * @return The sellerId.
+     */
+    @java.lang.Override
+    public int getSellerId() {
+      return sellerId_;
+    }
+    /**
+     * <code>int32 sellerId = 6;</code>
+     * @param value The sellerId to set.
+     * @return This builder for chaining.
+     */
+    public Builder setSellerId(int value) {
+      
+      sellerId_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 sellerId = 6;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearSellerId() {
+      
+      sellerId_ = 0;
+      onChanged();
+      return this;
+    }
+
+    private java.lang.Object picture_ = "";
+    /**
+     * <code>string picture = 7;</code>
+     * @return The picture.
+     */
+    public java.lang.String getPicture() {
+      java.lang.Object ref = picture_;
+      if (!(ref instanceof java.lang.String)) {
+        com.google.protobuf.ByteString bs =
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        picture_ = s;
+        return s;
+      } else {
+        return (java.lang.String) ref;
+      }
+    }
+    /**
+     * <code>string picture = 7;</code>
+     * @return The bytes for picture.
+     */
+    public com.google.protobuf.ByteString
+        getPictureBytes() {
+      java.lang.Object ref = picture_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        picture_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    /**
+     * <code>string picture = 7;</code>
+     * @param value The picture to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPicture(
+        java.lang.String value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  
+      picture_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string picture = 7;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPicture() {
+      
+      picture_ = getDefaultInstance().getPicture();
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>string picture = 7;</code>
+     * @param value The bytes for picture to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPictureBytes(
+        com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+      
+      picture_ = value;
+      onChanged();
+      return this;
+    }
+
+    private int price_ ;
+    /**
+     * <code>int32 price = 8;</code>
+     * @return The price.
+     */
+    @java.lang.Override
+    public int getPrice() {
+      return price_;
+    }
+    /**
+     * <code>int32 price = 8;</code>
+     * @param value The price to set.
+     * @return This builder for chaining.
+     */
+    public Builder setPrice(int value) {
+      
+      price_ = value;
+      onChanged();
+      return this;
+    }
+    /**
+     * <code>int32 price = 8;</code>
+     * @return This builder for chaining.
+     */
+    public Builder clearPrice() {
+      
+      price_ = 0;
       onChanged();
       return this;
     }

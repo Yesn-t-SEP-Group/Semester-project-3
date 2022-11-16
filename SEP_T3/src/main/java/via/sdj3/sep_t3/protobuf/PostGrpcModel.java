@@ -25,11 +25,6 @@ public final class PostGrpcModel {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_PostReadGrpcDto_fieldAccessorTable;
   static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_PostUpdateGrpcDto_descriptor;
-  static final 
-    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_PostUpdateGrpcDto_fieldAccessorTable;
-  static final com.google.protobuf.Descriptors.Descriptor
     internal_static_AllPosts_descriptor;
   static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -53,21 +48,21 @@ public final class PostGrpcModel {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023PostGrpcModel.proto\"C\n\023PostCreationGrp" +
-      "cDto\022\017\n\007ownerId\030\001 \001(\005\022\r\n\005title\030\002 \001(\t\022\014\n\004" +
-      "body\030\003 \001(\t\"K\n\017PostReadGrpcDto\022\n\n\002id\030\001 \001(" +
-      "\005\022\017\n\007ownerId\030\002 \001(\005\022\r\n\005title\030\003 \001(\t\022\014\n\004bod" +
-      "y\030\004 \001(\t\"M\n\021PostUpdateGrpcDto\022\n\n\002id\030\001 \001(\005" +
-      "\022\017\n\007ownerId\030\002 \001(\005\022\r\n\005title\030\003 \001(\t\022\014\n\004body" +
-      "\030\004 \001(\t\"*\n\010AllPosts\022\036\n\004post\030\001 \003(\0132\020.PostR" +
-      "eadGrpcDto\"\007\n\005Empty\"!\n\016GenericMessage\022\017\n" +
-      "\007message\030\001 \001(\t2\313\001\n\013postService\022 \n\013getAll" +
-      "Posts\022\006.Empty\032\t.AllPosts\0224\n\ncreatePost\022\024" +
-      ".PostCreationGrpcDto\032\020.PostReadGrpcDto\0220" +
-      "\n\013getPostById\022\017.GenericMessage\032\020.PostRea" +
-      "dGrpcDto\0222\n\nupdatePost\022\022.PostUpdateGrpcD" +
-      "to\032\020.PostReadGrpcDtoB\034\n\030via.sdj3.sep_t3." +
-      "protobufP\001b\006proto3"
+      "\n\023PostGrpcModel.proto\"\202\001\n\023PostCreationGr" +
+      "pcDto\022\023\n\013description\030\001 \001(\t\022\020\n\010location\030\002" +
+      " \001(\t\022\022\n\ncategories\030\003 \001(\t\022\020\n\010sellerId\030\004 \001" +
+      "(\005\022\017\n\007picture\030\005 \001(\t\022\r\n\005price\030\006 \001(\005\"\240\001\n\017P" +
+      "ostReadGrpcDto\022\n\n\002id\030\001 \001(\005\022\024\n\014creationDa" +
+      "te\030\002 \001(\005\022\023\n\013description\030\003 \001(\t\022\020\n\010locatio" +
+      "n\030\004 \001(\t\022\022\n\ncategories\030\005 \001(\t\022\020\n\010sellerId\030" +
+      "\006 \001(\005\022\017\n\007picture\030\007 \001(\t\022\r\n\005price\030\010 \001(\005\"*\n" +
+      "\010AllPosts\022\036\n\004post\030\001 \003(\0132\020.PostReadGrpcDt" +
+      "o\"\007\n\005Empty\"!\n\016GenericMessage\022\017\n\007message\030" +
+      "\001 \001(\t2\227\001\n\013postService\022 \n\013getAllPosts\022\006.E" +
+      "mpty\032\t.AllPosts\0224\n\ncreatePost\022\024.PostCrea" +
+      "tionGrpcDto\032\020.PostReadGrpcDto\0220\n\013getPost" +
+      "ById\022\017.GenericMessage\032\020.PostReadGrpcDtoB" +
+      "\034\n\030via.sdj3.sep_t3.protobufP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -78,33 +73,27 @@ public final class PostGrpcModel {
     internal_static_PostCreationGrpcDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PostCreationGrpcDto_descriptor,
-        new java.lang.String[] { "OwnerId", "Title", "Body", });
+        new java.lang.String[] { "Description", "Location", "Categories", "SellerId", "Picture", "Price", });
     internal_static_PostReadGrpcDto_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_PostReadGrpcDto_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_PostReadGrpcDto_descriptor,
-        new java.lang.String[] { "Id", "OwnerId", "Title", "Body", });
-    internal_static_PostUpdateGrpcDto_descriptor =
-      getDescriptor().getMessageTypes().get(2);
-    internal_static_PostUpdateGrpcDto_fieldAccessorTable = new
-      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_PostUpdateGrpcDto_descriptor,
-        new java.lang.String[] { "Id", "OwnerId", "Title", "Body", });
+        new java.lang.String[] { "Id", "CreationDate", "Description", "Location", "Categories", "SellerId", "Picture", "Price", });
     internal_static_AllPosts_descriptor =
-      getDescriptor().getMessageTypes().get(3);
+      getDescriptor().getMessageTypes().get(2);
     internal_static_AllPosts_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_AllPosts_descriptor,
         new java.lang.String[] { "Post", });
     internal_static_Empty_descriptor =
-      getDescriptor().getMessageTypes().get(4);
+      getDescriptor().getMessageTypes().get(3);
     internal_static_Empty_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_Empty_descriptor,
         new java.lang.String[] { });
     internal_static_GenericMessage_descriptor =
-      getDescriptor().getMessageTypes().get(5);
+      getDescriptor().getMessageTypes().get(4);
     internal_static_GenericMessage_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_GenericMessage_descriptor,

@@ -107,37 +107,6 @@ public final class postServiceGrpc {
     return getGetPostByIdMethod;
   }
 
-  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto,
-      via.sdj3.sep_t3.protobuf.PostReadGrpcDto> getUpdatePostMethod;
-
-  @io.grpc.stub.annotations.RpcMethod(
-      fullMethodName = SERVICE_NAME + '/' + "updatePost",
-      requestType = via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto.class,
-      responseType = via.sdj3.sep_t3.protobuf.PostReadGrpcDto.class,
-      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
-  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto,
-      via.sdj3.sep_t3.protobuf.PostReadGrpcDto> getUpdatePostMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto, via.sdj3.sep_t3.protobuf.PostReadGrpcDto> getUpdatePostMethod;
-    if ((getUpdatePostMethod = postServiceGrpc.getUpdatePostMethod) == null) {
-      synchronized (postServiceGrpc.class) {
-        if ((getUpdatePostMethod = postServiceGrpc.getUpdatePostMethod) == null) {
-          postServiceGrpc.getUpdatePostMethod = getUpdatePostMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto, via.sdj3.sep_t3.protobuf.PostReadGrpcDto>newBuilder()
-              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
-              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "updatePost"))
-              .setSampledToLocalTracing(true)
-              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto.getDefaultInstance()))
-              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.PostReadGrpcDto.getDefaultInstance()))
-              .setSchemaDescriptor(new postServiceMethodDescriptorSupplier("updatePost"))
-              .build();
-        }
-      }
-    }
-    return getUpdatePostMethod;
-  }
-
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -207,13 +176,6 @@ public final class postServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getGetPostByIdMethod(), responseObserver);
     }
 
-    /**
-     */
-    public void updatePost(via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.PostReadGrpcDto> responseObserver) {
-      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getUpdatePostMethod(), responseObserver);
-    }
-
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -237,13 +199,6 @@ public final class postServiceGrpc {
                 via.sdj3.sep_t3.protobuf.GenericMessage,
                 via.sdj3.sep_t3.protobuf.PostReadGrpcDto>(
                   this, METHODID_GET_POST_BY_ID)))
-          .addMethod(
-            getUpdatePostMethod(),
-            io.grpc.stub.ServerCalls.asyncUnaryCall(
-              new MethodHandlers<
-                via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto,
-                via.sdj3.sep_t3.protobuf.PostReadGrpcDto>(
-                  this, METHODID_UPDATE_POST)))
           .build();
     }
   }
@@ -285,14 +240,6 @@ public final class postServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getGetPostByIdMethod(), getCallOptions()), request, responseObserver);
     }
-
-    /**
-     */
-    public void updatePost(via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.PostReadGrpcDto> responseObserver) {
-      io.grpc.stub.ClientCalls.asyncUnaryCall(
-          getChannel().newCall(getUpdatePostMethod(), getCallOptions()), request, responseObserver);
-    }
   }
 
   /**
@@ -328,13 +275,6 @@ public final class postServiceGrpc {
     public via.sdj3.sep_t3.protobuf.PostReadGrpcDto getPostById(via.sdj3.sep_t3.protobuf.GenericMessage request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getGetPostByIdMethod(), getCallOptions(), request);
-    }
-
-    /**
-     */
-    public via.sdj3.sep_t3.protobuf.PostReadGrpcDto updatePost(via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto request) {
-      return io.grpc.stub.ClientCalls.blockingUnaryCall(
-          getChannel(), getUpdatePostMethod(), getCallOptions(), request);
     }
   }
 
@@ -375,20 +315,11 @@ public final class postServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getGetPostByIdMethod(), getCallOptions()), request);
     }
-
-    /**
-     */
-    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.PostReadGrpcDto> updatePost(
-        via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto request) {
-      return io.grpc.stub.ClientCalls.futureUnaryCall(
-          getChannel().newCall(getUpdatePostMethod(), getCallOptions()), request);
-    }
   }
 
   private static final int METHODID_GET_ALL_POSTS = 0;
   private static final int METHODID_CREATE_POST = 1;
   private static final int METHODID_GET_POST_BY_ID = 2;
-  private static final int METHODID_UPDATE_POST = 3;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -417,10 +348,6 @@ public final class postServiceGrpc {
           break;
         case METHODID_GET_POST_BY_ID:
           serviceImpl.getPostById((via.sdj3.sep_t3.protobuf.GenericMessage) request,
-              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.PostReadGrpcDto>) responseObserver);
-          break;
-        case METHODID_UPDATE_POST:
-          serviceImpl.updatePost((via.sdj3.sep_t3.protobuf.PostUpdateGrpcDto) request,
               (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.PostReadGrpcDto>) responseObserver);
           break;
         default:
@@ -487,7 +414,6 @@ public final class postServiceGrpc {
               .addMethod(getGetAllPostsMethod())
               .addMethod(getCreatePostMethod())
               .addMethod(getGetPostByIdMethod())
-              .addMethod(getUpdatePostMethod())
               .build();
         }
       }

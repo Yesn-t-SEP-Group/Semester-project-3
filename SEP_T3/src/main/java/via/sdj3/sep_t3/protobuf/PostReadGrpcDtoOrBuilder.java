@@ -14,32 +14,68 @@ public interface PostReadGrpcDtoOrBuilder extends
   int getId();
 
   /**
-   * <code>int32 ownerId = 2;</code>
-   * @return The ownerId.
+   * <code>int32 creationDate = 2;</code>
+   * @return The creationDate.
    */
-  int getOwnerId();
+  int getCreationDate();
 
   /**
-   * <code>string title = 3;</code>
-   * @return The title.
+   * <code>string description = 3;</code>
+   * @return The description.
    */
-  java.lang.String getTitle();
+  java.lang.String getDescription();
   /**
-   * <code>string title = 3;</code>
-   * @return The bytes for title.
+   * <code>string description = 3;</code>
+   * @return The bytes for description.
    */
   com.google.protobuf.ByteString
-      getTitleBytes();
+      getDescriptionBytes();
 
   /**
-   * <code>string body = 4;</code>
-   * @return The body.
+   * <code>string location = 4;</code>
+   * @return The location.
    */
-  java.lang.String getBody();
+  java.lang.String getLocation();
   /**
-   * <code>string body = 4;</code>
-   * @return The bytes for body.
+   * <code>string location = 4;</code>
+   * @return The bytes for location.
    */
   com.google.protobuf.ByteString
-      getBodyBytes();
+      getLocationBytes();
+
+  /**
+   * <code>string categories = 5;</code>
+   * @return The categories.
+   */
+  java.lang.String getCategories();
+  /**
+   * <code>string categories = 5;</code>
+   * @return The bytes for categories.
+   */
+  com.google.protobuf.ByteString
+      getCategoriesBytes();
+
+  /**
+   * <code>int32 sellerId = 6;</code>
+   * @return The sellerId.
+   */
+  int getSellerId();
+
+  /**
+   * <code>string picture = 7;</code>
+   * @return The picture.
+   */
+  java.lang.String getPicture();
+  /**
+   * <code>string picture = 7;</code>
+   * @return The bytes for picture.
+   */
+  com.google.protobuf.ByteString
+      getPictureBytes();
+
+  /**
+   * <code>int32 price = 8;</code>
+   * @return The price.
+   */
+  int getPrice();
 }
