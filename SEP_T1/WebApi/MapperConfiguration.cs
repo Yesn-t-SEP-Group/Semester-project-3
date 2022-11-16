@@ -10,7 +10,7 @@ namespace WebAPI
         {
             // compatibility for fileDTO
             CreateMap<User, UserReadDto>().ReverseMap();
-            CreateMap<User, UserCreationDto>();
+            CreateMap<UserCreationDto, User>();
 
             CreateMap<UserCreationGrpcDto, UserCreationDto>();
             CreateMap<UserReadGrpcDTO, UserReadDto>()
