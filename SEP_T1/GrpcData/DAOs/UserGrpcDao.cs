@@ -35,24 +35,43 @@ public class UserGrpcDao : IUserDao
         return this._mapper.Map<UserReadDto>(result);
     }
 
-    public Task<IEnumerable<UserReadDto>> GetAllAsync()
+    public async Task<IEnumerable<UserReadDto>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreateServiceClient();
+
+        ;
+        var result = await client.getAllUsersAsync(new Empty());
+        List<UserReadDto> list=new List<UserReadDto>();
+        foreach (var user in result)
+        {
+            var temp = _mapper.Map<UserReadDto>(user);
+            list.Add(temp);
+        }
+
+        return list;
     }
 
-    public Task<UserReadDto?> GetByIdAsync(int id)
+    public async Task<UserReadDto?>GetByIdAsync(int id)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreateServiceClient();
+        var result = await client.getUserByIdAsync(new GenericMessage{Message = id.ToString()});
+
+        return this._mapper.Map<UserReadDto>(result);
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
-    }
+        var client = _grpcService.CreateServiceClient();
+        UserReadGrpcDTO result1 = await client.getUserByIdAsync(new GenericMessage{Message = id.ToString()});
+        
 
-    public Task<UserReadDto?> LoginAsync(UserLoginDto dto)
+        public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreateServiceClient();
+        var result = await client.validateLogin(dto)
+
+        return this._mapper.Map<UserReadDto>(result);
+        
     }
 
 
