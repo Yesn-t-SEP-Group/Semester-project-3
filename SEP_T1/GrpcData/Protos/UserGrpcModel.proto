@@ -10,7 +10,7 @@ message UserCreationGrpcDto
   string password = 2;
   string role=3;
   string email = 4;
-  string fullName=5;
+  string name=5;
   string address = 6;
   string phoneNumber = 7;
 }
@@ -24,7 +24,7 @@ message UserReadGrpcDTO
   int32 id=1;
   string username=2;
   string role=3;
-  string fullName=4;
+  string name=4;
   string email=5;
   string phoneNumber=6;
   string address=7;
@@ -53,6 +53,6 @@ service sepService
   rpc getAllUsers(Empty) returns (AllUsers);
   rpc createUser(UserCreationGrpcDto) returns(UserReadGrpcDTO);
   rpc getUserById(GenericMessage)returns(UserReadGrpcDTO);
-  rpc validateLogin(LoginCredentials) returns(GenericMessage);
+  rpc validateLogin(LoginCredentials) returns(UserReadGrpcDTO);
   rpc deleteById(GenericMessage)returns(GenericMessage);
 }

@@ -42,7 +42,7 @@ public class UserGrpcDao : IUserDao
         ;
         var result = await client.getAllUsersAsync(new Empty());
         List<UserReadDto> list=new List<UserReadDto>();
-        foreach (var user in result)
+        foreach (var user in result.Users)
         {
             var temp = _mapper.Map<UserReadDto>(user);
             list.Add(temp);
@@ -62,15 +62,28 @@ public class UserGrpcDao : IUserDao
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreateServiceClient();
-        UserReadGrpcDTO result1 = await client.getUserByIdAsync(new GenericMessage{Message = id.ToString()});
+        UserReadGrpcDTO result = await client.getUserByIdAsync(new GenericMessage { Message = id.ToString() });
         
 
-        public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)
+    }
+
+    public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)
     {
         var client = _grpcService.CreateServiceClient();
-        var result = await client.validateLogin(dto)
+        LoginCredentials creds = new LoginCredentials();
+        creds.Username = dto.Username;
+        creds.Password = dto.Password;
+        var result = await client.validateLoginAsync(creds);
 
-        return this._mapper.Map<UserReadDto>(result);
+        if (result != null)
+        {
+            return this._mapper.Map<UserReadDto>(result);    
+        }
+        else
+        {
+            throw new NullReferenceException();
+        }
+        
         
     }
 
