@@ -65,13 +65,14 @@ public final class UserGrpcModel {
       "\030\n \001(\005\"+\n\010AllUsers\022\037\n\005users\030\001 \003(\0132\020.User" +
       "ReadGrpcDTO\"6\n\020LoginCredentials\022\020\n\010usern" +
       "ame\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"!\n\016GenericMe" +
-      "ssage\022\017\n\007message\030\001 \001(\t2\314\001\n\nsepService\022 \n" +
+      "ssage\022\017\n\007message\030\001 \001(\t2\374\001\n\nsepService\022 \n" +
       "\013getAllUsers\022\006.Empty\032\t.AllUsers\0224\n\ncreat" +
       "eUser\022\024.UserCreationGrpcDto\032\020.UserReadGr" +
       "pcDTO\0220\n\013getUserById\022\017.GenericMessage\032\020." +
       "UserReadGrpcDTO\0224\n\rvalidateLogin\022\021.Login" +
-      "Credentials\032\020.UserReadGrpcDTOB\034\n\030via.sdj" +
-      "3.sep_t3.protobufP\001b\006proto3"
+      "Credentials\032\020.UserReadGrpcDTO\022.\n\ndeleteB" +
+      "yId\022\017.GenericMessage\032\017.GenericMessageB\034\n" +
+      "\030via.sdj3.sep_t3.protobufP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

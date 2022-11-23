@@ -138,6 +138,37 @@ public final class sepServiceGrpc {
     return getValidateLoginMethod;
   }
 
+  private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
+      via.sdj3.sep_t3.protobuf.GenericMessage> getDeleteByIdMethod;
+
+  @io.grpc.stub.annotations.RpcMethod(
+      fullMethodName = SERVICE_NAME + '/' + "deleteById",
+      requestType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
+      responseType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
+      methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
+  public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage,
+      via.sdj3.sep_t3.protobuf.GenericMessage> getDeleteByIdMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.GenericMessage> getDeleteByIdMethod;
+    if ((getDeleteByIdMethod = sepServiceGrpc.getDeleteByIdMethod) == null) {
+      synchronized (sepServiceGrpc.class) {
+        if ((getDeleteByIdMethod = sepServiceGrpc.getDeleteByIdMethod) == null) {
+          sepServiceGrpc.getDeleteByIdMethod = getDeleteByIdMethod =
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.GenericMessage, via.sdj3.sep_t3.protobuf.GenericMessage>newBuilder()
+              .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
+              .setFullMethodName(generateFullMethodName(SERVICE_NAME, "deleteById"))
+              .setSampledToLocalTracing(true)
+              .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
+              .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
+                  via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
+              .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("deleteById"))
+              .build();
+        }
+      }
+    }
+    return getDeleteByIdMethod;
+  }
+
   /**
    * Creates a new async stub that supports all call types for the service
    */
@@ -214,6 +245,13 @@ public final class sepServiceGrpc {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateLoginMethod(), responseObserver);
     }
 
+    /**
+     */
+    public void deleteById(via.sdj3.sep_t3.protobuf.GenericMessage request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+      io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getDeleteByIdMethod(), responseObserver);
+    }
+
     @java.lang.Override public final io.grpc.ServerServiceDefinition bindService() {
       return io.grpc.ServerServiceDefinition.builder(getServiceDescriptor())
           .addMethod(
@@ -244,6 +282,13 @@ public final class sepServiceGrpc {
                 via.sdj3.sep_t3.protobuf.LoginCredentials,
                 via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>(
                   this, METHODID_VALIDATE_LOGIN)))
+          .addMethod(
+            getDeleteByIdMethod(),
+            io.grpc.stub.ServerCalls.asyncUnaryCall(
+              new MethodHandlers<
+                via.sdj3.sep_t3.protobuf.GenericMessage,
+                via.sdj3.sep_t3.protobuf.GenericMessage>(
+                  this, METHODID_DELETE_BY_ID)))
           .build();
     }
   }
@@ -293,6 +338,14 @@ public final class sepServiceGrpc {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request, responseObserver);
     }
+
+    /**
+     */
+    public void deleteById(via.sdj3.sep_t3.protobuf.GenericMessage request,
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+      io.grpc.stub.ClientCalls.asyncUnaryCall(
+          getChannel().newCall(getDeleteByIdMethod(), getCallOptions()), request, responseObserver);
+    }
   }
 
   /**
@@ -335,6 +388,13 @@ public final class sepServiceGrpc {
     public via.sdj3.sep_t3.protobuf.UserReadGrpcDTO validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateLoginMethod(), getCallOptions(), request);
+    }
+
+    /**
+     */
+    public via.sdj3.sep_t3.protobuf.GenericMessage deleteById(via.sdj3.sep_t3.protobuf.GenericMessage request) {
+      return io.grpc.stub.ClientCalls.blockingUnaryCall(
+          getChannel(), getDeleteByIdMethod(), getCallOptions(), request);
     }
   }
 
@@ -383,12 +443,21 @@ public final class sepServiceGrpc {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request);
     }
+
+    /**
+     */
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.GenericMessage> deleteById(
+        via.sdj3.sep_t3.protobuf.GenericMessage request) {
+      return io.grpc.stub.ClientCalls.futureUnaryCall(
+          getChannel().newCall(getDeleteByIdMethod(), getCallOptions()), request);
+    }
   }
 
   private static final int METHODID_GET_ALL_USERS = 0;
   private static final int METHODID_CREATE_USER = 1;
   private static final int METHODID_GET_USER_BY_ID = 2;
   private static final int METHODID_VALIDATE_LOGIN = 3;
+  private static final int METHODID_DELETE_BY_ID = 4;
 
   private static final class MethodHandlers<Req, Resp> implements
       io.grpc.stub.ServerCalls.UnaryMethod<Req, Resp>,
@@ -422,6 +491,10 @@ public final class sepServiceGrpc {
         case METHODID_VALIDATE_LOGIN:
           serviceImpl.validateLogin((via.sdj3.sep_t3.protobuf.LoginCredentials) request,
               (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>) responseObserver);
+          break;
+        case METHODID_DELETE_BY_ID:
+          serviceImpl.deleteById((via.sdj3.sep_t3.protobuf.GenericMessage) request,
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage>) responseObserver);
           break;
         default:
           throw new AssertionError();
@@ -488,6 +561,7 @@ public final class sepServiceGrpc {
               .addMethod(getCreateUserMethod())
               .addMethod(getGetUserByIdMethod())
               .addMethod(getValidateLoginMethod())
+              .addMethod(getDeleteByIdMethod())
               .build();
         }
       }

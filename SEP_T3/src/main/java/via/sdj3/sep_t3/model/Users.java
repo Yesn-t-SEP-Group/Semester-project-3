@@ -84,6 +84,7 @@ public class Users
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setAddress(address)
+                .setRole(role)
                 .setRegistrationDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .setLastSeenDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .build();

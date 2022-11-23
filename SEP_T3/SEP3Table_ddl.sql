@@ -53,7 +53,7 @@ CREATE TABLE Posts
 );
 
 INSERT INTO users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
-VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'admin');
+VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'Admin');
 
 
 SELECT *
