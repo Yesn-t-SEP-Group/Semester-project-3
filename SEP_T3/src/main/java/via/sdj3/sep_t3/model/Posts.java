@@ -5,9 +5,12 @@ import org.hibernate.Hibernate;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
+import via.sdj3.sep_t3.protobuf.PostReadGrpcDto;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 
 @Entity(name ="posts")
@@ -50,6 +53,20 @@ public class Posts
 
     @Column(name = "price", nullable = false)
     private Integer price;
+
+    public PostReadGrpcDto convertToPostReadGrpcDto()
+    {
+        return PostReadGrpcDto.newBuilder()
+                .setId(id)
+                .setCreationDate((int) creationDate.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setDescription(description)
+                .setLocation(location)
+                .setCategories(category.toString())
+                .setSellerId(sellerid.getId())
+                .setPicture(pictureUrl)
+                .setPrice(price)
+                .build();
+    }
 
     @Override
     public boolean equals(Object o)

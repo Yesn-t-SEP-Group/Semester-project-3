@@ -66,12 +66,22 @@ public class PostLogic : IPostLogic
                 throw new Exception($"User with id {dto.OwnerId} was not found.");
             }
         }
-        /*
-                if (dto.IsCompleted != null && existing.IsCompleted && !(bool)dto.IsCompleted)
-                {
-                    throw new Exception("Cannot un-complete a completed Todo");
-                }
-                */
+
+
+        int userInt =  existing.OwnerId;
+        string titletoUse = dto.Title ?? existing.Title;
+        string bodyToUse = dto.Body ?? existing.Body;
+        
+        Post updated = new()
+        {
+            OwnerId = userInt,
+            Title = titletoUse,
+            Body = bodyToUse,
+            Id = existing.Id
+        };
+
+        ValidateTodo(updated);
+
 
         /*
         User userToUse = user ?? existing.Owner;
@@ -85,9 +95,11 @@ public class PostLogic : IPostLogic
             Id = existing.Id,
         };
         */
-        throw new ApplicationException("This needs to be updated...");
-        Post updated = new Post();
-        ValidateTodo(updated);
+        
+        
+       // throw new ApplicationException("This needs to be updated...");
+       // Post updated = new Post();
+       // ValidateTodo(updated);
 
         await _postDao.UpdateAsync(updated);
     }

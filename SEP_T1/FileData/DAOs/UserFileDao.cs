@@ -36,7 +36,7 @@ public class UserFileDao : IUserDao
             context.Users.Add(u);
             context.SaveChanges();
 
-            return this._mapper.Map<UserReadDto>(user);
+            return this._mapper.Map<UserReadDto>(u);
         });
     }
 
