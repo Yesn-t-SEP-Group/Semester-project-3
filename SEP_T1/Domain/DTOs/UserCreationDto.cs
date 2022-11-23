@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace Domain.DTOs;
@@ -21,7 +22,8 @@ public class UserCreationDto
     public string ConfirmPassword { get; set; }
     */
     
-    [Required(ErrorMessage = "Must select a role")]
+ //   [Required(ErrorMessage = "Must select a role")]
+    [DefaultValue("User")]
     public string Role { get; set; }
     
     [Required(ErrorMessage = "Enter full name")]

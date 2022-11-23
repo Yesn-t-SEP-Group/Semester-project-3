@@ -39,7 +39,6 @@ public class AuthController : ControllerBase
             new Claim("PhoneNumber",user.PhoneNumber),
             new Claim("Address",user.Address),
             new Claim("Rating",user.Rating.ToString()),
-            new Claim("Password",user.Password),
         };
         return claims.ToList();
     }

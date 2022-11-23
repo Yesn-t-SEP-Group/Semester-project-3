@@ -1,9 +1,12 @@
-﻿using Application.DaoInterfaces;
+﻿using System.Diagnostics;
+using Application.DaoInterfaces;
+using Application.Logic;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
 using Grpc.Net.Client;
 using GrpcData.DI;
+using Serilog;
 
 namespace GrpcData.DAOs;
 
@@ -69,8 +72,8 @@ public class UserGrpcDao : IUserDao
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreateServiceClient();
-        UserReadGrpcDTO result = await client.getUserByIdAsync(new GenericMessage { Message = id.ToString() });
-        
+
+        GenericMessage result = await client.deleteByIdAsync(new GenericMessage { Message = id.ToString() });
 
     }
 
