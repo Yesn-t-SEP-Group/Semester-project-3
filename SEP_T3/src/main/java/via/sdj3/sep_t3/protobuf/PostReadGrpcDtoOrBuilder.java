@@ -44,16 +44,10 @@ public interface PostReadGrpcDtoOrBuilder extends
       getLocationBytes();
 
   /**
-   * <code>string categories = 5;</code>
+   * <code>int32 categories = 5;</code>
    * @return The categories.
    */
-  java.lang.String getCategories();
-  /**
-   * <code>string categories = 5;</code>
-   * @return The bytes for categories.
-   */
-  com.google.protobuf.ByteString
-      getCategoriesBytes();
+  int getCategories();
 
   /**
    * <code>int32 sellerId = 6;</code>

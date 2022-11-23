@@ -4,11 +4,13 @@ import com.google.rpc.Code;
 import com.google.rpc.Status;
 import io.grpc.protobuf.StatusProto;
 import io.grpc.stub.StreamObserver;
+import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.model.Posts;
 import via.sdj3.sep_t3.model.Users;
 import via.sdj3.sep_t3.protobuf.*;
+import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
@@ -16,6 +18,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @GRpcService
 public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
 {
@@ -24,15 +27,17 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     @Autowired
     private UserRegistry userRegistry;
 
+    @Autowired
+    private CategoriesRegistry categoriesRegistry;
+
     @Override
     public void getAllPosts(Empty request, StreamObserver<AllPosts> responseObserver)
     {
-        System.out.println("new request for getting all posts");
+        log.info("new request for getting all posts");
         List<PostReadGrpcDto> allPosts =new ArrayList<>();
 
         for (Posts post: postRegistry.findAll())
         {
-            System.out.println(post);
             var temp=post.convertToPostReadGrpcDto();
             allPosts.add(temp);
         }
@@ -44,23 +49,28 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     @Override
     public void createPost(PostCreationGrpcDto request, StreamObserver<PostReadGrpcDto> responseObserver)
     {
-        System.out.println("new request for creating a new post with credentials "+request.toString());
+        log.info("new request for creating a new post with credentials \n"+request.toString());
         var newPost=new Posts();
         newPost.setId(request.getSellerId());
         newPost.setCreationDate(LocalDate.now());
         newPost.setDescription(request.getDescription());
         newPost.setLocation(request.getLocation());
-        newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
-        newPost.setSellerid(userRegistry.findById(request.getSellerId()).get());
+
         newPost.setPictureUrl(request.getPicture());
         newPost.setPrice(request.getPrice());
+        //todo blazor client chooses this from a dropdown list
+        //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
+        newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
+        newPost.setSellerid(userRegistry.findById(request.getSellerId()).get());
             postRegistry.save(newPost);
-            System.out.println("saved new user with username: "+request.toString());
+            log.info("saved post: "+newPost);
             responseObserver.onNext(newPost.convertToPostReadGrpcDto());
+            responseObserver.onCompleted();
         }catch (Exception e)
         {
+            log.error(e.getMessage());
             var status=generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
@@ -69,7 +79,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     @Override
     public void getPostById(GenericMessage request, StreamObserver<PostReadGrpcDto> responseObserver)
     {
-        System.out.println("new request for getting post by id:"+ request.getMessage());
+        log.info("new request for getting post by id: "+ request.getMessage());
         var temp= postRegistry.findById(Integer.parseInt(request.getMessage()));
         if (temp.isPresent())
         {

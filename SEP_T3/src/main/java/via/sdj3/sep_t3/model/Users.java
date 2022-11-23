@@ -8,6 +8,7 @@ import via.sdj3.sep_t3.protobuf.UserReadGrpcDTO;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
@@ -43,10 +44,10 @@ public class Users
     private String address;
 
     @Column(name = "registered_on")
-    private LocalDate registeredOn;
+    private LocalDateTime registeredOn;
 
     @Column(name = "last_seen")
-    private LocalDate lastSeen;
+    private LocalDateTime lastSeen;
 
     @Column(name = "role", length = 20)
     private String role;
@@ -85,8 +86,8 @@ public class Users
                 .setPhoneNumber(phoneNumber)
                 .setAddress(address)
                 .setRole(role)
-                .setRegistrationDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
-                .setLastSeenDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setRegistrationDate((int) registeredOn.toEpochSecond(ZoneOffset.UTC))
+                .setLastSeenDate((int) lastSeen.toEpochSecond(ZoneOffset.UTC))
                 .build();
     }
 

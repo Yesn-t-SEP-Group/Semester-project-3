@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
+using GrpcData.DAOs;
 
 namespace WebAPI
 {
@@ -17,6 +18,10 @@ namespace WebAPI
             CreateMap<UserReadGrpcDTO, UserReadDto>()
                 .ForMember(x => x.LastSeenDateTime, y => y.MapFrom(src => DateTime.UnixEpoch.AddSeconds(src.LastSeenDate)))
                 .ForMember(x => x.RegistrationDateTime, y => y.MapFrom(src => DateTime.UnixEpoch.AddSeconds(src.RegistrationDate)));
+
+
+            CreateMap<PostCreationDto, PostGrpcDao>();
+            CreateMap<PostReadGrpcDto, Post>();
         }
     }
 }

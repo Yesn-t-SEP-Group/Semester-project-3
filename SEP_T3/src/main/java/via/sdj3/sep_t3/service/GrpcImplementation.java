@@ -14,6 +14,7 @@ import via.sdj3.sep_t3.repository.UserRegistry;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,8 +53,8 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         newUser.setAddress(request.getAddress());
         newUser.setPhoneNumber(request.getPhoneNumber());
         newUser.setRole(request.getRole());
-        newUser.setRegisteredOn(LocalDate.now());
-        newUser.setLastSeen(LocalDate.now());
+        newUser.setRegisteredOn(LocalDateTime.now());
+        newUser.setLastSeen(LocalDateTime.now());
         try
         {
             userRegistry.save(newUser);
@@ -95,12 +96,13 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
 
         if (user.isPresent())
         {
-            userRegistry.updateLastSeenById(LocalDate.now(),user.get().getId());
+            userRegistry.updateLastSeenById(LocalDateTime.now(),user.get().getId());
             responseObserver.onNext(user.get().convertToUserReadGrpcDto());
             responseObserver.onCompleted();
             log.info("Login successful!");
             return;
         }
+        log.error("Username or password wrong for user: "+request.getUsername());
         var status=generateCustomError("Username or password wrong for user: "+request.getUsername(),Code.INVALID_ARGUMENT);
         responseObserver.onError(StatusProto.toStatusRuntimeException(status));
     }

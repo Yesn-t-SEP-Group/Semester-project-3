@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import via.sdj3.sep_t3.model.Users;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +20,9 @@ public interface UserRegistry extends CrudRepository<Users,Integer>
     @Transactional
     @Modifying
     @Query("update users u set u.lastSeen = ?1 where u.id = ?2")
-    int updateLastSeenById(LocalDate lastSeen, Integer id);
+    int updateLastSeenById(LocalDateTime lastSeen, Integer id);
+
+
 
 
 

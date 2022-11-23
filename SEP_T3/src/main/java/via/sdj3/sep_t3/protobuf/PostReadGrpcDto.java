@@ -18,7 +18,6 @@ private static final long serialVersionUID = 0L;
   private PostReadGrpcDto() {
     description_ = "";
     location_ = "";
-    categories_ = "";
     picture_ = "";
   }
 
@@ -74,10 +73,9 @@ private static final long serialVersionUID = 0L;
             location_ = s;
             break;
           }
-          case 42: {
-            java.lang.String s = input.readStringRequireUtf8();
+          case 40: {
 
-            categories_ = s;
+            categories_ = input.readInt32();
             break;
           }
           case 48: {
@@ -229,41 +227,14 @@ private static final long serialVersionUID = 0L;
   }
 
   public static final int CATEGORIES_FIELD_NUMBER = 5;
-  private volatile java.lang.Object categories_;
+  private int categories_;
   /**
-   * <code>string categories = 5;</code>
+   * <code>int32 categories = 5;</code>
    * @return The categories.
    */
   @java.lang.Override
-  public java.lang.String getCategories() {
-    java.lang.Object ref = categories_;
-    if (ref instanceof java.lang.String) {
-      return (java.lang.String) ref;
-    } else {
-      com.google.protobuf.ByteString bs = 
-          (com.google.protobuf.ByteString) ref;
-      java.lang.String s = bs.toStringUtf8();
-      categories_ = s;
-      return s;
-    }
-  }
-  /**
-   * <code>string categories = 5;</code>
-   * @return The bytes for categories.
-   */
-  @java.lang.Override
-  public com.google.protobuf.ByteString
-      getCategoriesBytes() {
-    java.lang.Object ref = categories_;
-    if (ref instanceof java.lang.String) {
-      com.google.protobuf.ByteString b = 
-          com.google.protobuf.ByteString.copyFromUtf8(
-              (java.lang.String) ref);
-      categories_ = b;
-      return b;
-    } else {
-      return (com.google.protobuf.ByteString) ref;
-    }
+  public int getCategories() {
+    return categories_;
   }
 
   public static final int SELLERID_FIELD_NUMBER = 6;
@@ -352,8 +323,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, location_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(categories_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, categories_);
+    if (categories_ != 0) {
+      output.writeInt32(5, categories_);
     }
     if (sellerId_ != 0) {
       output.writeInt32(6, sellerId_);
@@ -387,8 +358,9 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(location_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, location_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(categories_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, categories_);
+    if (categories_ != 0) {
+      size += com.google.protobuf.CodedOutputStream
+        .computeInt32Size(5, categories_);
     }
     if (sellerId_ != 0) {
       size += com.google.protobuf.CodedOutputStream
@@ -424,8 +396,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getDescription())) return false;
     if (!getLocation()
         .equals(other.getLocation())) return false;
-    if (!getCategories()
-        .equals(other.getCategories())) return false;
+    if (getCategories()
+        != other.getCategories()) return false;
     if (getSellerId()
         != other.getSellerId()) return false;
     if (!getPicture()
@@ -452,7 +424,7 @@ private static final long serialVersionUID = 0L;
     hash = (37 * hash) + LOCATION_FIELD_NUMBER;
     hash = (53 * hash) + getLocation().hashCode();
     hash = (37 * hash) + CATEGORIES_FIELD_NUMBER;
-    hash = (53 * hash) + getCategories().hashCode();
+    hash = (53 * hash) + getCategories();
     hash = (37 * hash) + SELLERID_FIELD_NUMBER;
     hash = (53 * hash) + getSellerId();
     hash = (37 * hash) + PICTURE_FIELD_NUMBER;
@@ -600,7 +572,7 @@ private static final long serialVersionUID = 0L;
 
       location_ = "";
 
-      categories_ = "";
+      categories_ = 0;
 
       sellerId_ = 0;
 
@@ -704,9 +676,8 @@ private static final long serialVersionUID = 0L;
         location_ = other.location_;
         onChanged();
       }
-      if (!other.getCategories().isEmpty()) {
-        categories_ = other.categories_;
-        onChanged();
+      if (other.getCategories() != 0) {
+        setCategories(other.getCategories());
       }
       if (other.getSellerId() != 0) {
         setSellerId(other.getSellerId());
@@ -961,78 +932,33 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object categories_ = "";
+    private int categories_ ;
     /**
-     * <code>string categories = 5;</code>
+     * <code>int32 categories = 5;</code>
      * @return The categories.
      */
-    public java.lang.String getCategories() {
-      java.lang.Object ref = categories_;
-      if (!(ref instanceof java.lang.String)) {
-        com.google.protobuf.ByteString bs =
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        categories_ = s;
-        return s;
-      } else {
-        return (java.lang.String) ref;
-      }
+    @java.lang.Override
+    public int getCategories() {
+      return categories_;
     }
     /**
-     * <code>string categories = 5;</code>
-     * @return The bytes for categories.
-     */
-    public com.google.protobuf.ByteString
-        getCategoriesBytes() {
-      java.lang.Object ref = categories_;
-      if (ref instanceof String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        categories_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
-    }
-    /**
-     * <code>string categories = 5;</code>
+     * <code>int32 categories = 5;</code>
      * @param value The categories to set.
      * @return This builder for chaining.
      */
-    public Builder setCategories(
-        java.lang.String value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  
+    public Builder setCategories(int value) {
+      
       categories_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string categories = 5;</code>
+     * <code>int32 categories = 5;</code>
      * @return This builder for chaining.
      */
     public Builder clearCategories() {
       
-      categories_ = getDefaultInstance().getCategories();
-      onChanged();
-      return this;
-    }
-    /**
-     * <code>string categories = 5;</code>
-     * @param value The bytes for categories to set.
-     * @return This builder for chaining.
-     */
-    public Builder setCategoriesBytes(
-        com.google.protobuf.ByteString value) {
-      if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-      
-      categories_ = value;
+      categories_ = 0;
       onChanged();
       return this;
     }
