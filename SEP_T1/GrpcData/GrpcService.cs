@@ -19,7 +19,7 @@ namespace GrpcData
         public GrpcService(IConfiguration _config)
         {
             this._config = _config;
-            this._url = this._config.GetValue<string>("GrpcUrl");
+            this._url = this._config.GetValue<string>("GrpcUrl")!;
         }
 
         public sepService.sepServiceClient CreateServiceClient()
@@ -35,7 +35,7 @@ namespace GrpcData
             //sepService.sepServiceClient
 /*
             var client = new User.GreeterClient(channel);
-
+            
             try
             {
                 var response = await client.SayHelloAsync(

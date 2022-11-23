@@ -80,7 +80,7 @@ public class Users
         return UserReadGrpcDTO.newBuilder()
                 .setId(id)
                 .setUsername(username)
-                .setFullName(fullName)
+                .setName(fullName)
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setAddress(address)

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Users
     user_pass     VARCHAR(40)        NOT NULL,
     full_name     VARCHAR(100),
     email         VARCHAR(100),
-    phone_number  VARCHAR(11)        NOT NULL,
+    phone_number  VARCHAR(20)        NOT NULL,
     address       VARCHAR(50)        NOT NULL,
     registered_on TIMESTAMP ,
     last_seen     TIMESTAMP,

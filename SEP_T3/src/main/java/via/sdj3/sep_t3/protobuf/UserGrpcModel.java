@@ -57,21 +57,21 @@ public final class UserGrpcModel {
       "pcDto\022\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(" +
       "\t\022\014\n\004role\030\003 \001(\t\022\r\n\005email\030\004 \001(\t\022\020\n\010fullNa" +
       "me\030\005 \001(\t\022\017\n\007address\030\006 \001(\t\022\023\n\013phoneNumber" +
-      "\030\007 \001(\t\"\007\n\005Empty\"\304\001\n\017UserReadGrpcDTO\022\n\n\002i" +
+      "\030\007 \001(\t\"\007\n\005Empty\"\300\001\n\017UserReadGrpcDTO\022\n\n\002i" +
       "d\030\001 \001(\005\022\020\n\010username\030\002 \001(\t\022\014\n\004role\030\003 \001(\t\022" +
-      "\020\n\010fullName\030\004 \001(\t\022\r\n\005email\030\005 \001(\t\022\023\n\013phon" +
-      "eNumber\030\006 \001(\t\022\017\n\007address\030\007 \001(\t\022\016\n\006rating" +
-      "\030\010 \001(\005\022\030\n\020registrationDate\030\t \001(\005\022\024\n\014last" +
-      "SeenDate\030\n \001(\005\"+\n\010AllUsers\022\037\n\005users\030\001 \003(" +
-      "\0132\020.UserReadGrpcDTO\"6\n\020LoginCredentials\022" +
-      "\020\n\010username\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"!\n\016G" +
-      "enericMessage\022\017\n\007message\030\001 \001(\t2\313\001\n\nsepSe" +
-      "rvice\022 \n\013getAllUsers\022\006.Empty\032\t.AllUsers\022" +
-      "4\n\ncreateUser\022\024.UserCreationGrpcDto\032\020.Us" +
-      "erReadGrpcDTO\0220\n\013getUserById\022\017.GenericMe" +
-      "ssage\032\020.UserReadGrpcDTO\0223\n\rvalidateLogin" +
-      "\022\021.LoginCredentials\032\017.GenericMessageB\034\n\030" +
-      "via.sdj3.sep_t3.protobufP\001b\006proto3"
+      "\014\n\004Name\030\004 \001(\t\022\r\n\005email\030\005 \001(\t\022\023\n\013phoneNum" +
+      "ber\030\006 \001(\t\022\017\n\007address\030\007 \001(\t\022\016\n\006rating\030\010 \001" +
+      "(\005\022\030\n\020registrationDate\030\t \001(\005\022\024\n\014lastSeen" +
+      "Date\030\n \001(\005\"+\n\010AllUsers\022\037\n\005users\030\001 \003(\0132\020." +
+      "UserReadGrpcDTO\"6\n\020LoginCredentials\022\020\n\010u" +
+      "sername\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"!\n\016Gener" +
+      "icMessage\022\017\n\007message\030\001 \001(\t2\314\001\n\nsepServic" +
+      "e\022 \n\013getAllUsers\022\006.Empty\032\t.AllUsers\0224\n\nc" +
+      "reateUser\022\024.UserCreationGrpcDto\032\020.UserRe" +
+      "adGrpcDTO\0220\n\013getUserById\022\017.GenericMessag" +
+      "e\032\020.UserReadGrpcDTO\0224\n\rvalidateLogin\022\021.L" +
+      "oginCredentials\032\020.UserReadGrpcDTOB\034\n\030via" +
+      ".sdj3.sep_t3.protobufP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,
@@ -94,7 +94,7 @@ public final class UserGrpcModel {
     internal_static_UserReadGrpcDTO_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_UserReadGrpcDTO_descriptor,
-        new java.lang.String[] { "Id", "Username", "Role", "FullName", "Email", "PhoneNumber", "Address", "Rating", "RegistrationDate", "LastSeenDate", });
+        new java.lang.String[] { "Id", "Username", "Role", "Name", "Email", "PhoneNumber", "Address", "Rating", "RegistrationDate", "LastSeenDate", });
     internal_static_AllUsers_descriptor =
       getDescriptor().getMessageTypes().get(3);
     internal_static_AllUsers_fieldAccessorTable = new

@@ -108,28 +108,28 @@ public final class sepServiceGrpc {
   }
 
   private static volatile io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials,
-      via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getValidateLoginMethod;
 
   @io.grpc.stub.annotations.RpcMethod(
       fullMethodName = SERVICE_NAME + '/' + "validateLogin",
       requestType = via.sdj3.sep_t3.protobuf.LoginCredentials.class,
-      responseType = via.sdj3.sep_t3.protobuf.GenericMessage.class,
+      responseType = via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.class,
       methodType = io.grpc.MethodDescriptor.MethodType.UNARY)
   public static io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials,
-      via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod() {
-    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage> getValidateLoginMethod;
+      via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getValidateLoginMethod() {
+    io.grpc.MethodDescriptor<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> getValidateLoginMethod;
     if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
       synchronized (sepServiceGrpc.class) {
         if ((getValidateLoginMethod = sepServiceGrpc.getValidateLoginMethod) == null) {
           sepServiceGrpc.getValidateLoginMethod = getValidateLoginMethod =
-              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.GenericMessage>newBuilder()
+              io.grpc.MethodDescriptor.<via.sdj3.sep_t3.protobuf.LoginCredentials, via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>newBuilder()
               .setType(io.grpc.MethodDescriptor.MethodType.UNARY)
               .setFullMethodName(generateFullMethodName(SERVICE_NAME, "validateLogin"))
               .setSampledToLocalTracing(true)
               .setRequestMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
                   via.sdj3.sep_t3.protobuf.LoginCredentials.getDefaultInstance()))
               .setResponseMarshaller(io.grpc.protobuf.ProtoUtils.marshaller(
-                  via.sdj3.sep_t3.protobuf.GenericMessage.getDefaultInstance()))
+                  via.sdj3.sep_t3.protobuf.UserReadGrpcDTO.getDefaultInstance()))
               .setSchemaDescriptor(new sepServiceMethodDescriptorSupplier("validateLogin"))
               .build();
         }
@@ -210,7 +210,7 @@ public final class sepServiceGrpc {
     /**
      */
     public void validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ServerCalls.asyncUnimplementedUnaryCall(getValidateLoginMethod(), responseObserver);
     }
 
@@ -242,7 +242,7 @@ public final class sepServiceGrpc {
             io.grpc.stub.ServerCalls.asyncUnaryCall(
               new MethodHandlers<
                 via.sdj3.sep_t3.protobuf.LoginCredentials,
-                via.sdj3.sep_t3.protobuf.GenericMessage>(
+                via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>(
                   this, METHODID_VALIDATE_LOGIN)))
           .build();
     }
@@ -289,7 +289,7 @@ public final class sepServiceGrpc {
     /**
      */
     public void validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request,
-        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage> responseObserver) {
+        io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> responseObserver) {
       io.grpc.stub.ClientCalls.asyncUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request, responseObserver);
     }
@@ -332,7 +332,7 @@ public final class sepServiceGrpc {
 
     /**
      */
-    public via.sdj3.sep_t3.protobuf.GenericMessage validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request) {
+    public via.sdj3.sep_t3.protobuf.UserReadGrpcDTO validateLogin(via.sdj3.sep_t3.protobuf.LoginCredentials request) {
       return io.grpc.stub.ClientCalls.blockingUnaryCall(
           getChannel(), getValidateLoginMethod(), getCallOptions(), request);
     }
@@ -378,7 +378,7 @@ public final class sepServiceGrpc {
 
     /**
      */
-    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.GenericMessage> validateLogin(
+    public com.google.common.util.concurrent.ListenableFuture<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO> validateLogin(
         via.sdj3.sep_t3.protobuf.LoginCredentials request) {
       return io.grpc.stub.ClientCalls.futureUnaryCall(
           getChannel().newCall(getValidateLoginMethod(), getCallOptions()), request);
@@ -421,7 +421,7 @@ public final class sepServiceGrpc {
           break;
         case METHODID_VALIDATE_LOGIN:
           serviceImpl.validateLogin((via.sdj3.sep_t3.protobuf.LoginCredentials) request,
-              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.GenericMessage>) responseObserver);
+              (io.grpc.stub.StreamObserver<via.sdj3.sep_t3.protobuf.UserReadGrpcDTO>) responseObserver);
           break;
         default:
           throw new AssertionError();

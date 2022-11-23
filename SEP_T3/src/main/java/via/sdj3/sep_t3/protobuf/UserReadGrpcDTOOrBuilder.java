@@ -38,16 +38,16 @@ public interface UserReadGrpcDTOOrBuilder extends
       getRoleBytes();
 
   /**
-   * <code>string fullName = 4;</code>
-   * @return The fullName.
+   * <code>string Name = 4;</code>
+   * @return The name.
    */
-  java.lang.String getFullName();
+  java.lang.String getName();
   /**
-   * <code>string fullName = 4;</code>
-   * @return The bytes for fullName.
+   * <code>string Name = 4;</code>
+   * @return The bytes for name.
    */
   com.google.protobuf.ByteString
-      getFullNameBytes();
+      getNameBytes();
 
   /**
    * <code>string email = 5;</code>

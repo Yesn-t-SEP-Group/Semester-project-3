@@ -84,7 +84,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
     }
 
     @Override
-    public void validateLogin(LoginCredentials request, StreamObserver<GenericMessage> responseObserver)
+    public void validateLogin(LoginCredentials request, StreamObserver<UserReadGrpcDTO> responseObserver)
     {
         System.out.println("Someone trying to login with the following information: "
                 +request.getUsername()+" : "+request.getPassword());
@@ -95,9 +95,9 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
 
         if (user.isPresent())
         {
-            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Success").build());
-            responseObserver.onCompleted();
             user.get().setLastSeen(LocalDate.now());
+            responseObserver.onNext(user.get().convertToUserReadGrpcDto());
+            responseObserver.onCompleted();
             return;
         }
         var status=generateCustomError("Username or password wrong for user: "+request.getUsername(),Code.INVALID_ARGUMENT);
