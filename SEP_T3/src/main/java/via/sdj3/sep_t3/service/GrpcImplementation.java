@@ -47,7 +47,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         var newUser=new Users();
         newUser.setUsername(request.getUsername());
         newUser.setUserPass(request.getPassword());
-        newUser.setFullName(request.getFullName());
+        newUser.setFullName(request.getName());
         newUser.setEmail(request.getEmail());
         newUser.setAddress(request.getAddress());
         newUser.setPhoneNumber(request.getPhoneNumber());

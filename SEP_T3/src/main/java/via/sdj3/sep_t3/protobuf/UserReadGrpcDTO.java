@@ -238,7 +238,7 @@ private static final long serialVersionUID = 0L;
   public static final int NAME_FIELD_NUMBER = 4;
   private volatile java.lang.Object name_;
   /**
-   * <code>string Name = 4;</code>
+   * <code>string name = 4;</code>
    * @return The name.
    */
   @java.lang.Override
@@ -255,7 +255,7 @@ private static final long serialVersionUID = 0L;
     }
   }
   /**
-   * <code>string Name = 4;</code>
+   * <code>string name = 4;</code>
    * @return The bytes for name.
    */
   @java.lang.Override
@@ -1064,7 +1064,7 @@ private static final long serialVersionUID = 0L;
 
     private java.lang.Object name_ = "";
     /**
-     * <code>string Name = 4;</code>
+     * <code>string name = 4;</code>
      * @return The name.
      */
     public java.lang.String getName() {
@@ -1080,7 +1080,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string Name = 4;</code>
+     * <code>string name = 4;</code>
      * @return The bytes for name.
      */
     public com.google.protobuf.ByteString
@@ -1097,7 +1097,7 @@ private static final long serialVersionUID = 0L;
       }
     }
     /**
-     * <code>string Name = 4;</code>
+     * <code>string name = 4;</code>
      * @param value The name to set.
      * @return This builder for chaining.
      */
@@ -1112,7 +1112,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string Name = 4;</code>
+     * <code>string name = 4;</code>
      * @return This builder for chaining.
      */
     public Builder clearName() {
@@ -1122,7 +1122,7 @@ private static final long serialVersionUID = 0L;
       return this;
     }
     /**
-     * <code>string Name = 4;</code>
+     * <code>string name = 4;</code>
      * @param value The bytes for name to set.
      * @return This builder for chaining.
      */

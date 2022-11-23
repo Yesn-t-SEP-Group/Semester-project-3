@@ -20,7 +20,7 @@ private static final long serialVersionUID = 0L;
     password_ = "";
     role_ = "";
     email_ = "";
-    fullName_ = "";
+    name_ = "";
     address_ = "";
     phoneNumber_ = "";
   }
@@ -82,7 +82,7 @@ private static final long serialVersionUID = 0L;
           case 42: {
             java.lang.String s = input.readStringRequireUtf8();
 
-            fullName_ = s;
+            name_ = s;
             break;
           }
           case 50: {
@@ -283,38 +283,38 @@ private static final long serialVersionUID = 0L;
     }
   }
 
-  public static final int FULLNAME_FIELD_NUMBER = 5;
-  private volatile java.lang.Object fullName_;
+  public static final int NAME_FIELD_NUMBER = 5;
+  private volatile java.lang.Object name_;
   /**
-   * <code>string fullName = 5;</code>
-   * @return The fullName.
+   * <code>string name = 5;</code>
+   * @return The name.
    */
   @java.lang.Override
-  public java.lang.String getFullName() {
-    java.lang.Object ref = fullName_;
+  public java.lang.String getName() {
+    java.lang.Object ref = name_;
     if (ref instanceof java.lang.String) {
       return (java.lang.String) ref;
     } else {
       com.google.protobuf.ByteString bs = 
           (com.google.protobuf.ByteString) ref;
       java.lang.String s = bs.toStringUtf8();
-      fullName_ = s;
+      name_ = s;
       return s;
     }
   }
   /**
-   * <code>string fullName = 5;</code>
-   * @return The bytes for fullName.
+   * <code>string name = 5;</code>
+   * @return The bytes for name.
    */
   @java.lang.Override
   public com.google.protobuf.ByteString
-      getFullNameBytes() {
-    java.lang.Object ref = fullName_;
+      getNameBytes() {
+    java.lang.Object ref = name_;
     if (ref instanceof java.lang.String) {
       com.google.protobuf.ByteString b = 
           com.google.protobuf.ByteString.copyFromUtf8(
               (java.lang.String) ref);
-      fullName_ = b;
+      name_ = b;
       return b;
     } else {
       return (com.google.protobuf.ByteString) ref;
@@ -423,8 +423,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(email_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 4, email_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fullName_)) {
-      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, fullName_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      com.google.protobuf.GeneratedMessageV3.writeString(output, 5, name_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(address_)) {
       com.google.protobuf.GeneratedMessageV3.writeString(output, 6, address_);
@@ -453,8 +453,8 @@ private static final long serialVersionUID = 0L;
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(email_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, email_);
     }
-    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(fullName_)) {
-      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, fullName_);
+    if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(name_)) {
+      size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, name_);
     }
     if (!com.google.protobuf.GeneratedMessageV3.isStringEmpty(address_)) {
       size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, address_);
@@ -485,8 +485,8 @@ private static final long serialVersionUID = 0L;
         .equals(other.getRole())) return false;
     if (!getEmail()
         .equals(other.getEmail())) return false;
-    if (!getFullName()
-        .equals(other.getFullName())) return false;
+    if (!getName()
+        .equals(other.getName())) return false;
     if (!getAddress()
         .equals(other.getAddress())) return false;
     if (!getPhoneNumber()
@@ -510,8 +510,8 @@ private static final long serialVersionUID = 0L;
     hash = (53 * hash) + getRole().hashCode();
     hash = (37 * hash) + EMAIL_FIELD_NUMBER;
     hash = (53 * hash) + getEmail().hashCode();
-    hash = (37 * hash) + FULLNAME_FIELD_NUMBER;
-    hash = (53 * hash) + getFullName().hashCode();
+    hash = (37 * hash) + NAME_FIELD_NUMBER;
+    hash = (53 * hash) + getName().hashCode();
     hash = (37 * hash) + ADDRESS_FIELD_NUMBER;
     hash = (53 * hash) + getAddress().hashCode();
     hash = (37 * hash) + PHONENUMBER_FIELD_NUMBER;
@@ -657,7 +657,7 @@ private static final long serialVersionUID = 0L;
 
       email_ = "";
 
-      fullName_ = "";
+      name_ = "";
 
       address_ = "";
 
@@ -693,7 +693,7 @@ private static final long serialVersionUID = 0L;
       result.password_ = password_;
       result.role_ = role_;
       result.email_ = email_;
-      result.fullName_ = fullName_;
+      result.name_ = name_;
       result.address_ = address_;
       result.phoneNumber_ = phoneNumber_;
       onBuilt();
@@ -760,8 +760,8 @@ private static final long serialVersionUID = 0L;
         email_ = other.email_;
         onChanged();
       }
-      if (!other.getFullName().isEmpty()) {
-        fullName_ = other.fullName_;
+      if (!other.getName().isEmpty()) {
+        name_ = other.name_;
         onChanged();
       }
       if (!other.getAddress().isEmpty()) {
@@ -1105,78 +1105,78 @@ private static final long serialVersionUID = 0L;
       return this;
     }
 
-    private java.lang.Object fullName_ = "";
+    private java.lang.Object name_ = "";
     /**
-     * <code>string fullName = 5;</code>
-     * @return The fullName.
+     * <code>string name = 5;</code>
+     * @return The name.
      */
-    public java.lang.String getFullName() {
-      java.lang.Object ref = fullName_;
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
       if (!(ref instanceof java.lang.String)) {
         com.google.protobuf.ByteString bs =
             (com.google.protobuf.ByteString) ref;
         java.lang.String s = bs.toStringUtf8();
-        fullName_ = s;
+        name_ = s;
         return s;
       } else {
         return (java.lang.String) ref;
       }
     }
     /**
-     * <code>string fullName = 5;</code>
-     * @return The bytes for fullName.
+     * <code>string name = 5;</code>
+     * @return The bytes for name.
      */
     public com.google.protobuf.ByteString
-        getFullNameBytes() {
-      java.lang.Object ref = fullName_;
+        getNameBytes() {
+      java.lang.Object ref = name_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8(
                 (java.lang.String) ref);
-        fullName_ = b;
+        name_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
       }
     }
     /**
-     * <code>string fullName = 5;</code>
-     * @param value The fullName to set.
+     * <code>string name = 5;</code>
+     * @param value The name to set.
      * @return This builder for chaining.
      */
-    public Builder setFullName(
+    public Builder setName(
         java.lang.String value) {
       if (value == null) {
     throw new NullPointerException();
   }
   
-      fullName_ = value;
+      name_ = value;
       onChanged();
       return this;
     }
     /**
-     * <code>string fullName = 5;</code>
+     * <code>string name = 5;</code>
      * @return This builder for chaining.
      */
-    public Builder clearFullName() {
+    public Builder clearName() {
       
-      fullName_ = getDefaultInstance().getFullName();
+      name_ = getDefaultInstance().getName();
       onChanged();
       return this;
     }
     /**
-     * <code>string fullName = 5;</code>
-     * @param value The bytes for fullName to set.
+     * <code>string name = 5;</code>
+     * @param value The bytes for name to set.
      * @return This builder for chaining.
      */
-    public Builder setFullNameBytes(
+    public Builder setNameBytes(
         com.google.protobuf.ByteString value) {
       if (value == null) {
     throw new NullPointerException();
   }
   checkByteStringIsUtf8(value);
       
-      fullName_ = value;
+      name_ = value;
       onChanged();
       return this;
     }

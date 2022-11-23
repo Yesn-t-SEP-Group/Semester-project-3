@@ -10,7 +10,7 @@ message UserCreationGrpcDto
   string password = 2;
   string role=3;
   string email = 4;
-  string fullName=5;
+  string name=5;
   string address = 6;
   string phoneNumber = 7;
 }
@@ -24,7 +24,7 @@ message UserReadGrpcDTO
   int32 id=1;
   string username=2;
   string role=3;
-  string Name=4;
+  string name=4;
   string email=5;
   string phoneNumber=6;
   string address=7;

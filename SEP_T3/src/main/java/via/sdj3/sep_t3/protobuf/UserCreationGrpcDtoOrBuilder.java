@@ -56,16 +56,16 @@ public interface UserCreationGrpcDtoOrBuilder extends
       getEmailBytes();
 
   /**
-   * <code>string fullName = 5;</code>
-   * @return The fullName.
+   * <code>string name = 5;</code>
+   * @return The name.
    */
-  java.lang.String getFullName();
+  java.lang.String getName();
   /**
-   * <code>string fullName = 5;</code>
-   * @return The bytes for fullName.
+   * <code>string name = 5;</code>
+   * @return The bytes for name.
    */
   com.google.protobuf.ByteString
-      getFullNameBytes();
+      getNameBytes();
 
   /**
    * <code>string address = 6;</code>
