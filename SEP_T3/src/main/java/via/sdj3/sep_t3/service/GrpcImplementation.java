@@ -18,6 +18,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
+
 @GRpcService
 @Slf4j
 public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
@@ -107,18 +109,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         responseObserver.onError(StatusProto.toStatusRuntimeException(status));
     }
 
-    /**
-     * Use this to create a better error on gRPC
-     * @param message the message shown on the client
-     * @return Status to be passed into onError
-     */
-    public Status generateCustomError(String message,Code code)
-    {
-        return Status.newBuilder()
-                .setCode(code.getNumber())
-                .setMessage(message)
-                .build();
-    }
+
 
     @Override
     public void deleteById(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
@@ -134,7 +125,7 @@ public class GrpcImplementation extends sepServiceGrpc.sepServiceImplBase
         catch (Exception e)
         {
             log.error(e.getMessage());
-            var status =generateCustomError(request.getMessage(),Code.INVALID_ARGUMENT);
+            var status = generateCustomError(request.getMessage(),Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
     }
