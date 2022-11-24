@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+/src/main/java/via/sdj3/sep_t3/protobuf/
