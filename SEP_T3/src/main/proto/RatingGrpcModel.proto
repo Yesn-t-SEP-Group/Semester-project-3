@@ -17,15 +17,15 @@ service ratingService
 
 message RatingCreationGrpcDto
 {
-  string userFromId=1;
-  string userToId=2;
+  int32 userFromId=1;
+  int32 userToId=2;
   int32 ratingValue=3;
 }
 
 message RatingReadGrpcDto
 {
   int32 ratingId=1;
-  string userFromId=2;
-  string userToId=3;
+  int32 userFromId=2;
+  int32 userToId=3;
   int32 ratingValue=4;
 }

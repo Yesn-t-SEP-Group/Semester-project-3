@@ -7,6 +7,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import via.sdj3.sep_t3.adapters.MapperImplementation;
 import via.sdj3.sep_t3.model.Posts;
 import via.sdj3.sep_t3.model.Users;
 import via.sdj3.sep_t3.protobuf.*;
@@ -30,6 +31,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     @Autowired
     private CategoriesRegistry categoriesRegistry;
 
+    private MapperImplementation mapper=MapperImplementation.INSTANCE;
+
     @Override
     public void getAllPosts(Empty request, StreamObserver<AllPosts> responseObserver)
     {
@@ -50,20 +53,14 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     public void createPost(PostCreationGrpcDto request, StreamObserver<PostReadGrpcDto> responseObserver)
     {
         log.info("new request for creating a new post with credentials \n"+request.toString());
-        var newPost=new Posts();
-        newPost.setId(request.getSellerId());
-        newPost.setCreationDate(LocalDate.now());
-        newPost.setDescription(request.getDescription());
-        newPost.setLocation(request.getLocation());
-
-        newPost.setPictureUrl(request.getPicture());
-        newPost.setPrice(request.getPrice());
+        var newPost=mapper.convertFromCreatePostsGrpcDto(request);
         //todo blazor client chooses this from a dropdown list
         //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
-        newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
-        newPost.setSellerid(userRegistry.findById(request.getSellerId()).get());
+            newPost.setCreationDate(LocalDate.now());
+            newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
+         newPost.setSellerid(userRegistry.findById(request.getSellerId()).get());
             postRegistry.save(newPost);
             log.info("saved post: "+newPost);
             responseObserver.onNext(newPost.convertToPostReadGrpcDto());

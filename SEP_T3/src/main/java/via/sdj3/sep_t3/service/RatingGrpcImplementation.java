@@ -7,6 +7,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import via.sdj3.sep_t3.adapters.MapperImplementation;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.RatingsRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
@@ -34,7 +35,10 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     @Override
     public void createRating(RatingCreationGrpcDto request, StreamObserver<RatingReadGrpcDto> responseObserver)
     {
-      super.createRating(request,responseObserver);
+      var test= MapperImplementation.INSTANCE.convertFromCreateRatingGrpcDto(request);
+      test.setUsersFrom(userRegistry.findById(request.getUserFromId()).get());
+      test.setUsersTo(userRegistry.findById(request.getUserToId()).get());
+      log.info(test.toString());
     }
 
     @Override
