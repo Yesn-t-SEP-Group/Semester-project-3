@@ -1,7 +1,6 @@
-﻿namespace Domain.DTOs;
+﻿namespace Domain.Models;
 
 public class PostReadDto
-
 {
     public int Id { get; set; }
 
@@ -9,7 +8,17 @@ public class PostReadDto
 
     public string Title { get; set; }
 
-    public string Body { get; set; }
+    public string description { get; set; }
 
-    // public bool IsCompleted { get; set; }
+    public DateTime creationDate { get; set; }
+
+    public string location { get; set; }
+
+    public int categories { get; set; }
+    
+
+    public String picture { get; set; }
+
+    public double price { get; set; }
+    
 }

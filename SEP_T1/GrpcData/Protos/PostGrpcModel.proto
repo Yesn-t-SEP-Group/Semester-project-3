@@ -18,7 +18,7 @@ message PostCreationGrpcDto
   string description = 1;
   string location = 2;
   int32 categories = 3;
-  int32 sellerId = 4;
+  int32 ownerId = 4;
   string picture = 5;
   int32 price = 6;
 }

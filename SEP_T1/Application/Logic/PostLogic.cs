@@ -25,9 +25,7 @@ public class PostLogic : IPostLogic
         }
 
         ValidateTodo(dto);
-
-        PostCreationDto post = new PostCreationDto(user.Id, dto.Body, dto.Title);
-        PostReadDto created = await _postDao.CreateAsync(post);
+        PostReadDto created = await _postDao.CreateAsync(dto);
         return created;
     }
 
@@ -39,7 +37,7 @@ public class PostLogic : IPostLogic
     private void ValidateTodo(PostCreationDto dto)
     {
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
-        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty.");
+        if (string.IsNullOrEmpty(dto.description)) throw new Exception("Body cannot be empty.");
         // other validation stuff
     }
 
@@ -65,14 +63,27 @@ public class PostLogic : IPostLogic
 
         int userInt =  existing.OwnerId;
         string titletoUse = dto.Title ?? existing.Title;
-        string bodyToUse = dto.Body ?? existing.Body;
+        string bodyToUse = dto.description ?? existing.description;
+        DateTime creationDate = DateTime.Now;
+        string locationToUse = dto.location ?? existing.location;
+        int categories = dto.categories;
+        string picture = dto.picture ?? existing.picture;
+        double price = dto.price;
+        
+        
         
         Post updated = new()
         {
             OwnerId = userInt,
             Title = titletoUse,
-            Body = bodyToUse,
-            Id = existing.Id
+            description = bodyToUse,
+            Id = existing.Id,
+            categories = categories,
+            creationDate = creationDate,
+            location = locationToUse,
+            picture = picture,
+            price = price
+
         };
 
         ValidateTodo(updated);
@@ -81,27 +92,13 @@ public class PostLogic : IPostLogic
         {
             OwnerId = userInt,
             Title = titletoUse,
-            Body = bodyToUse,
-            Id = existing.Id
-        };
-
-        /*
-        User userToUse = user ?? existing.Owner;
-        string titleToUse = dto.Title ?? existing.Title;
-        string bodyToUse = dto.Body ?? existing.Body;
-     //   bool completedToUse = dto.IsCompleted ?? existing.IsCompleted;
-        
-        Post updated = new (userToUse, titleToUse,bodyToUse)
-        {
-        //    IsCompleted = completedToUse,
+            description = bodyToUse,
             Id = existing.Id,
+            categories = categories,
+            location = locationToUse,
+            picture = picture,
+            price = price
         };
-        */
-        
-        
-       // throw new ApplicationException("This needs to be updated...");
-       // Post updated = new Post();
-       // ValidateTodo(updated);
 
         await _postDao.UpdateAsync(updatedDto);
     }
@@ -123,7 +120,7 @@ public class PostLogic : IPostLogic
         await _postDao.DeleteAsync(id);
     }
 
-    public  async Task<PostBasicDto> GetByIdAsync(int id)
+    public  async Task<PostReadDto> GetByIdAsync(int id)
     {
         PostReadDto? todo = await _postDao.GetByIdAsync(id);
         if (todo == null)
@@ -131,14 +128,15 @@ public class PostLogic : IPostLogic
             throw new Exception($"Todo with id {id} not found");
         }
 
-        return new PostBasicDto(todo.Id, todo.OwnerId.ToString(), todo.Title, todo.Body); //,todo.IsCompleted);
+        return todo;
+
     }
     
     private  void ValidateTodo(Post dto)
     {
         
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
-        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty.");
+        if (string.IsNullOrEmpty(dto.description)) throw new Exception("Body cannot be empty.");
         // other validation stuff
     }
 }

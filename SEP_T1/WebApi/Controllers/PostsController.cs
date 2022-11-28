@@ -21,6 +21,7 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Post>> CreateAsync(PostCreationDto dto)
     {
+        Console.WriteLine();
         try
         {
             PostReadDto created = await _postLogic.CreateAsync(dto);
@@ -81,11 +82,11 @@ public class PostsController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<PostBasicDto>> GetById([FromRoute] int id)
+    public async Task<ActionResult<PostReadDto>> GetById([FromRoute] int id)
     {
         try
         {
-            PostBasicDto result = await _postLogic.GetByIdAsync(id);
+            PostReadDto result = await _postLogic.GetByIdAsync(id);
             return Ok(result);
         }
         catch (Exception e)

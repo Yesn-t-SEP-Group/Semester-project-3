@@ -6,6 +6,7 @@ using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
 using GrpcData.DI;
+using Serilog;
 
 namespace GrpcData.DAOs;
 
@@ -26,25 +27,22 @@ public class PostGrpcDao : IPostDao
     {
 
         var client = this._grpcService.CreatePostServiceClient();
-        try
-        {
+        
             var convertedToGrpc = this._mapper.Map<PostCreationGrpcDto>(post);
             var result= await client.createPostAsync(convertedToGrpc);
             var mapped = _mapper.Map<PostReadDto>(result);
             return mapped;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
     }
 
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreatePostServiceClient();
-        PostReadGrpcDto result = await client.getPostByIdAsync(new GenericMessage { Message = id.ToString() });
-        
+        var result =  await client.deletePostAsync(new GenericMessage{Message = id.ToString()});
+        if (!result.Message.Equals("true"))
+        {
+            Log.Logger.Error(result.Message);
+            throw new ArgumentException(result.Message);
+        }
 
     }
 
