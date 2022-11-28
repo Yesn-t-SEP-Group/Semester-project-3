@@ -62,7 +62,7 @@ CREATE TABLE Reports
     FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
 );
 
-INSERT INTO user(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
+INSERT INTO Users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
 VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'Admin');
 
 INSERT INTO categories(description)values ('PC-Hardware');
@@ -71,6 +71,6 @@ INSERT INTO categories(description)values ('Mobile Phones');
 INSERT INTO categories(description)values ('Audio Equipment');
 
 SELECT *
-FROM user;
+FROM Users;
 SELECT *
-FROM post;
+FROM Users;
