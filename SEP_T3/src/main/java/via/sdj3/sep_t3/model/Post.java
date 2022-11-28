@@ -18,7 +18,10 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Posts
+/**
+ * is a class for the posts
+ */
+public class Post
 {
 
     @Id
@@ -40,13 +43,13 @@ public class Posts
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "category_id", nullable = false)
     @ToString.Exclude
-    private Categories category;
+    private Category category;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "sellerid", nullable = false)
     @ToString.Exclude
-    private Users sellerid;
+    private User sellerid;
 
     @Column(name = "picture_url", length = 50)
     private String pictureUrl;
@@ -54,6 +57,10 @@ public class Posts
     @Column(name = "price", nullable = false)
     private Integer price;
 
+    /**
+     * converts the data for usage in the proto file
+     * @return returns the data that used by the proto file
+     */
     public PostReadGrpcDto convertToPostReadGrpcDto()
     {
         return PostReadGrpcDto.newBuilder()
@@ -68,12 +75,17 @@ public class Posts
                 .build();
     }
 
+    /**
+     * it compares 2 objects
+     * @param o takes in parameter 0 to be used in the comparation
+     * @return answers with true or false after the comparation
+     */
     @Override
     public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Posts posts = (Posts) o;
-        return id != null && Objects.equals(id, posts.id);
+        Post post = (Post) o;
+        return id != null && Objects.equals(id, post.id);
     }
 }

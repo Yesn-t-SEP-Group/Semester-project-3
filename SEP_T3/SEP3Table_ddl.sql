@@ -52,7 +52,17 @@ CREATE TABLE Posts
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
+DROP TABLE IF EXISTS Reports CASCADE;
+CREATE TABLE Reports
+(
+    report_id SERIAL PRIMARY KEY,
+    reported_user_id INT,
+    report_date TIMESTAMP NOT NULL ,
+
+    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
+);
+
+INSERT INTO user(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
 VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'Admin');
 
 INSERT INTO categories(description)values ('PC-Hardware');
@@ -61,6 +71,6 @@ INSERT INTO categories(description)values ('Mobile Phones');
 INSERT INTO categories(description)values ('Audio Equipment');
 
 SELECT *
-FROM users;
+FROM user;
 SELECT *
-FROM posts;
+FROM post;

@@ -4,9 +4,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
-import via.sdj3.sep_t3.model.Posts;
-import via.sdj3.sep_t3.model.Ratings;
-import via.sdj3.sep_t3.model.Users;
+import via.sdj3.sep_t3.model.Post;
+import via.sdj3.sep_t3.model.Rating;
+import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.protobuf.PostCreationGrpcDto;
 import via.sdj3.sep_t3.protobuf.RatingCreationGrpcDto;
 import via.sdj3.sep_t3.protobuf.UserCreationGrpcDto;
@@ -18,7 +18,7 @@ public interface MapperImplementation
 {
     MapperImplementation INSTANCE= Mappers.getMapper(MapperImplementation.class);
 
-    Ratings convertFromCreateRatingGrpcDto(RatingCreationGrpcDto ratingCreationGrpcDto);
+    Rating convertFromCreateRatingGrpcDto(RatingCreationGrpcDto ratingCreationGrpcDto);
 
     /**
      * Use this to convert from grpc to model
@@ -28,8 +28,8 @@ public interface MapperImplementation
      */
     @Mapping(source = "name", target = "fullName")
     @Mapping(source = "password", target = "userPass")
-    Users convertFromCreateUserGrpcDto(UserCreationGrpcDto userCreationGrpcDto);
+    User convertFromCreateUserGrpcDto(UserCreationGrpcDto userCreationGrpcDto);
 
     @Mapping(source = "picture",target = "pictureUrl")
-    Posts convertFromCreatePostsGrpcDto(PostCreationGrpcDto postCreationGrpcDto);
+    Post convertFromCreatePostsGrpcDto(PostCreationGrpcDto postCreationGrpcDto);
 }

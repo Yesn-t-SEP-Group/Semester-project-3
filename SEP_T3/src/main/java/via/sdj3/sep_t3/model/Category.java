@@ -13,7 +13,10 @@ import java.util.Set;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Categories
+/**
+ * the categories contained in the marketplace
+ */
+public class Category
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,14 +28,14 @@ public class Categories
 
     @OneToMany(mappedBy = "category")
     @ToString.Exclude
-    private Set<Posts> posts = new LinkedHashSet<>();
+    private Set<Post> posts = new LinkedHashSet<>();
 
     @Override
     public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Categories that = (Categories) o;
+        Category that = (Category) o;
         return id != null && Objects.equals(id, that.id);
     }
 }
