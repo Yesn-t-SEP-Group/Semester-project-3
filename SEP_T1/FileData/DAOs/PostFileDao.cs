@@ -7,6 +7,7 @@ namespace FileData.DAOs;
 public class PostFileDao : IPostDao
 {
     private readonly FileContext context;
+    private IPostDao _postDaoImplementation;
 
     public PostFileDao(FileContext context)
     {
@@ -28,6 +29,11 @@ public class PostFileDao : IPostDao
         context.SaveChanges();
 
         return Task.FromResult(post);
+    }
+
+    public Task<PostReadDto> CreateAsync(PostCreationDto post)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParams)
@@ -65,6 +71,16 @@ public class PostFileDao : IPostDao
         }*/
 
         return Task.FromResult(result);
+    }
+
+    Task<PostReadDto?> IPostDao.GetByIdAsync(int postId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(PostUpdateDto dto)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<Post?> GetByIdAsync(int postId)

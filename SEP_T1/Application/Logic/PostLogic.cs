@@ -16,7 +16,7 @@ public class PostLogic : IPostLogic
         this.userDao = userDao;
     }
     
-    public async Task<Post> CreateAsync(PostCreationDto dto)
+    public async Task<PostReadDto> CreateAsync(PostCreationDto dto)
     {
         UserReadDto? user = await userDao.GetByIdAsync(dto.OwnerId);
         if (user == null)
@@ -25,14 +25,9 @@ public class PostLogic : IPostLogic
         }
 
         ValidateTodo(dto);
-        Post post = new Post()
-        {
-            OwnerId = user.Id,
-            Body = dto.Body,
-            Title = dto.Title,
-        };
 
-        Post created = await _postDao.CreateAsync(post);
+        PostCreationDto post = new PostCreationDto(user.Id, dto.Body, dto.Title);
+        PostReadDto created = await _postDao.CreateAsync(post);
         return created;
     }
 
@@ -50,7 +45,7 @@ public class PostLogic : IPostLogic
 
     public  async Task UpdateAsync(PostUpdateDto dto)
     {
-        Post? existing = await _postDao.GetByIdAsync(dto.Id);
+        PostReadDto? existing = await _postDao.GetByIdAsync(dto.Id);
 
         if (existing == null)
         {
@@ -82,6 +77,13 @@ public class PostLogic : IPostLogic
 
         ValidateTodo(updated);
 
+        PostUpdateDto updatedDto = new()
+        {
+            OwnerId = userInt,
+            Title = titletoUse,
+            Body = bodyToUse,
+            Id = existing.Id
+        };
 
         /*
         User userToUse = user ?? existing.Owner;
@@ -101,12 +103,12 @@ public class PostLogic : IPostLogic
        // Post updated = new Post();
        // ValidateTodo(updated);
 
-        await _postDao.UpdateAsync(updated);
+        await _postDao.UpdateAsync(updatedDto);
     }
 
     public  async Task DeleteAsync(int id)
     {
-        Post? todo = await _postDao.GetByIdAsync(id);
+        PostReadDto? todo = await _postDao.GetByIdAsync(id);
         if (todo == null)
         {
             throw new Exception($"Todo with ID {id} was not found!");
@@ -123,7 +125,7 @@ public class PostLogic : IPostLogic
 
     public  async Task<PostBasicDto> GetByIdAsync(int id)
     {
-        Post? todo = await _postDao.GetByIdAsync(id);
+        PostReadDto? todo = await _postDao.GetByIdAsync(id);
         if (todo == null)
         {
             throw new Exception($"Todo with id {id} not found");

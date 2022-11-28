@@ -1,4 +1,7 @@
-﻿using Application.DaoInterfaces;
+﻿using System.IO.MemoryMappedFiles;
+using System.Runtime.InteropServices.Marshalling;
+using System.Xml.Linq;
+using Application.DaoInterfaces;
 using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
@@ -19,17 +22,30 @@ public class PostGrpcDao : IPostDao
         _mapper = mapper;
     }
     
-    public async Task<Post> CreateAsync(Post post)
+    public async Task<PostReadDto> CreateAsync(PostCreationDto post)
     {
-        var convertedToGrpc = this._mapper.Map<PostCreationDto>(post);
 
-        var client = _grpcService.CreatePostServiceClient();
-        throw new NotImplementedException();
+        var client = this._grpcService.CreatePostServiceClient();
+        try
+        {
+            var convertedToGrpc = this._mapper.Map<PostCreationGrpcDto>(post);
+            var result= await client.createPostAsync(convertedToGrpc);
+            var mapped = _mapper.Map<PostReadDto>(result);
+            return mapped;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
-    public Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreatePostServiceClient();
+        PostReadGrpcDto result = await client.getPostByIdAsync(new GenericMessage { Message = id.ToString() });
+        
+
     }
 
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
@@ -37,15 +53,19 @@ public class PostGrpcDao : IPostDao
         throw new NotImplementedException();
     }
 
-    public async Task<Post?> GetByIdAsync(int postId)
+    public async Task<PostReadDto?> GetByIdAsync(int postId)
     {
         var client = _grpcService.CreatePostServiceClient();
         var result = await client.getPostByIdAsync(new GenericMessage{Message = postId.ToString()});
-        return _mapper.Map<Post>(result);
+        return _mapper.Map<PostReadDto>(result);
+        
     }
 
-    public Task UpdateAsync(Post dto)
+    public async Task UpdateAsync(PostUpdateDto dto)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreatePostServiceClient();
+        var mapped = _mapper.Map<PostReadGrpcDto>(dto);
+        var result = await client.updatePostAsync(mapped);
+        
     }
 }

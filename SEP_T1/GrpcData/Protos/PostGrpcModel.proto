@@ -7,7 +7,10 @@ service postService
   rpc getAllPosts(Empty) returns (AllPosts);
   rpc createPost(PostCreationGrpcDto) returns(PostReadGrpcDto);
   rpc getPostById(GenericMessage)returns(PostReadGrpcDto);
+  rpc updatePost(PostReadGrpcDto) returns(GenericMessage);
+  rpc deletePost(GenericMessage)returns(GenericMessage);
 }
+
 
 
 message PostCreationGrpcDto
