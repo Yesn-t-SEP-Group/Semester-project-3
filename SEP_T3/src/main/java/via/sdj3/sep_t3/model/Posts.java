@@ -61,7 +61,7 @@ public class Posts
                 .setCreationDate((int) creationDate.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
                 .setDescription(description)
                 .setLocation(location)
-                .setCategories(category.toString())
+                .setCategories(category.getId())
                 .setSellerId(sellerid.getId())
                 .setPicture(pictureUrl)
                 .setPrice(price)

@@ -1,102 +1,29 @@
 ﻿using Application.DaoInterfaces;
+using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
+using GrpcData.DI;
 
 namespace GrpcData.DAOs;
 
 public class PostGrpcDao : IPostDao
 {
-    /*
-    private readonly FileContext context;
+    private readonly IGrpcService _grpcService;
+    private readonly IMapper _mapper;
 
-    public PostFileDao(FileContext context)
+    public PostGrpcDao(
+        IGrpcService grpcService,
+        IMapper mapper)
     {
-        this.context = context;
+        this._grpcService = grpcService;
+        _mapper = mapper;
     }
-
-    public Task<Post> CreateAsync(Post post)
+    
+    public async Task<Post> CreateAsync(Post post)
     {
-        int id = 1;
-        if (context.Todos.Any())
-        {
-            id = context.Todos.Max(t => t.Id);
-            id++;
-        }
+        var convertedToGrpc = this._mapper.Map<PostCreationDto>(post);
 
-        post.Id = id;
-
-        context.Todos.Add(post);
-        context.SaveChanges();
-
-        return Task.FromResult(post);
-    }
-
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParams)
-    {
-        IEnumerable<Post> result = context.Todos.AsEnumerable();
-
-        if (!string.IsNullOrEmpty(searchParams.Username))
-        {
-            // we know username is unique, so just fetch the first
-            result = context.Todos.Where(todo =>
-                todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
-        }
-
-        if (searchParams.UserId != null)
-        {
-            result = result.Where(t => t.Owner.Id == searchParams.UserId);
-        }
-
-
-        if (!string.IsNullOrEmpty(searchParams.TitleContains))
-        {
-            result = result.Where(t =>
-                t.Title.Contains(searchParams.TitleContains, StringComparison.OrdinalIgnoreCase));
-        }
-        
-
-        return Task.FromResult(result);
-    }
-
-    public Task<Post?> GetByIdAsync(int postId)
-    {
-        Post? existing = context.Todos.FirstOrDefault(t => t.Id == postId);
-        return Task.FromResult(existing);
-    }
-
-    public Task UpdateAsync(Post dto)
-    {
-        Post? existing = context.Todos.FirstOrDefault(post => post.Id == dto.Id);
-        if (existing == null)
-        {
-            throw new Exception($"Todo with id {dto.Id} does not exist!");
-        }
-
-        context.Todos.Remove(existing);
-        context.Todos.Add(dto);
-        
-        context.SaveChanges();
-        
-        return Task.CompletedTask;
-    }
-
-    public Task DeleteAsync(int id)
-    {
-        Post? existing = context.Todos.FirstOrDefault(todo => todo.Id == id);
-        if (existing == null)
-        {
-            throw new Exception($"Post with id {id} does not exist!");
-        }
-
-        context.Todos.Remove(existing); 
-        context.SaveChanges();
-
-        return Task.CompletedTask;
-    }
-
-*/
-    public Task<Post> CreateAsync(Post post)
-    {
+        var client = _grpcService.CreatePostServiceClient();
         throw new NotImplementedException();
     }
 
@@ -110,9 +37,11 @@ public class PostGrpcDao : IPostDao
         throw new NotImplementedException();
     }
 
-    public Task<Post?> GetByIdAsync(int postId)
+    public async Task<Post?> GetByIdAsync(int postId)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getPostByIdAsync(new GenericMessage{Message = postId.ToString()});
+        return _mapper.Map<Post>(result);
     }
 
     public Task UpdateAsync(Post dto)
