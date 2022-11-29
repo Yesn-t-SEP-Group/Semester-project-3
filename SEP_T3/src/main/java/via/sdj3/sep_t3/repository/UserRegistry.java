@@ -27,15 +27,14 @@ public interface UserRegistry extends CrudRepository<User,Integer>
     @Transactional
     @Modifying
     @Query("""
-            update users u set u.username = ?1, u.fullName = ?2, u.email = ?3, u.phoneNumber = ?4, u.address = ?5
-            where u.id = ?6""")
-    void updateUserInformation(String username, String fullName, String email, String phoneNumber, String address, Integer id);
+            update users u set u.username = ?1, u.fullName = ?2, u.email = ?3, u.phoneNumber = ?4, u.address = ?5, u.role = ?6
+            where u.id = ?7""")
+    void updateUserInformation(String username, String fullName, String email, String phoneNumber, String address,String role, Integer id);
 
     @Transactional
     @Modifying
     @Query("update users u set u.userPass = ?1 where u.id = ?2")
     int updateUserPassById(String userPass, Integer id);
-
 
 
 

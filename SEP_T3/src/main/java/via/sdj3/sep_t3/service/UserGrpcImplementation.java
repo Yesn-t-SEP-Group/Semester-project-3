@@ -7,6 +7,7 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.yaml.snakeyaml.util.EnumUtils;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
 import via.sdj3.sep_t3.model.Report;
 import via.sdj3.sep_t3.model.User;
@@ -16,6 +17,7 @@ import via.sdj3.sep_t3.repository.UserRegistry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
@@ -26,15 +28,12 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
 {
     final
     UserRegistry userRegistry;
-    final
-    ReportRegistry reportRegistry;
     private final MapperImplementation mapper = MapperImplementation.INSTANCE;
 
     @Autowired
-    public UserGrpcImplementation(UserRegistry userRegistry, ReportRegistry reportRegistry)
+    public UserGrpcImplementation(UserRegistry userRegistry)
     {
         this.userRegistry = userRegistry;
-        this.reportRegistry = reportRegistry;
     }
 
     /**
@@ -194,57 +193,31 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
      * @param responseObserver it confirms the modified new values and executes the modifications
      */
     @Override
-    public void updateUserInformation(UserUpdateGrpcDTO request, StreamObserver<GenericMessage> responseObserver)
+    public void updateUserInformation(UserUpdateGrpcDTO request, StreamObserver<UserReadGrpcDTO> responseObserver)
     {
         try
         {
-            if (userRegistry.findById(request.getId()).isEmpty())
+            var id =request.getId();
+            if (userRegistry.findById(id).isEmpty())
                 throw new IllegalArgumentException("User not found in the database!");
-
             var username = request.getUsername();
             var fullName = request.getName();
             var email = request.getEmail();
             var phoneNumber = request.getPhoneNumber();
             var address = request.getAddress();
-            userRegistry.updateUserInformation(username, fullName, email, phoneNumber, address, request.getId());
-        } catch (Exception e)
-        {
-            log.error(e.getMessage());
-            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
-        }
-    }
 
-    @Override
-    public void reportUser(ReportCreationGrpcDto request, StreamObserver<GenericMessage> responseObserver)
-    {
-        try
-        {
-            var newReport = new Report();
-            if (userRegistry.findById(request.getReportedUserId()).isEmpty())
-                throw new IllegalArgumentException("");
-            newReport.setReportedUser(userRegistry.findById(request.getReportedUserId()).get());
-            newReport.setReason(request.getReason());
-            newReport.setReportDate(LocalDateTime.now());
-            reportRegistry.save(newReport);
-            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Report created!").build());
+            var role=request.getRole();
+            if (!role.equals(userRegistry.findById(id).get().getRole()))
+                log.warn(username + " changed to role to: " + role);
+            userRegistry.updateUserInformation(username, fullName, email, phoneNumber, address,role, id);
+            log.info(username+" updated with new information");
+
+            responseObserver.onNext(userRegistry.findById(id).get().convertToUserReadGrpcDto());
             responseObserver.onCompleted();
         } catch (Exception e)
         {
             log.error(e.getMessage());
             responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
         }
-    }
-
-    /**
-     * It requests all reports from the server
-     * @param request it sends an empty requests towards the server
-     * @param responseObserver it will answer with all the reports
-     */
-    @Override
-    public void getAllReports(Empty request, StreamObserver<ReportReadDto> responseObserver)
-    {
-        log.info("New request for getting all reports");
-        reportRegistry.findAll().forEach(report -> responseObserver.onNext(report.convertToGrpcDto()));
-        responseObserver.onCompleted();
     }
 }

@@ -57,6 +57,9 @@ public class Post
     @Column(name = "price", nullable = false)
     private Integer price;
 
+    @Column(name = "title", length = 50)
+    private String title;
+
     /**
      * converts the data for usage in the proto file
      * @return returns the data that used by the proto file
@@ -72,6 +75,7 @@ public class Post
                 .setOwnerId(sellerid.getId())
                 .setPicture(pictureUrl)
                 .setPrice(price)
+                .setTitle(title)
                 .build();
     }
 

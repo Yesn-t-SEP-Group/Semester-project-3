@@ -15,7 +15,7 @@ public interface PostRegistry extends CrudRepository<Post,Integer>
     @Transactional
     @Modifying
     @Query("""
-            update posts p set p.description = ?1, p.location = ?2, p.category = ?3, p.pictureUrl = ?4, p.price = ?5
-            where p.id = ?6""")
-    void updatePostById(String description, String location, Category category, String pictureUrl, Integer price, Integer id);
+            update posts p set p.description = ?1, p.location = ?2, p.category = ?3, p.pictureUrl = ?4, p.price = ?5, p.title = ?6
+            where p.id = ?7""")
+    void updatePostById(String description, String location, Category category, String pictureUrl, Integer price, String title, Integer id);
 }

@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import via.sdj3.sep_t3.model.Category;
 import via.sdj3.sep_t3.model.Post;
 import via.sdj3.sep_t3.model.User;
+import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 import static org.assertj.core.api.Assertions.*;
@@ -20,6 +21,8 @@ import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 
 @RunWith(SpringRunner.class)
@@ -87,48 +90,38 @@ class SepT3ApplicationTests
     }
 
     @BeforeEach
-    void PostCategorySetUp()
+    void PostSetUp()
     {
         Post post1 = new Post();
         post1.setSellerid(userRegistry.findById(1).get());
+        post1.setTitle("Title1Test");
         post1.setPictureUrl("Picture1Test");
         post1.setPrice(10);
         post1.setDescription("Description1Test");
         post1.setLocation("Location1Test");
         post1.setCreationDate(LocalDate.of(2022,1,1));
-        Category cat1 = new Category();
-        cat1.setId(1);
-        cat1.setDescription("Category1Test");
-        cat1.setPosts();
 
         Post post2 = new Post();
-        post1.setSellerid(userRegistry.findById(2).get());
-        post1.setPictureUrl("Picture2Test");
-        post1.setPrice(20);
-        post1.setDescription("Description2Test");
-        post1.setLocation("Location2Test");
-        post1.setCreationDate(LocalDate.of(2022,1,2));
-        Category cat2 = new Category();
-        cat1.setId(2);
-        cat1.setDescription("Category2Test");
-        post1.setCategory(cat2);
+        post2.setSellerid(userRegistry.findById(2).get());
+        post2.setTitle("Title2Test");
+        post2.setPictureUrl("Picture2Test");
+        post2.setPrice(20);
+        post2.setDescription("Description2Test");
+        post2.setLocation("Location2Test");
+        post2.setCreationDate(LocalDate.of(2022,1,2));
 
         Post post3 = new Post();
-        post1.setSellerid(userRegistry.findById(3).get());
-        post1.setPictureUrl("Picture3Test");
-        post1.setPrice(30);
-        post1.setDescription("Description3Test");
-        post1.setLocation("Location3Test");
-        post1.setCreationDate(LocalDate.of(2022,1,3));
-        Category cat3 = new Category();
-        cat1.setId(3);
-        cat1.setDescription("Category3Test");
-        post1.setCategory(cat3);
+        post3.setSellerid(userRegistry.findById(3).get());
+        post3.setTitle("Title3Test");
+        post3.setPictureUrl("Picture3Test");
+        post3.setPrice(30);
+        post3.setDescription("Description3Test");
+        post3.setLocation("Location3Test");
+        post3.setCreationDate(LocalDate.of(2022,1,3));
 
         postRegistry.save(post1);
         postRegistry.save(post2);
         postRegistry.save(post3);
-
     }
 
     //USER Tests
@@ -182,7 +175,7 @@ class SepT3ApplicationTests
         ArrayList<User> found = new ArrayList<>();
         userRegistry.findAll().forEach(found::add);
 
-        //Test1User has been deleted, so in the array "Test2Username" should be at index 0
+        //user1 has been deleted, so in the array "Test2Username" should be at index 0
         assertThat(found.get(0)).isEqualTo("Test2Username");
     }
 
@@ -209,6 +202,7 @@ class SepT3ApplicationTests
                 "new.email@gmail.com",
                 "+4500000000",
                 "NewAddress",
+                "User",
                 1
         );
 
@@ -224,28 +218,98 @@ class SepT3ApplicationTests
     @Test
     private void savePostTest()
     {
-        Post post4 = new Post(); // this post will have is ID set by the database to 4
+        Post post4 = new Post();
         post4.setSellerid(userRegistry.findById(3).get());
-        post4.setPictureUrl("Picture3Test");
-        post4.setPrice(30);
-        post4.setDescription("Description3Test");
-        post4.setLocation("Location3Test");
+        post4.setPictureUrl("Picture4Test");
+        post4.setPrice(40);
+        post4.setDescription("Description4Test");
+        post4.setLocation("Location4Test");
         post4.setCreationDate(LocalDate.of(2022,1,3));
-        Category cat4 = new Category();
-        cat4.setId(4);
-        cat4.setDescription("Category4Test");
-        post4.setCategory(cat4);
-
-        entityManager.persist(post4);
 
         Post found = postRegistry.findById(4).get();
 
         assertThat(post4.getSellerid()).isEqualTo(found.getSellerid());
+        assertThat(post4.getTitle()).isEqualTo(found.getTitle());
         assertThat(post4.getPictureUrl()).isEqualTo(found.getPictureUrl());
         assertThat(post4.getPrice()).isEqualTo(found.getPrice());
         assertThat(post4.getDescription()).isEqualTo(found.getDescription());
         assertThat(post4.getLocation()).isEqualTo(found.getLocation());
         assertThat(post4.getCreationDate()).isEqualTo(found.getCreationDate());
         assertThat(post4.getSellerid()).isEqualTo(found.getSellerid());
+    }
+
+    @Test
+    private void readAllPostsTest()
+    {
+        //Values initialised in the PostSetUp()
+
+        ArrayList<Post> found = new ArrayList<>();
+        postRegistry.findAll().forEach(found::add);
+
+        assertThat(found.get(0).getSellerid().getUsername()).isEqualTo("Test1Username");
+        assertThat(found.get(0).getTitle()).isEqualTo("Title1Test");
+        assertThat(found.get(0).getPictureUrl()).isEqualTo("Picture1Test");
+        assertThat(found.get(0).getPrice()).isEqualTo(10);
+        assertThat(found.get(0).getDescription()).isEqualTo("Description1Test");
+        assertThat(found.get(0).getLocation()).isEqualTo("Location1Test");
+        assertThat(found.get(0).getCreationDate()).isEqualTo(LocalDate.of(2022,1,1));
+    }
+
+    @Test
+    private void getPostByIdTest()
+    {
+        //Values initialised in the PostSetUp()
+
+        Post found = postRegistry.findById(1).get();
+
+        assertThat(found.getSellerid().getUsername()).isEqualTo("Test2Username");
+        assertThat(found.getTitle()).isEqualTo("Title1Test");
+        assertThat(found.getPictureUrl()).isEqualTo("Picture1Test");
+        assertThat(found.getPrice()).isEqualTo(10);
+        assertThat(found.getDescription()).isEqualTo("Description1Test");
+        assertThat(found.getLocation()).isEqualTo("Location1Test");
+        assertThat(found.getCreationDate()).isEqualTo(LocalDate.of(2022,1,1));
+    }
+
+    @Test
+    private void deletePostByIdTest()
+    {
+        //Values initialised in the PostSetUp()
+
+        postRegistry.deleteById(1);
+
+        ArrayList<Post> found = new ArrayList<>();
+        postRegistry.findAll().forEach(found::add);
+
+        //post2 has been deleted, so in the array post2 should be at index 0
+        assertThat(found.get(0).getSellerid().getUsername()).isEqualTo("Test2Username");
+        assertThat(found.get(0).getTitle()).isEqualTo("Title2Test");
+        assertThat(found.get(0).getPictureUrl()).isEqualTo("Picture2Test");
+        assertThat(found.get(0).getPrice()).isEqualTo(20);
+        assertThat(found.get(0).getDescription()).isEqualTo("Description2Test");
+        assertThat(found.get(0).getLocation()).isEqualTo("Location2Test");
+        assertThat(found.get(0).getCreationDate()).isEqualTo(LocalDate.of(2022,1,2));
+    }
+
+    @Test
+    private void updatePostByIdTest()
+    {
+        postRegistry.updatePostById(
+                "NewDescription",
+                "NewLocation",
+                null,
+                "NewPicture",
+                15,
+                "NewTitle",
+                1
+        );
+
+        Post found = postRegistry.findById(1).get();
+
+        assertThat(found.getTitle()).isEqualTo("NewTitle");
+        assertThat(found.getPictureUrl()).isEqualTo("NewPicture");
+        assertThat(found.getPrice()).isEqualTo(15);
+        assertThat(found.getDescription()).isEqualTo("NewDescription");
+        assertThat(found.getLocation()).isEqualTo("NewLocation");
     }
 }
