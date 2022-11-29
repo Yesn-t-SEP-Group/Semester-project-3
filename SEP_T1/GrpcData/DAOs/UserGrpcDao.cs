@@ -4,6 +4,7 @@ using Domain.DTOs;
 using Domain.Models;
 using Grpc.Net.Client;
 using GrpcData.DI;
+using Serilog;
 
 namespace GrpcData.DAOs;
 
@@ -69,9 +70,14 @@ public class UserGrpcDao : IUserDao
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreateUserServiceClient();
-        UserReadGrpcDTO result = await client.getUserByIdAsync(new GenericMessage { Message = id.ToString() });
+        var result =  await client.deleteByIdAsync(new GenericMessage{Message = id.ToString()});
+        Console.WriteLine(result);
         
-
+        //if (!result.Message.Equals("true"))
+        //{
+       //     Log.Logger.Error(result.Message);
+       //     throw new ArgumentException(result.Message);
+       // }
     }
 
     public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)

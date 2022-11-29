@@ -46,9 +46,19 @@ public class PostGrpcDao : IPostDao
 
     }
 
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
+    public async Task<IEnumerable<PostReadDto>> GetAsync()
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreatePostServiceClient();
+        var result =  await client.getAllPostsAsync(new Empty());
+        List<PostReadDto> list = new List<PostReadDto>();
+        foreach (var read in result.Post)
+        {
+            var temp = _mapper.Map<PostReadDto>(read);
+            list.Add(temp);
+        }
+
+        return list;
+
     }
 
     public async Task<PostReadDto?> GetByIdAsync(int postId)

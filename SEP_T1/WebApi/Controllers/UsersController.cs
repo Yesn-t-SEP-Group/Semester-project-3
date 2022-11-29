@@ -42,6 +42,9 @@ public class UsersController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<ActionResult> Delete(int id)
     {
+        await userLogic.DeleteAsync(id);
+        
+        /*
         try
         {
             await userLogic.DeleteAsync(id);
@@ -51,6 +54,7 @@ public class UsersController : ControllerBase
             Log.Logger.Error(e.Message);
             return StatusCode(500, e.Message);
         }
+*/
 
         return Ok();
     }
