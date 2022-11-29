@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS Users
     user_pass     VARCHAR(40)        NOT NULL,
     full_name     VARCHAR(100),
     email         VARCHAR(100),
-    phone_number  VARCHAR(11)        NOT NULL,
+    phone_number  VARCHAR(20)        NOT NULL,
     address       VARCHAR(50)        NOT NULL,
     registered_on TIMESTAMP ,
     last_seen     TIMESTAMP,
@@ -52,11 +52,25 @@ CREATE TABLE Posts
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
-INSERT INTO users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
-VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'admin');
+DROP TABLE IF EXISTS Reports CASCADE;
+CREATE TABLE Reports
+(
+    report_id SERIAL PRIMARY KEY,
+    reported_user_id INT,
+    report_date TIMESTAMP NOT NULL ,
 
+    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
+);
+
+INSERT INTO Users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
+VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'Admin');
+
+INSERT INTO categories(description)values ('PC-Hardware');
+INSERT INTO categories(description)values ('Consoles');
+INSERT INTO categories(description)values ('Mobile Phones');
+INSERT INTO categories(description)values ('Audio Equipment');
 
 SELECT *
-FROM users;
+FROM Users;
 SELECT *
-FROM posts;
+FROM Users;

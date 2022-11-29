@@ -7,8 +7,7 @@ import via.sdj3.sep_t3.protobuf.UserReadGrpcDTO;
 
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
@@ -17,7 +16,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class Users
+
+/**
+ * It creates the users objects
+ */
+public class User
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,10 +46,10 @@ public class Users
     private String address;
 
     @Column(name = "registered_on")
-    private LocalDate registeredOn;
+    private LocalDateTime registeredOn;
 
     @Column(name = "last_seen")
-    private LocalDate lastSeen;
+    private LocalDateTime lastSeen;
 
     @Column(name = "role", length = 20)
     private String role;
@@ -69,33 +72,40 @@ public class Users
         lastSeen = new Timestamp(userFromGrpc.getLastSeen()).toLocalDateTime().toLocalDate();
     }
 
-     */
+
+
 
     /**
-     * Use this to map to the grpc DTO
-     * @return converted and filled UserReadDTO
+     * It will convert all the user objects into data that the gRPC dto can use
+     * @return it returns the data into the gRPC DTO so it matches the java part
      */
     public UserReadGrpcDTO convertToUserReadGrpcDto()
     {
         return UserReadGrpcDTO.newBuilder()
                 .setId(id)
                 .setUsername(username)
-                .setFullName(fullName)
+                .setName(fullName)
                 .setEmail(email)
                 .setPhoneNumber(phoneNumber)
                 .setAddress(address)
-                .setRegistrationDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
-                .setLastSeenDate((int) registeredOn.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setRole(role)
+                .setRegistrationDate((int) registeredOn.toEpochSecond(ZoneOffset.UTC))
+                .setLastSeenDate((int) lastSeen.toEpochSecond(ZoneOffset.UTC))
                 .build();
     }
 
+    /**
+     * It will check if the id and user id are matching
+     * @param o takes the user id
+     * @return it will return true after it checks if the Ids match
+     */
     @Override
     public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Users users = (Users) o;
-        return id != null && Objects.equals(id, users.id);
+        User user = (User) o;
+        return id != null && Objects.equals(id, user.id);
     }
 
 }

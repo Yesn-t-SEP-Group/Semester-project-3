@@ -8,6 +8,7 @@ namespace GrpcData.DI
 {
     public interface IGrpcService
     {
-        public sepService.sepServiceClient CreateServiceClient();
+        public sepService.sepServiceClient CreateUserServiceClient();
+        public postService.postServiceClient CreatePostServiceClient();
     }
 }

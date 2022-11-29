@@ -1,6 +1,6 @@
 ﻿namespace Domain.Models;
 
-public class Post
+public class PostReadDto
 {
     public int Id { get; set; }
 
@@ -20,6 +20,5 @@ public class Post
     public String picture { get; set; }
 
     public double price { get; set; }
-
-    // public bool IsCompleted { get; set; }
+    
 }

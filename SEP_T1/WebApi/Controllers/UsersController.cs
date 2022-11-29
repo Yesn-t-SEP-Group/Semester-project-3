@@ -2,6 +2,7 @@
 using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace WebAPI.Controllers;
 
@@ -26,7 +27,7 @@ public class UsersController : ControllerBase
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Logger.Error(e.Message);
             return StatusCode(500, e.Message);
         }
     }
@@ -42,6 +43,19 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> Delete(int id)
     {
         await userLogic.DeleteAsync(id);
+        
+        /*
+        try
+        {
+            await userLogic.DeleteAsync(id);
+        }
+        catch (Exception e)
+        {
+            Log.Logger.Error(e.Message);
+            return StatusCode(500, e.Message);
+        }
+*/
+
         return Ok();
     }
 }

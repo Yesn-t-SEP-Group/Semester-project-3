@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+message Empty{
+
+}
+
+message GenericMessage
+{
+  string message=1;
+}

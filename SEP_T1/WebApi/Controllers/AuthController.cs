@@ -32,7 +32,13 @@ public class AuthController : ControllerBase
             new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString()),
             new Claim(ClaimTypes.Role, user.Role),
             new Claim("Role",user.Role),
+            new Claim("Username",user.UserName),
             new Claim("Id",user.Id.ToString()),
+            new Claim("Name",user.Name),
+            new Claim("Email",user.Email),
+            new Claim("PhoneNumber",user.PhoneNumber),
+            new Claim("Address",user.Address),
+            new Claim("Rating",user.Rating.ToString()),
         };
         return claims.ToList();
     }

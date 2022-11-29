@@ -1,9 +1,21 @@
 package via.sdj3.sep_t3.repository;
 
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import via.sdj3.sep_t3.model.Posts;
+import org.springframework.transaction.annotation.Transactional;
+import via.sdj3.sep_t3.model.Category;
+import via.sdj3.sep_t3.model.Post;
 
-public interface PostRegistry extends CrudRepository<Posts,Integer>
+/**
+ * Post registry it will post a post in registry and extends the crud
+ */
+public interface PostRegistry extends CrudRepository<Post,Integer>
 {
-    //write sql specific methods here
+    @Transactional
+    @Modifying
+    @Query("""
+            update posts p set p.description = ?1, p.location = ?2, p.category = ?3, p.pictureUrl = ?4, p.price = ?5
+            where p.id = ?6""")
+    void updatePostById(String description, String location, Category category, String pictureUrl, Integer price, Integer id);
 }
