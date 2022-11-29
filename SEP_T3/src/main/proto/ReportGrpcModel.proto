@@ -8,6 +8,8 @@ service reportService
 {
   rpc reportUser(ReportCreationGrpcDto)returns(GenericMessage);
   rpc getAllReports(Empty)returns(AllReports);
+
+  rpc getALlReportsMadeToUser(GenericMessage)returns(AllReports);
 }
 
 

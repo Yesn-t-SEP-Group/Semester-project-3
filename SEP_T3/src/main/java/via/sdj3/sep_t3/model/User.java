@@ -72,7 +72,7 @@ public class User
 
     /**
      * It will convert all the user objects into data that the gRPC dto can use
-     * @return it returns the data into the gRPC DTO so it matches the java part
+     * @return it returns the data into the gRPC DTO, so it matches the java part
      */
     public UserReadGrpcDTO convertToUserReadGrpcDto()
     {

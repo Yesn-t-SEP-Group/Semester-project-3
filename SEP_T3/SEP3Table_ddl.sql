@@ -45,11 +45,11 @@ CREATE TABLE Posts
     description   TEXT,
     location      VARCHAR(100),
     category_id   INT  NOT NULL,
-    sellerId      INT  NOT NULL,
+    seller_id      INT  NOT NULL,
     picture_url   VARCHAR(50),
     price         INT  NOT NULL,
 
-    FOREIGN KEY (sellerId) REFERENCES Users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (seller_id) REFERENCES Users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
