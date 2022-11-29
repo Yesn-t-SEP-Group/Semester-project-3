@@ -64,7 +64,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             newPost.setCreationDate(LocalDate.now());
             if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("");
             if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("");
-
+            newPost.setTitle(request.getTitle());
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
             postRegistry.save(newPost);
@@ -121,7 +121,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             var pictureUrl=request.getPicture();
             var price=request.getPrice();
             var id =request.getId();
-            postRegistry.updatePostById(description,location,category,pictureUrl,price,id);
+            var title=request.getTitle();
+            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,id);
             log.info("Post was updated successfully" +request);
 
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated post!").build());
@@ -145,6 +146,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         try
         {
             postRegistry.deleteById(Integer.parseInt(request.getMessage()));
+            log.info("Post with id "+request.getMessage()+" was deleted");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("true").build());
             responseObserver.onCompleted();
         }

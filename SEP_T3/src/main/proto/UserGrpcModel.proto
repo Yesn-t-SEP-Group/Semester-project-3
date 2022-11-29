@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-import 'common.proto';
+import 'Common.proto';
 option java_multiple_files = true;
 option java_package = "via.sdj3.sep_t3.protobuf";
 //Service definition
@@ -57,20 +57,6 @@ message LoginCredentials
   string password=2;
 }
 
-message ReportCreationGrpcDto
-{
-  int32 reportedUserId=1;
-  string reason =2;
-}
-
-message ReportReadDto
-{
-  int32 reportId=1;
-  int32 reportedUserId=2;
-  int32 reportDate=3;
-  string reason =4;
-}
-
 service sepService
 {
   rpc getAllUsers(Empty) returns (AllUsers);
@@ -81,8 +67,5 @@ service sepService
   rpc deleteById(GenericMessage)returns(GenericMessage);
 
   rpc updatePassword(PasswordUpdateGrpcDTO)returns(GenericMessage);
-  rpc updateUserInformation(UserUpdateGrpcDTO)returns(GenericMessage);
-
-  rpc reportUser(ReportCreationGrpcDto)returns(GenericMessage);
-  rpc getAllReports(Empty)returns(stream ReportReadDto);
+  rpc updateUserInformation(UserUpdateGrpcDTO)returns(UserReadGrpcDTO);
 }

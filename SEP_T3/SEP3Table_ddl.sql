@@ -41,6 +41,7 @@ CREATE TABLE Posts
 (
     post_id       SERIAL PRIMARY KEY,
     creation_date DATE NOT NULL,
+    title         VARCHAR(50),
     description   TEXT,
     location      VARCHAR(100),
     category_id   INT  NOT NULL,

@@ -11,6 +11,8 @@ import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.RatingsRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
+import java.util.ArrayList;
+
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
 /**
@@ -103,15 +105,16 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
      * @param responseObserver contains a message returning all the ratings contained by a user
      */
     @Override
-    public void getAllRatingsMadeToUser(GenericMessage request, StreamObserver<RatingReadGrpcDto> responseObserver)
+    public void getAllRatingsMadeToUser(GenericMessage request, StreamObserver<AllRatings> responseObserver)
     {
         try
         {
             var id=Integer.parseInt(request.getMessage());
-            //todo
-            if (userRegistry.findById(id).isEmpty())throw new IllegalArgumentException("shit broke");
+            if (userRegistry.findById(id).isEmpty())throw new IllegalArgumentException("User not found in registry");
             var ratings=ratingsRegistry.findByUserTo_Id(id);
-            ratings.forEach(rating -> responseObserver.onNext(rating.convertToRatingReadGrpcDto()));
+            var grpcRatings=new ArrayList<RatingReadGrpcDto>();
+            ratings.forEach(rating -> grpcRatings.add(rating.convertToRatingReadGrpcDto()));
+            responseObserver.onNext(AllRatings.newBuilder().addAllRating(grpcRatings).build());
             responseObserver.onCompleted();
         }
         catch (Exception e)
