@@ -16,9 +16,26 @@
                 <input type="text" @bind="postTitle"/>
             </div>
             <div>
-                <label>Write here:</label>
+                <label>Description:</label>
                 <textarea rows="8" cols="20" @bind="postBody" style="alignment: center"></textarea>
             </div>
+            <div>
+                <label>Location:</label>
+                <textarea rows="8" cols="20" @bind="location" style="alignment: center"></textarea>
+            </div>
+            <div>
+                <label>Categories:</label>
+                <textarea rows="8" cols="20" @bind="categories" style="alignment: center"></textarea>
+            </div>
+            <div>
+                <label>Picture:</label>
+                <textarea rows="8" cols="20" @bind="picture" style="alignment: center"></textarea>
+            </div>
+            <div>
+                <label>Price:</label>
+                <textarea rows="8" cols="20" @bind="price" style="alignment: center"></textarea>
+            </div>
+            
             
         </div>
     
@@ -37,6 +54,11 @@
     
     private string postTitle = "";
     private string postBody = "";
+    private DateTime creationDate = DateTime.Now;
+    private string location = "";
+    private int categories = 0;
+    private string picture = "";
+    private double price = 0;
 
     private string msg = "";
     [CascadingParameter]
@@ -50,6 +72,7 @@
         msg = "";
         authState = await AuthState;
         user = authState.User;
+        creationDate = DateTime.Now;
         
         try
         {
@@ -76,24 +99,35 @@
         }
         if (string.IsNullOrEmpty(postBody))
         {
-            msg = "Title cannot be empty!";
+            msg = "description cannot be empty!";
+            return;
+        }
+        if (string.IsNullOrEmpty(location))
+        {
+            msg = "location cannot be empty!";
+            return;
+        }
+        if (categories <= 0)
+        {
+            msg = "category has to between 1-5";
+            return;
+        }
+        if (price < 0)
+        {
+            msg = "price cannot be less than 0!";
             return;
         }
 
         try
         {
             int id = int.Parse(user.FindFirst("Id").Value);
-            dto = new(id, postTitle, postBody);
+            dto = new(id, postTitle, postBody, creationDate, location, categories, picture, price);
             await postService.CreateAsync(dto);
             navMgr.NavigateTo("/");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-       //     msg = e.Message;
-        //    msg = user.ToString();
-       //     msg = (user.FindFirst("Id").Value);
-            msg = dto.ToString();
         }
     }
 }

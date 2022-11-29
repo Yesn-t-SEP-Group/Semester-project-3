@@ -1,0 +1,34 @@
+﻿syntax = "proto3";
+
+import 'Common.proto';
+
+service ratingService
+{
+  rpc getAllRatings(Empty) returns (stream RatingReadGrpcDto);
+  rpc createRating(RatingCreationGrpcDto) returns(RatingReadGrpcDto);
+  rpc getRatingById(GenericMessage)returns(RatingReadGrpcDto);
+  //generic message is the userId
+  rpc getAllRatingsMadeToUser(GenericMessage)returns(AllRatings);
+  //we send the ratingId and get a confirmation back
+  rpc deleteRating(GenericMessage)returns(GenericMessage);
+}
+
+message RatingCreationGrpcDto
+{
+  int32 userFromId=1;
+  int32 userToId=2;
+  int32 ratingValue=3;
+}
+
+message RatingReadGrpcDto
+{
+  int32 ratingId=1;
+  int32 userFromId=2;
+  int32 userToId=3;
+  int32 ratingValue=4;
+}
+
+message AllRatings
+{
+  repeated RatingReadGrpcDto rating=1;
+}

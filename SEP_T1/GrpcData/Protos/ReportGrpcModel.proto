@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+import 'Common.proto';
+
+
+service reportService
+{
+  rpc reportUser(ReportCreationGrpcDto)returns(GenericMessage);
+  rpc getAllReports(Empty)returns(AllReports);
+}
+
+
+message ReportCreationGrpcDto
+{
+  int32 reportedUserId=1;
+  string reason =2;
+}
+
+message ReportReadDto
+{
+  int32 reportId=1;
+  int32 reportedUserId=2;
+  int32 reportDate=3;
+  string reason =4;
+}
+
+message AllReports
+{
+  repeated ReportReadDto report=1;
+}
