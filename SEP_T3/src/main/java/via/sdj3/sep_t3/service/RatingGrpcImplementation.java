@@ -3,7 +3,6 @@ package via.sdj3.sep_t3.service;
 import com.google.rpc.Code;
 import io.grpc.protobuf.StatusProto;
 import io.grpc.stub.StreamObserver;
-
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,15 @@ import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomErr
 @Slf4j
 public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImplBase
 {
+    private final UserRegistry userRegistry;
+    private final RatingsRegistry ratingsRegistry;
+
     @Autowired
-    private UserRegistry userRegistry;
-    @Autowired
-    private RatingsRegistry ratingsRegistry;
+    public RatingGrpcImplementation(UserRegistry userRegistry,RatingsRegistry ratingsRegistry)
+    {
+        this.userRegistry = userRegistry;
+        this.ratingsRegistry=ratingsRegistry;
+    }
 
 
     /**
@@ -35,7 +39,8 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     @Override
     public void getAllRatings(Empty request, StreamObserver<RatingReadGrpcDto> responseObserver)
     {
-        super.getAllRatings(request, responseObserver);
+        ratingsRegistry.findAll().forEach(rating -> responseObserver.onNext(rating.convertToRatingReadGrpcDto()));
+        responseObserver.onCompleted();
     }
 
     /**
@@ -51,6 +56,8 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
             //todo
             log.info("");
             var newRating= MapperImplementation.INSTANCE.convertFromCreateRatingGrpcDto(request);
+            if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("");
+            if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("");
             newRating.setUserFrom(userRegistry.findById(request.getUserFromId()).get());
             newRating.setUserTo(userRegistry.findById(request.getUserToId()).get());
             ratingsRegistry.save(newRating);
@@ -67,9 +74,10 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     }
 
     /**
-     * Fetches a rating using an Id
-     * @param request a message containing the Id for requesting the rating
-     * @param responseObserver answer from the server with a message containing the rating using an Id
+     * Fetches a rating using an ID
+     *
+     * @param request          a message containing the ID for requesting the rating
+     * @param responseObserver answer from the server with a message containing the rating using an ID
      */
     @Override
     public void getRatingById(GenericMessage request, StreamObserver<RatingReadGrpcDto> responseObserver)
@@ -77,12 +85,15 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
         log.info("");
         try
         {
-            responseObserver.onNext(ratingsRegistry.findById(Integer.parseInt(request.getMessage())).get().convertToRatingReadGrpcDto());
+            var id = Integer.parseInt(request.getMessage());
+            if (ratingsRegistry.findById(id).isEmpty()) throw new IllegalArgumentException("");
+            responseObserver.onNext(ratingsRegistry.findById(id).get().convertToRatingReadGrpcDto());
             responseObserver.onCompleted();
         }
         catch (Exception e)
         {
-            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
         }
     }
 

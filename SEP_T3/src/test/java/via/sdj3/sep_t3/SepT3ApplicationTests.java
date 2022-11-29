@@ -1,5 +1,6 @@
 package via.sdj3.sep_t3;
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -9,12 +10,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
+import via.sdj3.sep_t3.model.Category;
 import via.sdj3.sep_t3.model.Post;
 import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 import static org.assertj.core.api.Assertions.*;
 import javax.sql.DataSource;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -78,14 +81,54 @@ class SepT3ApplicationTests
         user1.setRegisteredOn(LocalDateTime.of(2022,1,3,12,0,0));
         user1.setLastSeen(LocalDateTime.of(2022,1,3,13,0,0));
 
-        entityManager.persist(user1);
-        entityManager.persist(user2);
-        entityManager.persist(user3);
+        userRegistry.save(user1);
+        userRegistry.save(user2);
+        userRegistry.save(user3);
     }
 
     @BeforeEach
-    void PostSetUp()
+    void PostCategorySetUp()
     {
+        Post post1 = new Post();
+        post1.setSellerid(userRegistry.findById(1).get());
+        post1.setPictureUrl("Picture1Test");
+        post1.setPrice(10);
+        post1.setDescription("Description1Test");
+        post1.setLocation("Location1Test");
+        post1.setCreationDate(LocalDate.of(2022,1,1));
+        Category cat1 = new Category();
+        cat1.setId(1);
+        cat1.setDescription("Category1Test");
+        cat1.setPosts();
+
+        Post post2 = new Post();
+        post1.setSellerid(userRegistry.findById(2).get());
+        post1.setPictureUrl("Picture2Test");
+        post1.setPrice(20);
+        post1.setDescription("Description2Test");
+        post1.setLocation("Location2Test");
+        post1.setCreationDate(LocalDate.of(2022,1,2));
+        Category cat2 = new Category();
+        cat1.setId(2);
+        cat1.setDescription("Category2Test");
+        post1.setCategory(cat2);
+
+        Post post3 = new Post();
+        post1.setSellerid(userRegistry.findById(3).get());
+        post1.setPictureUrl("Picture3Test");
+        post1.setPrice(30);
+        post1.setDescription("Description3Test");
+        post1.setLocation("Location3Test");
+        post1.setCreationDate(LocalDate.of(2022,1,3));
+        Category cat3 = new Category();
+        cat1.setId(3);
+        cat1.setDescription("Category3Test");
+        post1.setCategory(cat3);
+
+        postRegistry.save(post1);
+        postRegistry.save(post2);
+        postRegistry.save(post3);
+
     }
 
     //USER Tests
@@ -124,7 +167,7 @@ class SepT3ApplicationTests
     @Test
     private void getUserByIdTest()
     {
-        //Values initialised in the setUp()
+        //Values initialised in the UserSetUp()
 
         assertThat("Test2Username").isEqualTo(userRegistry.findById(2).get().getUsername());
     }
@@ -132,6 +175,8 @@ class SepT3ApplicationTests
     @Test
     private void deleteUserByIdTest()
     {
+        //Values initialised in the UserSetUp()
+
         userRegistry.deleteById(1);
 
         ArrayList<User> found = new ArrayList<>();
@@ -144,6 +189,8 @@ class SepT3ApplicationTests
     @Test
     private void updateUserPassByIdTest()
     {
+        //Values initialised in the UserSetUp()
+
         userRegistry.updateUserPassById("NewPassword",1);
 
         User found = userRegistry.findById(1).get();
@@ -154,6 +201,8 @@ class SepT3ApplicationTests
     @Test
     private void updateUserInformationTest()
     {
+        //Values initialised in the UserSetUp()
+
         userRegistry.updateUserInformation(
                 "NewUsername",
                 "NewFullName",
@@ -172,4 +221,31 @@ class SepT3ApplicationTests
     }
 
     // POST tests
+    @Test
+    private void savePostTest()
+    {
+        Post post4 = new Post(); // this post will have is ID set by the database to 4
+        post4.setSellerid(userRegistry.findById(3).get());
+        post4.setPictureUrl("Picture3Test");
+        post4.setPrice(30);
+        post4.setDescription("Description3Test");
+        post4.setLocation("Location3Test");
+        post4.setCreationDate(LocalDate.of(2022,1,3));
+        Category cat4 = new Category();
+        cat4.setId(4);
+        cat4.setDescription("Category4Test");
+        post4.setCategory(cat4);
+
+        entityManager.persist(post4);
+
+        Post found = postRegistry.findById(4).get();
+
+        assertThat(post4.getSellerid()).isEqualTo(found.getSellerid());
+        assertThat(post4.getPictureUrl()).isEqualTo(found.getPictureUrl());
+        assertThat(post4.getPrice()).isEqualTo(found.getPrice());
+        assertThat(post4.getDescription()).isEqualTo(found.getDescription());
+        assertThat(post4.getLocation()).isEqualTo(found.getLocation());
+        assertThat(post4.getCreationDate()).isEqualTo(found.getCreationDate());
+        assertThat(post4.getSellerid()).isEqualTo(found.getSellerid());
+    }
 }

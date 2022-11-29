@@ -58,6 +58,7 @@ CREATE TABLE Reports
     report_id SERIAL PRIMARY KEY,
     reported_user_id INT,
     report_date TIMESTAMP NOT NULL ,
+    reason TEXT,
 
     FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
 );

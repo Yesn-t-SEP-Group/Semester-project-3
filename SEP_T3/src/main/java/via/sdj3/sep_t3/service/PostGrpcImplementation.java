@@ -23,29 +23,26 @@ import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomErr
 @GRpcService
 public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
 {
-    @Autowired
-    private PostRegistry postRegistry;
-    @Autowired
-    private UserRegistry userRegistry;
+    private final PostRegistry postRegistry;
+    private final UserRegistry userRegistry;
+    private final CategoriesRegistry categoriesRegistry;
+    private final MapperImplementation mapper = MapperImplementation.INSTANCE;
 
     @Autowired
-    private CategoriesRegistry categoriesRegistry;
-
-    private MapperImplementation mapper=MapperImplementation.INSTANCE;
+    public PostGrpcImplementation(PostRegistry postRegistry, UserRegistry userRegistry, CategoriesRegistry categoriesRegistry)
+    {
+        this.postRegistry = postRegistry;
+        this.userRegistry = userRegistry;
+        this.categoriesRegistry = categoriesRegistry;
+    }
 
     @Override
     public void getAllPosts(Empty request, StreamObserver<AllPosts> responseObserver)
     {
         log.info("new request for getting all posts");
         List<PostReadGrpcDto> allPosts =new ArrayList<>();
-
-        for (Post post: postRegistry.findAll())
-        {
-            var temp=post.convertToPostReadGrpcDto();
-            allPosts.add(temp);
-        }
-        var ret = AllPosts.newBuilder().addAllPost(allPosts).build();
-        responseObserver.onNext(ret);
+        postRegistry.findAll().forEach(post -> allPosts.add(post.convertToPostReadGrpcDto()));
+        responseObserver.onNext(AllPosts.newBuilder().addAllPost(allPosts).build());
         responseObserver.onCompleted();
     }
 
@@ -65,6 +62,9 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         try
         {
             newPost.setCreationDate(LocalDate.now());
+            if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("");
+            if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("");
+
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
             postRegistry.save(newPost);
@@ -104,7 +104,6 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
      * will update a post with changes
      * @param request contains a request to update a post
      * @param responseObserver returns a confirmation if the update was successful
-     * @exception throws an exception when the category referenced does not exist
      */
     @Override
     public void updatePost(PostReadGrpcDto request, StreamObserver<GenericMessage> responseObserver)

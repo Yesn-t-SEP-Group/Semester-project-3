@@ -14,9 +14,6 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-/**
- * It creates the rating objects
- */
 public class Rating
 {
     @Id
