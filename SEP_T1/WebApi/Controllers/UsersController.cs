@@ -58,4 +58,19 @@ public class UsersController : ControllerBase
 
         return Ok();
     }
+    
+    [HttpPatch]
+    public async Task<ActionResult> UpdateAsync([FromBody] UserUpdateDto dto)
+    {
+        try
+        {
+            await userLogic.UpdateAsync(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }

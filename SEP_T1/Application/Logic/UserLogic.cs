@@ -55,4 +55,53 @@ public class UserLogic : IUserLogic
 
         return sb.ToString();
     }
+
+    public async Task UpdateAsync(UserUpdateDto dto)
+    {
+        UserReadDto? existing = await userDao.GetByIdAsync(dto.Id);
+
+        if (existing == null)
+        {
+            throw new Exception($"User with ID {dto.Id} not found!");
+        }
+
+        UserReadDto? user = null;
+
+
+        int userInt = existing.Id;
+        string userName = dto.UserName?? existing.UserName;
+        string newPass = dto.Password ?? existing.Password;
+        string newName = dto.Name ?? existing.Name;
+        string newEmail = dto.Email ?? existing.Email;
+        string newPhone = dto.PhoneNumber ?? existing.PhoneNumber;
+        string newAddress = dto.Address ?? existing.Address;
+        string Role = dto.Role ?? existing.Role;
+        double rating = dto.rating;
+        DateTime regOn = dto.registeredOn;
+        DateTime lastSeen = dto.lastSeen;
+
+
+
+
+        UserUpdateDto updated = new()
+        { 
+            Id = userInt,
+            UserName = userName,
+            Password= newPass,
+                Name = newName,
+                Email = newEmail,
+                PhoneNumber = newPhone,
+                Address = newAddress,
+                Role = Role,
+                rating = rating,
+                registeredOn = regOn,
+                lastSeen = lastSeen
+        };
+
+
+
+        await userDao.UpdateAsync(updated);
+    }
+    
+    
 }

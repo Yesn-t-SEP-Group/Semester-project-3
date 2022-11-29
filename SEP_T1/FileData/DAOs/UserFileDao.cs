@@ -91,4 +91,9 @@ public class UserFileDao : IUserDao
             return this._mapper.Map<UserReadDto>(user);
         });
     }
+
+    public Task UpdateAsync(UserUpdateDto dto)
+    {
+        throw new NotImplementedException();
+    }
 }

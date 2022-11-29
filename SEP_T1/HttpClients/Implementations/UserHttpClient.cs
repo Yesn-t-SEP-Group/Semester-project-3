@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Json;
+using System.Text;
 using System.Text.Json;
 using Domain.DTOs;
 using Domain.Models;
@@ -76,6 +77,19 @@ public class UserHttpClient : IUserService
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(result);
+        }
+    }
+    
+    public async Task UpdateAsync(UserUpdateDto dto)
+    {
+        string dtoAsJson = JsonSerializer.Serialize(dto);
+        StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
+
+        HttpResponseMessage response = await _client.PatchAsync("/edit", body);
+        if (!response.IsSuccessStatusCode)
+        {
+            string content = await response.Content.ReadAsStringAsync();
+            throw new Exception(content);
         }
     }
 }

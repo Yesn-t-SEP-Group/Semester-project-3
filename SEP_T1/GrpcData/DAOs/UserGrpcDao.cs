@@ -99,4 +99,12 @@ public class UserGrpcDao : IUserDao
         
         
     }
+
+    public async Task UpdateAsync(UserUpdateDto dto)
+    {
+        var client = _grpcService.CreateUserServiceClient();
+        var mapped = _mapper.Map<UserReadGrpcDTO>(dto);
+        var result = await client.updateUserAsync(mapped);
+
+    }
 }

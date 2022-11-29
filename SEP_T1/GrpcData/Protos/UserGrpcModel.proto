@@ -26,6 +26,22 @@ message UserReadGrpcDTO
   int32 registrationDate=9;
   int32 lastSeenDate=10;
 }
+message PasswordUpdateGrpcDTO
+{
+  int32 id=1;
+  string newPassword=2;
+}
+message UserUpdateGrpcDTO
+{
+  int32 id=1;
+  string username=2;
+  string role=3;
+  string name=4;
+  string email=5;
+  string phoneNumber=6;
+  string address=7;
+}
+
 message AllUsers
 {
   repeated UserReadGrpcDTO users=1;
@@ -42,6 +58,10 @@ service sepService
   rpc getAllUsers(Empty) returns (AllUsers);
   rpc createUser(UserCreationGrpcDto) returns(UserReadGrpcDTO);
   rpc getUserById(GenericMessage)returns(UserReadGrpcDTO);
+  // Generic message means Id here
   rpc validateLogin(LoginCredentials) returns(UserReadGrpcDTO);
   rpc deleteById(GenericMessage)returns(GenericMessage);
+
+  rpc updatePassword(PasswordUpdateGrpcDTO)returns(GenericMessage);
+  rpc updateUserInformation(UserUpdateGrpcDTO)returns(UserReadGrpcDTO);
 }
