@@ -1,9 +1,16 @@
 package via.sdj3.sep_t3.repository;
 
 import org.springframework.data.repository.CrudRepository;
-import via.sdj3.sep_t3.model.Categories;
+import via.sdj3.sep_t3.model.Category;
 
-public interface CategoriesRegistry extends CrudRepository<Categories,Integer>
+/**
+ * It registers categories
+ */
+
+/**
+ * * It creates the users objects and extends the crud
+ */
+public interface CategoriesRegistry extends CrudRepository<Category,Integer>
 {
     //write sql specific methods here
 }

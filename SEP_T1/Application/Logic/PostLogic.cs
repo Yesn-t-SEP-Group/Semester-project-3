@@ -15,43 +15,49 @@ public class PostLogic : IPostLogic
         this._postDao = postDao;
         this.userDao = userDao;
     }
-
-    public async Task<Post> CreateAsync(PostCreationDto dto)
+    
+    public async Task<PostReadDto> CreateAsync(PostCreationDto dto)
     {
-        User? user = await userDao.GetByIdAsync(dto.OwnerId);
+        UserReadDto? user = await userDao.GetByIdAsync(dto.OwnerId);
         if (user == null)
         {
             throw new Exception($"User with id {dto.OwnerId} was not found.");
         }
 
         ValidateTodo(dto);
-        Post post = new Post(user, dto.Title, dto.Body);
-        Post created = await _postDao.CreateAsync(post);
+        PostReadDto created = await _postDao.CreateAsync(dto);
         return created;
     }
-
+/*
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
     {
         return _postDao.GetAsync(searchParameters);
     }
+*/
+
+    public Task<IEnumerable<PostReadDto>> GetAsync()
+    {
+        return _postDao.GetAsync();
+    }
+
 
     private void ValidateTodo(PostCreationDto dto)
     {
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
-        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty.");
+        if (string.IsNullOrEmpty(dto.description)) throw new Exception("Body cannot be empty.");
         // other validation stuff
     }
 
     public  async Task UpdateAsync(PostUpdateDto dto)
     {
-        Post? existing = await _postDao.GetByIdAsync(dto.Id);
+        PostReadDto? existing = await _postDao.GetByIdAsync(dto.Id);
 
         if (existing == null)
         {
             throw new Exception($"Todo with ID {dto.Id} not found!");
         }
 
-        User? user = null;
+        UserReadDto? user = null;
         if (dto.OwnerId != null)
         {
             user = await userDao.GetByIdAsync((int)dto.OwnerId);
@@ -60,32 +66,53 @@ public class PostLogic : IPostLogic
                 throw new Exception($"User with id {dto.OwnerId} was not found.");
             }
         }
-/*
-        if (dto.IsCompleted != null && existing.IsCompleted && !(bool)dto.IsCompleted)
-        {
-            throw new Exception("Cannot un-complete a completed Todo");
-        }
-        */
 
-        User userToUse = user ?? existing.Owner;
-        string titleToUse = dto.Title ?? existing.Title;
-        string bodyToUse = dto.Body ?? existing.Body;
-     //   bool completedToUse = dto.IsCompleted ?? existing.IsCompleted;
+
+        int userInt =  existing.OwnerId;
+        string titletoUse = dto.Title ?? existing.Title;
+        string bodyToUse = dto.description ?? existing.description;
+        DateTime creationDate = DateTime.Now;
+        string locationToUse = dto.location ?? existing.location;
+        int categories = dto.categories;
+        string picture = dto.picture ?? existing.picture;
+        double price = dto.price;
         
-        Post updated = new (userToUse, titleToUse,bodyToUse)
+        
+        
+        Post updated = new()
         {
-        //    IsCompleted = completedToUse,
+            OwnerId = userInt,
+            Title = titletoUse,
+            description = bodyToUse,
             Id = existing.Id,
+            categories = categories,
+            creationDate = creationDate,
+            location = locationToUse,
+            picture = picture,
+            price = price
+
         };
 
         ValidateTodo(updated);
 
-        await _postDao.UpdateAsync(updated);
+        PostUpdateDto updatedDto = new()
+        {
+            OwnerId = userInt,
+            Title = titletoUse,
+            description = bodyToUse,
+            Id = existing.Id,
+            categories = categories,
+            location = locationToUse,
+            picture = picture,
+            price = price
+        };
+
+        await _postDao.UpdateAsync(updatedDto);
     }
 
     public  async Task DeleteAsync(int id)
     {
-        Post? todo = await _postDao.GetByIdAsync(id);
+        PostReadDto? todo = await _postDao.GetByIdAsync(id);
         if (todo == null)
         {
             throw new Exception($"Todo with ID {id} was not found!");
@@ -100,22 +127,23 @@ public class PostLogic : IPostLogic
         await _postDao.DeleteAsync(id);
     }
 
-    public  async Task<PostBasicDto> GetByIdAsync(int id)
+    public  async Task<PostReadDto> GetByIdAsync(int id)
     {
-        Post? todo = await _postDao.GetByIdAsync(id);
+        PostReadDto? todo = await _postDao.GetByIdAsync(id);
         if (todo == null)
         {
             throw new Exception($"Todo with id {id} not found");
         }
 
-        return new PostBasicDto(todo.Id, todo.Owner.UserName, todo.Title, todo.Body); //,todo.IsCompleted);
+        return todo;
+
     }
     
     private  void ValidateTodo(Post dto)
     {
         
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
-        if (string.IsNullOrEmpty(dto.Body)) throw new Exception("Body cannot be empty.");
+        if (string.IsNullOrEmpty(dto.description)) throw new Exception("Body cannot be empty.");
         // other validation stuff
     }
 }

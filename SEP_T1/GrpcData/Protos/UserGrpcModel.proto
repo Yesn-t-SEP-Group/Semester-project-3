@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+import 'common.proto';
+message UserCreationGrpcDto
+{
+  string username = 1;
+  string password = 2;
+  string role=3;
+  string email = 4;
+  string name=5;
+  string address = 6;
+  string phoneNumber = 7;
+}
+
+//we store the date as an integer, which is the seconds passed since Unix Epoch
+message UserReadGrpcDTO
+{
+  int32 id=1;
+  string username=2;
+  string role=3;
+  string name=4;
+  string email=5;
+  string phoneNumber=6;
+  string address=7;
+  int32 rating=8;
+  int32 registrationDate=9;
+  int32 lastSeenDate=10;
+}
+message AllUsers
+{
+  repeated UserReadGrpcDTO users=1;
+}
+
+message LoginCredentials
+{
+  string username=1;
+  string password=2;
+}
+
+service sepService
+{
+  rpc getAllUsers(Empty) returns (AllUsers);
+  rpc createUser(UserCreationGrpcDto) returns(UserReadGrpcDTO);
+  rpc getUserById(GenericMessage)returns(UserReadGrpcDTO);
+  rpc validateLogin(LoginCredentials) returns(UserReadGrpcDTO);
+  rpc deleteById(GenericMessage)returns(GenericMessage);
+}

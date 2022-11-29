@@ -1,12 +1,15 @@
 ﻿using Application.DaoInterfaces;
+using AutoMapper;
 using Domain.DTOs;
 using Domain.Models;
 
 namespace FileData.DAOs;
 
-public class PostFileDao : IPostDao
+public class PostFileDao :IPostDao
 {
     private readonly FileContext context;
+    private readonly IMapper _mapper;
+    private IPostDao _postDaoImplementation;
 
     public PostFileDao(FileContext context)
     {
@@ -30,6 +33,30 @@ public class PostFileDao : IPostDao
         return Task.FromResult(post);
     }
 
+    public Task<PostReadDto> CreateAsync(PostCreationDto post)
+    {
+        int id = 1;
+        if (context.Todos.Any())
+        {
+            id = context.Todos.Max(t => t.Id);
+            id++;
+        }
+
+        var result = _mapper.Map<Post>(post);
+        
+        result.Id = id;
+        
+        var postRead = _mapper.Map<PostReadDto>(result);
+
+       
+
+        context.Todos.Add(result);
+        context.SaveChanges();
+        
+        return Task.FromResult(postRead);
+    }
+
+    
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParams)
     {
         IEnumerable<Post> result = context.Todos.AsEnumerable();
@@ -37,13 +64,14 @@ public class PostFileDao : IPostDao
         if (!string.IsNullOrEmpty(searchParams.Username))
         {
             // we know username is unique, so just fetch the first
-            result = context.Todos.Where(todo =>
-                todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
+            // todo
+            //result = context.Todos.Where(todo =>
+            //    todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
         }
 
         if (searchParams.UserId != null)
         {
-            result = result.Where(t => t.Owner.Id == searchParams.UserId);
+            result = result.Where(t => t.OwnerId == searchParams.UserId);
         }
 
         /*if (searchParams.CompletedStatus != null)
@@ -64,6 +92,21 @@ public class PostFileDao : IPostDao
         }*/
 
         return Task.FromResult(result);
+    }
+
+    public Task<IEnumerable<PostReadDto>> GetAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    Task<PostReadDto?> IPostDao.GetByIdAsync(int postId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateAsync(PostUpdateDto dto)
+    {
+        throw new NotImplementedException();
     }
 
     public Task<Post?> GetByIdAsync(int postId)

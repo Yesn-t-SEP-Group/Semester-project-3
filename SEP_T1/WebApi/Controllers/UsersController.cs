@@ -1,8 +1,8 @@
 ﻿using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
-using GrpcDemo.Impl;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace WebAPI.Controllers;
 
@@ -22,32 +22,40 @@ public class UsersController : ControllerBase
     {
         try
         {
-            Client client = new Client();
-            var test = client.createUser(dto);
-            Console.WriteLine(test);
-            User user = await userLogic.CreateAsync(dto);
+            UserReadDto user = await userLogic.CreateAsync(dto);
             return Created($"/users/{user.Id}", user);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Logger.Error(e.Message);
             return StatusCode(500, e.Message);
         }
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<User>>> GetAsync([FromQuery] string? username)
+    public async Task<ActionResult<IEnumerable<UserReadDto>>> Get()
     {
+        IEnumerable<UserReadDto> users = await userLogic.GetAllAsync();
+        return Ok(users);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> Delete(int id)
+    {
+        await userLogic.DeleteAsync(id);
+        
+        /*
         try
         {
-            SearchUserParametersDto parameters = new(username);
-            IEnumerable<User> users = await userLogic.GetAsync(parameters);
-            return Ok(users);
+            await userLogic.DeleteAsync(id);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            Log.Logger.Error(e.Message);
             return StatusCode(500, e.Message);
         }
+*/
+
+        return Ok();
     }
 }

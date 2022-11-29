@@ -21,9 +21,10 @@ public class PostsController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Post>> CreateAsync(PostCreationDto dto)
     {
+        Console.WriteLine();
         try
         {
-            Post created = await _postLogic.CreateAsync(dto);
+            PostReadDto created = await _postLogic.CreateAsync(dto);
             return Created($"/posts/{created.Id}", created);
         }
         catch (Exception e)
@@ -33,14 +34,13 @@ public class PostsController : ControllerBase
         }
     }
 
+        
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Post>>> GetAsync([FromQuery] string? userName, [FromQuery] int? userId,
-         [FromQuery] string? titleContains/*, [FromQuery] string? bodyContains*/)
+    public async Task<ActionResult<IEnumerable<PostReadDto>>> GetAsync()
     {
         try
         {
-            SearchPostParametersDto parameters = new(userName, userId, titleContains/*, bodyContains*/);
-            var todos = await _postLogic.GetAsync(parameters);
+            var todos = await _postLogic.GetAsync();
             return Ok(todos);
         }
         catch (Exception e)
@@ -49,6 +49,11 @@ public class PostsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+        
+        
+        
+        
+        
     
     [HttpPatch]
     public async Task<ActionResult> UpdateAsync([FromBody] PostUpdateDto dto)
@@ -81,11 +86,11 @@ public class PostsController : ControllerBase
     }
 
     [HttpGet("{id:int}")]
-    public async Task<ActionResult<PostBasicDto>> GetById([FromRoute] int id)
+    public async Task<ActionResult<PostReadDto>> GetById([FromRoute] int id)
     {
         try
         {
-            PostBasicDto result = await _postLogic.GetByIdAsync(id);
+            PostReadDto result = await _postLogic.GetByIdAsync(id);
             return Ok(result);
         }
         catch (Exception e)

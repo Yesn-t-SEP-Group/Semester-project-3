@@ -1,0 +1,103 @@
+﻿@page "/CreateUser"
+@using Domain.DTOs
+@using HttpClients.ClientInterfaces
+@inject IUserService userService;
+
+<!--
+<EditForm Model="@dto" OnValidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <InputText id="username" @bind-Value="dto.UserName" />
+    <InputText id="password" @bind-Value="dto.Password" />
+    <InputText id= "Role" @bind-Value="dto.Role" />
+    <InputText id="full_name" @bind-Value="dto.Name" />
+    <InputText id="email" @bind-Value="dto.Email" />
+    <InputText id="phone_number" @bind-Value="dto.PhoneNumber" />
+    <InputText id="address" @bind-Value="dto.Address" />
+    
+    <button type="submit">Submit</button>
+</EditForm>
+-->
+
+<div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="card text-black" style="border-radius: 25px;">
+        <div class="card-body p-md-5">
+            <div class="row justify-content-center">
+                <p class="text-center h1 fw-bold">Add new user</p>
+                <div class="d-flex flex-row align-items-left">
+                    <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="text" placeholder="Username" class="form-control" @bind="dto.UserName" @bind:event="oninput" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="password" placeholder="Password" class="form-control" @bind="dto.Password" @bind:event="oninput" />
+                    </div>
+
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="text" placeholder="Full Name" class="form-control" @bind="dto.Name" @bind:event="oninput" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="text" placeholder="Email" class="form-control" @bind="dto.Email" @bind:event="oninput" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="text" placeholder="Phone Number" class="form-control" @bind="dto.PhoneNumber" @bind:event="oninput" />
+                    </div>
+                </div>
+
+                <div class="d-flex flex-row align-items-center mb-4">
+                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                    <div class="form-outline flex-fill mb-0">
+                        <input type="text" placeholder="Address" class="form-control" @bind="dto.Address" @bind:event="oninput" />
+                    </div>
+                </div>
+                
+                <div class="d-flex flex-row align-items-center mb-4">
+                                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                                    <div class="form-outline flex-fill mb-0">
+                                        <input type="text" placeholder="Role" class="form-control" @bind="dto.Role" @bind:event="oninput" />
+                                    </div>
+                                </div>
+
+
+                <div class="d-flex justify-content-center">
+                                    <button @onclick="HandleValidSubmit" class="acceptbtn btn btn-primary btn-lg">Create</button>
+                                </div>
+                
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+    
+    private UserCreationDto dto = new();
+
+   
+    private async Task HandleValidSubmit()
+    {
+
+    // Process the valid form
+        await userService.Create(this.dto);
+    }
+}

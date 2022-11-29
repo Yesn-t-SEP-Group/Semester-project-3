@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+import 'common.proto';
+option java_multiple_files = true;
+option java_package = "via.sdj3.sep_t3.protobuf";
+
+service postService
+{
+  rpc getAllPosts(Empty) returns (AllPosts);
+  rpc createPost(PostCreationGrpcDto) returns(PostReadGrpcDto);
+  rpc getPostById(GenericMessage)returns(PostReadGrpcDto);
+  rpc updatePost(PostReadGrpcDto) returns(GenericMessage);
+  rpc deletePost(GenericMessage)returns(GenericMessage);
+}
+
+
+message PostCreationGrpcDto
+{
+  string description = 1;
+  string location = 2;
+  int32 categories = 3;
+  int32 ownerId = 4;
+  string picture = 5;
+  int32 price = 6;
+}
+
+message PostReadGrpcDto
+{
+  int32 id = 1;
+  int32 creationDate = 2;
+  string description = 3;
+  string location = 4;
+  int32 categories = 5;
+  int32 ownerId = 6;
+  string picture = 7;
+  int32 price = 8;
+}
+
+message AllPosts
+{
+  repeated PostReadGrpcDto post = 1;
+}
+

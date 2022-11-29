@@ -13,6 +13,7 @@ public class JwtAuthService : IAuthService
 
     // this private variable for simple caching
     public static string? Jwt { get; private set; } = "";
+    
 
     public Task<ClaimsPrincipal> GetAuthAsync()
     {
@@ -61,15 +62,10 @@ public class JwtAuthService : IAuthService
         return principal;
     }
 
-    public async Task LoginAsync(string username, string password)
+    public async Task LoginAsync(UserLoginDto dto)
     {
-        UserLoginDto userLoginDto = new()
-        {
-            Username = username,
-            Password = password
-        };
 
-        string userAsJson = JsonSerializer.Serialize(userLoginDto);
+        string userAsJson = JsonSerializer.Serialize(dto);
         StringContent content = new(userAsJson, Encoding.UTF8, "application/json");
 //BUG figure out how to hardcode port
         ;
@@ -97,9 +93,9 @@ public class JwtAuthService : IAuthService
         return Task.CompletedTask;
     }
 
-    public async Task RegisterAsync(User user)
+    public async Task RegisterAsync(UserCreationDto dto)
     {
-        string userAsJson = JsonSerializer.Serialize(user);
+        string userAsJson = JsonSerializer.Serialize(dto);
         StringContent content = new(userAsJson, Encoding.UTF8, "application/json");
         HttpResponseMessage response = await client.PostAsync("https://localhost:7130/auth/register", content);
         string responseContent = await response.Content.ReadAsStringAsync();

@@ -1,67 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using Application.DaoInterfaces;
+using Application.Logic;
+using Domain.DTOs;
 using Domain.Models;
 using FileData;
-using GrpcDemo.Impl;
 
 namespace WebAPI.Services;
 
 public class AuthService : IAuthService
 {
-    private FileContext file = new FileContext();
-    private readonly IList<User> Users = new List<User>();
+    private readonly IUserDao _userDao;
 
-    public AuthService()
+    public AuthService(IUserDao userDao)
     {
-    file.LoadData();
+        this._userDao = userDao;
     }
 
-    public Task<User> ValidateUser(string username, string password)
+    public Task<UserReadDto?> Login(UserLoginDto dto)
     {
-    //    file.LoadData();
-    //    User? existingUser = file.Users.FirstOrDefault(u => 
-     //       u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
-     ;
-     file.LoadData();
-     Console.WriteLine(username+password);
-     User? existingUser = file.Users.FirstOrDefault(u => 
-            u.UserName.Equals(username, StringComparison.OrdinalIgnoreCase));
-     
-        
-        if (existingUser == null)
-        {
-            throw new Exception("User not found");
-        }
-
-        if (!existingUser.Password.Equals(password))
-        {
-            throw new Exception("Password mismatch");
-        }
-        existingUser.lastSeen = DateTime.Today.Date;
-        file.SaveChanges();
-        return Task.FromResult(existingUser);
-    }
-    
-
-    public Task RegisterUser(User user)
-    {
-
-        if (string.IsNullOrEmpty(user.UserName))
-        {
-            throw new ValidationException("Username cannot be null");
-        }
-
-        if (string.IsNullOrEmpty(user.Password))
-        {
-            throw new ValidationException("Password cannot be null");
-        }
-        // Do more user info validation here
-        
-        // save to persistence instead of list
-        
-   //     file.Users.Add(user);
-   //     file.SaveChanges();
-        
-        return Task.CompletedTask;
+        dto.Password = UserLogic.CalculatePasswordHash(dto.Password);
+        return _userDao.LoginAsync(dto);
     }
 }
