@@ -69,7 +69,7 @@ public class Post
                 .setDescription(description)
                 .setLocation(location)
                 .setCategories(category.getId())
-                .setSellerId(sellerid.getId())
+                .setOwnerId(sellerid.getId())
                 .setPicture(pictureUrl)
                 .setPrice(price)
                 .build();

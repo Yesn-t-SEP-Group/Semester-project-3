@@ -17,9 +17,6 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
-/**
- * It creates the users objects
- */
 public class User
 {
     @Id
@@ -57,8 +54,8 @@ public class User
     /**
      * Sets all the variables from a grpc user
      * @param userFromGrpc protobuf.User
+     * @deprecated
     */
-    /*
     public void convertFromGrpc(User userFromGrpc)
     {
         id=userFromGrpc.getId();
@@ -68,8 +65,6 @@ public class User
         email=userFromGrpc.getEmail();
         phoneNumber=userFromGrpc.getPhoneNumber();
         address=userFromGrpc.getAddress();
-        registeredOn = new Timestamp(userFromGrpc.getRegisteredOn()).toLocalDateTime().toLocalDate();
-        lastSeen = new Timestamp(userFromGrpc.getLastSeen()).toLocalDateTime().toLocalDate();
     }
 
 
