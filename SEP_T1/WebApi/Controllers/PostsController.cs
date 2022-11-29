@@ -34,14 +34,13 @@ public class PostsController : ControllerBase
         }
     }
 
+        
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Post>>> GetAsync([FromQuery] string? userName, [FromQuery] int? userId,
-         [FromQuery] string? titleContains/*, [FromQuery] string? bodyContains*/)
+    public async Task<ActionResult<IEnumerable<PostReadDto>>> GetAsync()
     {
         try
         {
-            SearchPostParametersDto parameters = new(userName, userId, titleContains/*, bodyContains*/);
-            var todos = await _postLogic.GetAsync(parameters);
+            var todos = await _postLogic.GetAsync();
             return Ok(todos);
         }
         catch (Exception e)
@@ -50,6 +49,11 @@ public class PostsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+        
+        
+        
+        
+        
     
     [HttpPatch]
     public async Task<ActionResult> UpdateAsync([FromBody] PostUpdateDto dto)

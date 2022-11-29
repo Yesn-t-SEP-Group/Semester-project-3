@@ -34,6 +34,11 @@ public class PostGrpcDao : IPostDao
             return mapped;
     }
 
+    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
+    {
+        throw new NotImplementedException();
+    }
+
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreatePostServiceClient();

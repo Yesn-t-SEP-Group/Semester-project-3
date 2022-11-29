@@ -30,7 +30,7 @@ message PostReadGrpcDto
   string description = 3;
   string location = 4;
   int32 categories = 5;
-  int32 sellerId = 6;
+  int32 ownerId = 6;
   string picture = 7;
   int32 price = 8;
 }

@@ -28,11 +28,18 @@ public class PostLogic : IPostLogic
         PostReadDto created = await _postDao.CreateAsync(dto);
         return created;
     }
-
+/*
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
     {
         return _postDao.GetAsync(searchParameters);
     }
+*/
+
+    public Task<IEnumerable<PostReadDto>> GetAsync()
+    {
+        return _postDao.GetAsync();
+    }
+
 
     private void ValidateTodo(PostCreationDto dto)
     {

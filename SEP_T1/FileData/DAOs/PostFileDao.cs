@@ -5,7 +5,7 @@ using Domain.Models;
 
 namespace FileData.DAOs;
 
-public class PostFileDao : IPostDao
+public class PostFileDao :IPostDao
 {
     private readonly FileContext context;
     private readonly IMapper _mapper;
@@ -56,6 +56,7 @@ public class PostFileDao : IPostDao
         return Task.FromResult(postRead);
     }
 
+    
     public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParams)
     {
         IEnumerable<Post> result = context.Todos.AsEnumerable();
@@ -91,6 +92,11 @@ public class PostFileDao : IPostDao
         }*/
 
         return Task.FromResult(result);
+    }
+
+    public Task<IEnumerable<PostReadDto>> GetAsync()
+    {
+        throw new NotImplementedException();
     }
 
     Task<PostReadDto?> IPostDao.GetByIdAsync(int postId)
