@@ -21,19 +21,19 @@
             </div>
             <div>
                 <label>Location:</label>
-                <textarea rows="8" cols="20" @bind="location" style="alignment: center"></textarea>
+                <input type="text" @bind="location"/>
             </div>
             <div>
                 <label>Categories:</label>
-                <textarea rows="8" cols="20" @bind="categories" style="alignment: center"></textarea>
+                <input type="text" @bind="categories"/>
             </div>
             <div>
                 <label>Picture:</label>
-                <textarea rows="8" cols="20" @bind="picture" style="alignment: center"></textarea>
+                <input type="text" @bind="picture"/>
             </div>
             <div>
                 <label>Price:</label>
-                <textarea rows="8" cols="20" @bind="price" style="alignment: center"></textarea>
+                <input type="text" @bind="price"/>
             </div>
             
             
@@ -56,9 +56,9 @@
     private string postBody = "";
     private DateTime creationDate = DateTime.Now;
     private string location = "";
-    private int categories = 0;
+    private string categories ;
     private string picture = "";
-    private double price = 0;
+    private string price;
 
     private string msg = "";
     [CascadingParameter]
@@ -107,12 +107,12 @@
             msg = "location cannot be empty!";
             return;
         }
-        if (categories <= 0)
+        if (string.IsNullOrEmpty(categories))
         {
-            msg = "category has to between 1-5";
+            msg = "category has to between >1";
             return;
         }
-        if (price < 0)
+        if (string.IsNullOrEmpty(price))
         {
             msg = "price cannot be less than 0!";
             return;
@@ -121,7 +121,7 @@
         try
         {
             int id = int.Parse(user.FindFirst("Id").Value);
-            dto = new(id, postTitle, postBody, creationDate, location, categories, picture, price);
+            dto = new(id, postTitle, postBody, creationDate, location, int.Parse(categories), picture, double.Parse(price));
             await postService.CreateAsync(dto);
             navMgr.NavigateTo("/");
         }
