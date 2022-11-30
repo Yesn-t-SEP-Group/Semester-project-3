@@ -102,6 +102,10 @@ public class UserLogic : IUserLogic
 
         await userDao.UpdateAsync(updated);
     }
-    
-    
+    public Task UpdatePassword(UserNewPasswordDto newPassword)
+    {
+        //we hash the password before updating it in the database
+        newPassword.Password= CalculatePasswordHash(newPassword.Password);
+        return userDao.UpdatePasswordAsync(newPassword);
+    }
 }

@@ -96,4 +96,9 @@ public class UserFileDao : IUserDao
     {
         throw new NotImplementedException();
     }
+
+    public Task UpdatePasswordAsync(UserNewPasswordDto newPassword)
+    {
+        throw new NotImplementedException();
+    }
 }

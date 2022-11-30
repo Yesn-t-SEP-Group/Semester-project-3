@@ -50,6 +50,15 @@ public class PostGrpcDao : IPostDao
         }
 
     }
+    public async Task<UserReadDto> GetPostOwnerAsync(PostReadDto dto)
+    { 
+        //we query up users
+        var userServiceClient = _grpcService.CreateUserServiceClient();
+
+        var result = await userServiceClient.getUserByIdAsync(new GenericMessage { Message = dto.OwnerId.ToString() });
+        var mapped = _mapper.Map<UserReadDto>(result);
+        return mapped;
+    }
 
     public async Task<IEnumerable<PostReadDto>> GetAsync()
     {

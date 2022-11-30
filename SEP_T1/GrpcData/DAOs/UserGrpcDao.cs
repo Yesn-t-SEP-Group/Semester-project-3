@@ -99,12 +99,18 @@ public class UserGrpcDao : IUserDao
         
         
     }
-
+    
     public async Task UpdateAsync(UserUpdateDto dto)
     {
         var client = _grpcService.CreateUserServiceClient();
-        var mapped = _mapper.Map<UserReadGrpcDTO>(dto);
-        var result = await client.updateUserAsync(mapped);
+        var mapped = _mapper.Map<UserUpdateGrpcDTO>(dto);
+        var result = await client.updateUserInformationAsync(mapped);
+    }
 
+    public async Task UpdatePasswordAsync(UserNewPasswordDto newPassword)
+    {
+        var client = _grpcService.CreateUserServiceClient();
+        var grpcConverted=new PasswordUpdateGrpcDTO{Id = newPassword.Id,NewPassword = newPassword.Password};
+        var result = await client.updatePasswordAsync(grpcConverted);
     }
 }

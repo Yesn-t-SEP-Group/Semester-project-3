@@ -173,7 +173,9 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             if (request.getNewPassword().equals(user.getUserPass()))
                 throw new IllegalArgumentException("New pass cant be same as old pass");
             userRegistry.updateUserPassById(request.getNewPassword(), user.getId());
+            log.info(user.getUsername() +" changed their password");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated password").build());
+            responseObserver.onCompleted();
 
         } catch (Exception e)
         {
