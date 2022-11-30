@@ -56,15 +56,14 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
         try
         {
             //todo
-            log.info("");
+            log.info("new request for creating a review");
             var newRating= MapperImplementation.INSTANCE.convertFromCreateRatingGrpcDto(request);
-            if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("");
-            if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("");
+            if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("UserFrom cant be found in database");
+            if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("UserTo cant be found in database");
             newRating.setUserFrom(userRegistry.findById(request.getUserFromId()).get());
             newRating.setUserTo(userRegistry.findById(request.getUserToId()).get());
             ratingsRegistry.save(newRating);
 
-            //todo implement convert
             responseObserver.onNext(ratingsRegistry.findTopByOrderByIdDesc().convertToRatingReadGrpcDto());
             responseObserver.onCompleted();
         }
@@ -84,7 +83,7 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     @Override
     public void getRatingById(GenericMessage request, StreamObserver<RatingReadGrpcDto> responseObserver)
     {
-        log.info("");
+        log.info("Getting rating by id: "+request.getMessage());
         try
         {
             var id = Integer.parseInt(request.getMessage());

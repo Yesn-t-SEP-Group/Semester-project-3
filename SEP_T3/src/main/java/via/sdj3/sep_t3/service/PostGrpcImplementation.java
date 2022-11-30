@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
-import via.sdj3.sep_t3.model.Post;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
@@ -50,7 +49,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
      * Creates a post in the database
      * @param request dto we get from T2
      * @param responseObserver grpc needs this
-     * @implNote after .onError dont call anything else
+     * @implNote after .onError don't call anything else
      */
     @Override
     public void createPost(PostCreationGrpcDto request, StreamObserver<PostReadGrpcDto> responseObserver)
@@ -80,8 +79,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     }
 
     /**
-     * Fetches a post using an Id
-     * @param request contains a message requesting to fetch a post using an Id
+     * Fetches a post using an id
+     * @param request contains a message requesting to fetch a post using an id
      * @param responseObserver returns a message from the server confirming the return
      */
     @Override
