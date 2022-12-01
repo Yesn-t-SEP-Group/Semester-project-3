@@ -113,30 +113,4 @@ public class UserGrpcDao : IUserDao
         var grpcConverted=new PasswordUpdateGrpcDTO{Id = newPassword.Id,NewPassword = newPassword.Password};
         var result = await client.updatePasswordAsync(grpcConverted);
     }
-
-    public async Task<IEnumerable<ReportReadDto>> GetAllReportsAsync()
-    {
-        var client = _grpcService.CreateReportServiceClient();
-        var result = await client.getAllReportsAsync(new Empty());
-        var mapped = new List<ReportReadDto>();
-        foreach (var report in result.Report)
-        {
-            mapped.Add(_mapper.Map<ReportReadDto>(report));
-        }
-
-        return mapped;
-    }
-
-    public async Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id)
-    {
-        var client = _grpcService.CreateReportServiceClient();
-        var result = await client.getALlReportsMadeToUserAsync(new GenericMessage{Message = id.ToString()});
-        var mapped = new List<ReportReadDto>();
-        foreach (var report in result.Report)
-        {
-            mapped.Add(_mapper.Map<ReportReadDto>(report));
-        }
-
-        return mapped;
-    }
 }

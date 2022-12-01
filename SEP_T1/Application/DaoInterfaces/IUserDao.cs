@@ -18,7 +18,4 @@ public interface IUserDao
     Task UpdateAsync(UserUpdateDto dto);
 
     Task UpdatePasswordAsync(UserNewPasswordDto newPassword);
-    
-    Task<IEnumerable<ReportReadDto>> GetAllReportsAsync();
-    Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id);
 }

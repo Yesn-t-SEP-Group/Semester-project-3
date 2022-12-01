@@ -108,14 +108,4 @@ public class UserLogic : IUserLogic
         newPassword.Password= CalculatePasswordHash(newPassword.Password);
         return userDao.UpdatePasswordAsync(newPassword);
     }
-
-    public async Task<IEnumerable<ReportReadDto>> GetAllReportsAsync()
-    {
-        return await userDao.GetAllReportsAsync();
-    }
-
-    public async Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id)
-    {
-        return await userDao.GetAllReportsMadeToUserAsync(id);
-    }
 }
