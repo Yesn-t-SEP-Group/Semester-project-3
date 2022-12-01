@@ -73,7 +73,7 @@ public class UsersController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
-
+    /*
     [HttpPatch("{id}")]
     public async Task<ActionResult> UpdatePassword([FromBody] String newPassword,int id)
     {
@@ -89,4 +89,5 @@ public class UsersController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+    */
 }
