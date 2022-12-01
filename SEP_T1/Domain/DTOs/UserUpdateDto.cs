@@ -2,6 +2,11 @@
 
 public class UserUpdateDto
 {
+    public UserUpdateDto(int id)
+    {
+        this.Id = id;
+    }
+
     public int Id { get; set; }
     public string UserName { get; set; }
 
@@ -19,4 +24,6 @@ public class UserUpdateDto
     public DateTime registeredOn { get; set; }
     
     public DateTime lastSeen { get; set; }
+    
+    
 }

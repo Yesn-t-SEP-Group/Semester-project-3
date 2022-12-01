@@ -83,9 +83,9 @@ public class UserLogic : IUserLogic
 
 
 
-        UserUpdateDto updated = new()
+        UserUpdateDto updated = new(userInt)
         { 
-            Id = userInt,
+            //Id = userInt,
             UserName = userName,
             Password= newPass,
                 Name = newName,

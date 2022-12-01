@@ -83,13 +83,12 @@
         try
         {
             users = await userService.GetUsers();
-            PostReadDto todoData = await postService.GetByIdAsync(Id);
-            UserReadDto currentlyAssigned = users.First(user => user.Id.Equals(todoData.OwnerId));
-            UserReadDto currentlyAssigned = 
-            
+           // PostReadDto todoData = await postService.GetByIdAsync(Id);
+            UserReadDto currentlyAssigned = users.First(user => user.Id.Equals(Id));
 
-        
-            dto = new()
+
+
+            dto = new(Id)
             {
                 UserName = currentlyAssigned.UserName,
                 Password = currentlyAssigned.Password,
@@ -115,7 +114,7 @@
         try
         {
             await userService.UpdateAsync(dto);
-            navMgr.NavigateTo("/MyPosts");
+            navMgr.NavigateTo("/UserCRUD");
         }
         catch (Exception e)
         {
