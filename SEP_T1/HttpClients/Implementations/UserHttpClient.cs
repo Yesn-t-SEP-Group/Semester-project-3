@@ -85,7 +85,7 @@ public class UserHttpClient : IUserService
         string dtoAsJson = JsonSerializer.Serialize(dto);
         StringContent body = new StringContent(dtoAsJson, Encoding.UTF8, "application/json");
 
-        HttpResponseMessage response = await _client.PatchAsync("/edit", body);
+        HttpResponseMessage response = await _client.PatchAsync("/users", body);
         if (!response.IsSuccessStatusCode)
         {
             string content = await response.Content.ReadAsStringAsync();
