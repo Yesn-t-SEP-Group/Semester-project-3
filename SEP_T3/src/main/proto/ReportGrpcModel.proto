@@ -6,10 +6,11 @@ option java_package = "via.sdj3.sep_t3.protobuf";
 
 service reportService
 {
-  rpc reportUser(ReportCreationGrpcDto)returns(GenericMessage);
+  rpc reportUser(ReportCreationGrpcDto)returns(ReportReadGrpcDto);
   rpc getAllReports(Empty)returns(AllReports);
 
   rpc getALlReportsMadeToUser(GenericMessage)returns(AllReports);
+  rpc deleteReport(GenericMessage)returns(GenericMessage);
 }
 
 

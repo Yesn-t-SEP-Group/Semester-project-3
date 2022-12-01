@@ -33,7 +33,7 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
 
 
     @Override
-    public void reportUser(ReportCreationGrpcDto request, StreamObserver<GenericMessage> responseObserver)
+    public void reportUser(ReportCreationGrpcDto request, StreamObserver<ReportReadGrpcDto> responseObserver)
     {
         log.info("Reporting user with id: "+request.getReportedUserId());
         try
@@ -45,7 +45,7 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
             newReport.setReason(request.getReason());
             newReport.setReportDate(LocalDateTime.now());
             reportRegistry.save(newReport);
-            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Report created!").build());
+            responseObserver.onNext(reportRegistry.findTopByOrderByIdDesc().convertToGrpcDto());
             responseObserver.onCompleted();
         } catch (Exception e)
         {
@@ -90,5 +90,22 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
 
         responseObserver.onNext(AllReports.newBuilder().addAllReport(convertedToGrpc).build());
         responseObserver.onCompleted();
+    }
+
+    @Override
+    public void deleteReport(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
+    {
+        log.info("");
+        try
+        {
+            reportRegistry.deleteById(Integer.parseInt(request.getMessage()));
+            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Report deleted").build());
+            responseObserver.onCompleted();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
+        }
     }
 }

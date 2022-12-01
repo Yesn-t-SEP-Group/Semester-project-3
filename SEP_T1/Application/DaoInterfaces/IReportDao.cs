@@ -7,6 +7,6 @@ public interface IReportDao
     Task<IEnumerable<ReportReadDto>> GetAllReportsAsync();
     Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id);
     
-    Task CreateReportAsync(ReportCreationDto dto);
-
+    Task<ReportReadDto> CreateReportAsync(ReportCreationDto dto);
+    Task DeleteReportAsync(int id);
 }

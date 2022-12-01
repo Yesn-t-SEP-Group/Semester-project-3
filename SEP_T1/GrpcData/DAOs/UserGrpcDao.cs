@@ -70,14 +70,7 @@ public class UserGrpcDao : IUserDao
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreateUserServiceClient();
-        var result =  await client.deleteByIdAsync(new GenericMessage{Message = id.ToString()});
-        Console.WriteLine(result);
-        
-        //if (!result.Message.Equals("true"))
-        //{
-       //     Log.Logger.Error(result.Message);
-       //     throw new ArgumentException(result.Message);
-       // }
+        await client.deleteByIdAsync(new GenericMessage{Message = id.ToString()});
     }
 
     public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)

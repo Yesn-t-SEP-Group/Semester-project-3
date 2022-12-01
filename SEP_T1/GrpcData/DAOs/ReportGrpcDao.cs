@@ -40,13 +40,19 @@ public class ReportGrpcDao : IReportDao
         {
             mapped.Add(_mapper.Map<ReportReadDto>(report));
         }
-
         return mapped;
     }
 
-    public async Task CreateReportAsync(ReportCreationDto dto)
+    public async Task<ReportReadDto> CreateReportAsync(ReportCreationDto dto)
     {
         var client = _grpcService.CreateReportServiceClient();
-        await client.reportUserAsync(_mapper.Map<ReportCreationGrpcDto>(dto));
+        var result= await client.reportUserAsync(_mapper.Map<ReportCreationGrpcDto>(dto));
+        return _mapper.Map<ReportReadDto>(result);
+    }
+
+    public async Task DeleteReportAsync(int id)
+    {
+        var client = _grpcService.CreateReportServiceClient();
+        await client.deleteReportAsync(new GenericMessage { Message = id.ToString() });
     }
 }

@@ -23,8 +23,13 @@ public class ReportLogic : IReportLogic
         return await reportDao.GetAllReportsMadeToUserAsync(id);
     }
 
-    public async Task CreateReportAsync(ReportCreationDto dto)
+    public async Task<ReportReadDto> CreateReportAsync(ReportCreationDto dto)
     {
-        await reportDao.CreateReportAsync(dto);
+       return await reportDao.CreateReportAsync(dto);
+    }
+
+    public async Task DeleteReportAsync(int id)
+    {
+         await reportDao.DeleteReportAsync(id);
     }
 }

@@ -39,17 +39,31 @@ public class ReportsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task CreateReport([FromBody] ReportCreationDto dto)
+    public async Task<ActionResult<ReportReadDto>> CreateReport([FromBody] ReportCreationDto dto)
     {
         try
         {
-            await reportLogic.CreateReportAsync(dto);
-            Ok(200);
+            ReportReadDto result = await reportLogic.CreateReportAsync(dto);
+            return Ok(result);
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            StatusCode(500, e.Message);
+            return StatusCode(500, e.Message);
+        }
+    }
+    [HttpDelete("{id:int}")]
+    public async Task<ActionResult> DeleteReport([FromRoute] int id)
+    {
+        try
+        {
+            await reportLogic.DeleteReportAsync(id);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
         }
     }
 }
