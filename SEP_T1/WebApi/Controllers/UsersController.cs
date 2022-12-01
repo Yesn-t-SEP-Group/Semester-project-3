@@ -89,4 +89,27 @@ public class UsersController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpGet]
+    [Route("reports")]
+    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetAllReports()
+    {
+        IEnumerable<ReportReadDto> users = await userLogic.GetAllReportsAsync();
+        return Ok(users);
+    }
+    [HttpGet("{id:int}")] 
+    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetReportsMadeToUser([FromRoute] int id)
+    {
+        try
+        {
+            IEnumerable<ReportReadDto> result = await userLogic.GetAllReportsMadeToUserAsync(id);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }

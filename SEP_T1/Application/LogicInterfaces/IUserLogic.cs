@@ -16,4 +16,8 @@ public interface IUserLogic
     Task UpdateAsync(UserUpdateDto dto);
 
     Task UpdatePassword(UserNewPasswordDto newPassword);
+
+    Task<IEnumerable<ReportReadDto>> GetAllReportsAsync();
+    Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id);
+
 }

@@ -10,5 +10,9 @@ namespace GrpcData.DI
     {
         public sepService.sepServiceClient CreateUserServiceClient();
         public postService.postServiceClient CreatePostServiceClient();
+        
+        public reportService.reportServiceClient CreateReportServiceClient();
+        public ratingService.ratingServiceClient CreateRatingServiceClient();
+
     }
 }

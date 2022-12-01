@@ -27,6 +27,9 @@ namespace WebAPI
             CreateMap<PostCreationDto, PostGrpcDao>();
             CreateMap<PostCreationDto, PostCreationGrpcDto>().ReverseMap();
             CreateMap<PostReadGrpcDto, Post>();
+
+            CreateMap<ReportReadDto, ReportReadGrpcDto>().ReverseMap().ForMember(x => x.ReportDate,
+                y => y.MapFrom(src => DateTime.UnixEpoch.AddSeconds(src.ReportDate)));
         }
     }
 }

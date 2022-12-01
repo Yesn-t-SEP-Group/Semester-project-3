@@ -45,6 +45,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 )
 public class SepT3ApplicationTests
 {
+
     @Autowired
     private UserRegistry userRegistry;
 
