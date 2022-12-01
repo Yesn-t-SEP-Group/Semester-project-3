@@ -1,8 +1,8 @@
 package via.sdj3.sep_t3;
 
 import org.checkerframework.checker.units.qual.C;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,9 +12,11 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import via.sdj3.sep_t3.model.Category;
 import via.sdj3.sep_t3.model.Post;
+import via.sdj3.sep_t3.model.Rating;
 import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
+import via.sdj3.sep_t3.repository.RatingsRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 import static org.assertj.core.api.Assertions.*;
 import javax.sql.DataSource;
@@ -23,19 +25,27 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
+@SpringBootTest
 @TestPropertySource(
         properties = {
-                "spring.jpa.hibernate.ddl-auto  = create-drop",
+                "spring.datasource.driver-class-name=org.h2.Driver",
+                //"spring.datasource.url=jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS sep3;SET SCHEMA sep3",
+                "spring.datasource.url=jdbc:h2:mem:db;DB_CLOSE_DELAY=-1;INIT=CREATE SCHEMA IF NOT EXISTS sep3;SET SCHEMA sep3",
+                "spring.jpa.hibernate.ddl-auto=create-drop",
                 "spring.jpa.show-sql=true",
-                "spring.jpa.properties.hibernate.format_sql = true"
+                "spring.jpa.properties.hibernate.default_schema=sep3",
+                "spring.jpa.properties.hibernate.format_sql = true",
+                "spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.H2Dialect",
+                "spring.jpa.properties.hibernate.globally_quoted_identifiers=true",
         }
 )
-class SepT3ApplicationTests
+public class SepT3ApplicationTests
 {
+
     @Autowired
     private UserRegistry userRegistry;
 
@@ -43,13 +53,15 @@ class SepT3ApplicationTests
     private PostRegistry postRegistry;
 
     @Autowired
-    private DataSource dataSource;
+    private RatingsRegistry ratingsRegistry;
 
     @Autowired
-    private TestEntityManager entityManager;
+    private DataSource dataSource;
 
-    @BeforeEach
-    void UserSetUp()
+    /*@Autowired
+    private TestEntityManager entityManager;*/
+
+    public void UserSetUp()
     {
         User user1 = new User();
         user1.setUsername("Test1Username");
@@ -89,8 +101,7 @@ class SepT3ApplicationTests
         userRegistry.save(user3);
     }
 
-    @BeforeEach
-    void PostSetUp()
+    public void PostSetUp()
     {
         Post post1 = new Post();
         post1.setSellerid(userRegistry.findById(1).get());
@@ -122,11 +133,42 @@ class SepT3ApplicationTests
         postRegistry.save(post1);
         postRegistry.save(post2);
         postRegistry.save(post3);
+
     }
 
-    //USER Tests
-    @Test
-    private void saveUserTest()
+    public void RatingSetUp()
+    {
+        Rating rating1 = new Rating();
+        rating1.setRatingValue(2);
+        rating1.setUserFrom(userRegistry.findById(1).get());
+        rating1.setUserFrom(userRegistry.findById(2).get());
+
+        Rating rating2 = new Rating();
+        rating1.setRatingValue(3);
+        rating1.setUserFrom(userRegistry.findById(2).get());
+        rating1.setUserFrom(userRegistry.findById(3).get());
+
+        Rating rating3 = new Rating();
+        rating1.setRatingValue(3);
+        rating1.setUserFrom(userRegistry.findById(3).get());
+        rating1.setUserFrom(userRegistry.findById(1).get());
+
+        ratingsRegistry.save(rating1);
+        ratingsRegistry.save(rating2);
+        ratingsRegistry.save(rating3);
+    }
+
+    @BeforeEach
+    public void SetUp()
+    {
+        UserSetUp();
+        PostSetUp();
+        RatingSetUp();
+    }
+
+
+    /*@Test
+    public void saveUserTest()
     {
         User user4 = new User();
         user4.setUsername("Test4Username");
@@ -137,15 +179,16 @@ class SepT3ApplicationTests
         user4.setAddress("TestAddress4");
         user4.setPhoneNumber("+4511111111");
 
-        entityManager.persist(user4);
+
 
         User found = userRegistry.findByUsernameAndUserPass(user4.getUsername(), user4.getUserPass()).get();
 
         assertThat(user4.getUsername()).isEqualTo(found.getUsername());
     }
 
+
     @Test
-    private void readAllUsersTest()
+    public void readAllUsersTest()
     {
         //Values initialised in the setUp()
 
@@ -155,18 +198,21 @@ class SepT3ApplicationTests
         assertThat(found.get(0).getUsername()).isEqualTo("Test1Username");
         assertThat(found.get(1).getUsername()).isEqualTo("Test2Username");
         assertThat(found.get(2).getUsername()).isEqualTo("Test3Username");
-    }
+    }*/
+
 
     @Test
-    private void getUserByIdTest()
+    public void getUserByIdTest()
     {
         //Values initialised in the UserSetUp()
+
 
         assertThat("Test2Username").isEqualTo(userRegistry.findById(2).get().getUsername());
     }
 
+    /*
     @Test
-    private void deleteUserByIdTest()
+    public void deleteUserByIdTest()
     {
         //Values initialised in the UserSetUp()
 
@@ -180,7 +226,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void updateUserPassByIdTest()
+    public void updateUserPassByIdTest()
     {
         //Values initialised in the UserSetUp()
 
@@ -192,7 +238,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void updateUserInformationTest()
+    public void updateUserInformationTest()
     {
         //Values initialised in the UserSetUp()
 
@@ -216,7 +262,7 @@ class SepT3ApplicationTests
 
     // POST tests
     @Test
-    private void savePostTest()
+    public void savePostTest()
     {
         Post post4 = new Post();
         post4.setSellerid(userRegistry.findById(3).get());
@@ -239,7 +285,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void readAllPostsTest()
+    public void readAllPostsTest()
     {
         //Values initialised in the PostSetUp()
 
@@ -256,7 +302,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void getPostByIdTest()
+    public void getPostByIdTest()
     {
         //Values initialised in the PostSetUp()
 
@@ -272,7 +318,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void deletePostByIdTest()
+    public void deletePostByIdTest()
     {
         //Values initialised in the PostSetUp()
 
@@ -292,7 +338,7 @@ class SepT3ApplicationTests
     }
 
     @Test
-    private void updatePostByIdTest()
+    public void updatePostByIdTest()
     {
         postRegistry.updatePostById(
                 "NewDescription",
@@ -312,4 +358,11 @@ class SepT3ApplicationTests
         assertThat(found.getDescription()).isEqualTo("NewDescription");
         assertThat(found.getLocation()).isEqualTo("NewLocation");
     }
+
+    // RATING tests
+    @Test
+    public void saveRatingTest()
+    {
+
+    }*/
 }

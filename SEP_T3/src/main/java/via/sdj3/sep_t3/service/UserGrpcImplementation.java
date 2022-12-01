@@ -7,17 +7,13 @@ import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.yaml.snakeyaml.util.EnumUtils;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
-import via.sdj3.sep_t3.model.Report;
 import via.sdj3.sep_t3.model.User;
 import via.sdj3.sep_t3.protobuf.*;
-import via.sdj3.sep_t3.repository.ReportRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
@@ -76,17 +72,17 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             userRegistry.save(newUser);
             log.info("saved new user with username: " + request.getUsername());
             responseObserver.onNext(newUser.convertToUserReadGrpcDto());
+            responseObserver.onCompleted();
         } catch (Exception e)
         {
             log.error(e.getMessage());
             var status = generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
-        responseObserver.onCompleted();
     }
 
     /**
-     * Fetches the user by using an Id
+     * Fetches the user by using an id
      *
      * @param request          user to be taken/request towards the server
      * @param responseObserver the response from the server on the request
@@ -136,10 +132,10 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
     }
 
     /**
-     * Deletes a user using an Id
+     * Deletes a user using an id
      *
-     * @param request          the message containing the Id for deleting an user
-     * @param responseObserver contains the message with a confirmation from the server confirming the deletion of the user using an Id
+     * @param request          the message containing the id for deleting a user
+     * @param responseObserver contains the message with a confirmation from the server confirming the deletion of the user using an id
      */
     @Override
     public void deleteById(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
@@ -177,7 +173,9 @@ public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
             if (request.getNewPassword().equals(user.getUserPass()))
                 throw new IllegalArgumentException("New pass cant be same as old pass");
             userRegistry.updateUserPassById(request.getNewPassword(), user.getId());
+            log.info(user.getUsername() +" changed their password");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated password").build());
+            responseObserver.onCompleted();
 
         } catch (Exception e)
         {

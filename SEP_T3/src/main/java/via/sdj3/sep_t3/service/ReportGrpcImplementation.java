@@ -35,6 +35,7 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
     @Override
     public void reportUser(ReportCreationGrpcDto request, StreamObserver<GenericMessage> responseObserver)
     {
+        log.info("Reporting user with id: "+request.getReportedUserId());
         try
         {
             var newReport = new Report();
@@ -62,9 +63,32 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
     public void getAllReports(Empty request, StreamObserver<AllReports> responseObserver)
     {
         log.info("New request for getting all reports");
-        var grpcReports=new ArrayList<ReportReadDto>();
+        var grpcReports=new ArrayList<ReportReadGrpcDto>();
         reportRegistry.findAll().forEach(report -> grpcReports.add(report.convertToGrpcDto()));
         responseObserver.onNext(AllReports.newBuilder().addAllReport(grpcReports).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void getALlReportsMadeToUser(GenericMessage request, StreamObserver<AllReports> responseObserver)
+    {
+        var id = Integer.parseInt(request.getMessage());
+        log.info("Getting all reports made to user: "+id);
+        try
+        {
+            if (userRegistry.findById(id).isEmpty())
+                throw new IllegalArgumentException("User does not exist");
+        }
+        catch (IllegalArgumentException e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
+            return;
+        }
+        var convertedToGrpc=new ArrayList<ReportReadGrpcDto>();
+        reportRegistry.findByReportedUser_Id(id).forEach(report -> convertedToGrpc.add(report.convertToGrpcDto()));
+
+        responseObserver.onNext(AllReports.newBuilder().addAllReport(convertedToGrpc).build());
         responseObserver.onCompleted();
     }
 }

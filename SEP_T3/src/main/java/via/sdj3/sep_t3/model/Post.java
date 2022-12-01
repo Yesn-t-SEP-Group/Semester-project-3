@@ -47,7 +47,7 @@ public class Post
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "sellerid", nullable = false)
+    @JoinColumn(name = "seller_id", nullable = false)
     @ToString.Exclude
     private User sellerid;
 
