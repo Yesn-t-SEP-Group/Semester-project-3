@@ -99,4 +99,20 @@ public class PostsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpPost]
+    [Route("GetOwner")]
+    public async Task<ActionResult<UserReadDto>> GetOwnerDetails([FromBody] PostReadDto dto)
+    {
+        try
+        {
+            UserReadDto result = await _postLogic.GetPostOwner(dto);
+            return Ok(result);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }

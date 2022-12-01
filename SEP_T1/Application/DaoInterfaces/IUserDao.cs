@@ -16,4 +16,6 @@ public interface IUserDao
     Task<UserReadDto?> LoginAsync(UserLoginDto dto);
     
     Task UpdateAsync(UserUpdateDto dto);
+
+    Task UpdatePasswordAsync(UserNewPasswordDto newPassword);
 }

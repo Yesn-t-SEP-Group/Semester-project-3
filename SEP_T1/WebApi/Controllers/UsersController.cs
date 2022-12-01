@@ -73,4 +73,20 @@ public class UsersController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
+
+    [HttpPatch("{id}")]
+    public async Task<ActionResult> UpdatePassword([FromBody] String newPassword,int id)
+    {
+        try
+        {
+            var dto = new UserNewPasswordDto { Id = id, Password = newPassword };
+            await userLogic.UpdatePassword(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
 }

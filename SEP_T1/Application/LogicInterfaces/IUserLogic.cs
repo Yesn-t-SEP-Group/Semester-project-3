@@ -15,4 +15,5 @@ public interface IUserLogic
     
     Task UpdateAsync(UserUpdateDto dto);
 
+    Task UpdatePassword(UserNewPasswordDto newPassword);
 }
