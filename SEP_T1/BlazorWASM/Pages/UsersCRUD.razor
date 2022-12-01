@@ -5,6 +5,7 @@
 @using HttpClients.ClientInterfaces
 @using System.Security.Claims
 @inject IUserService userService;
+@inject NavigationManager navMgr;
 
 @if (isAdmin)
 {
@@ -50,9 +51,7 @@
                     <td>@user.RegistrationDateTime</td>
                     <td>
 
-                        <a href='/user/edit/@user.Id' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
+                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditUser/{user.Id}"))"/>
 
                         <button class="btn btn-outline-danger" @onclick="(async () => await DeleteElement(user.Id))">Delete</button>
                     </td>
