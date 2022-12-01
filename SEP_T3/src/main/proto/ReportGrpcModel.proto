@@ -19,7 +19,7 @@ message ReportCreationGrpcDto
   string reason =2;
 }
 
-message ReportReadDto
+message ReportReadGrpcDto
 {
   int32 reportId=1;
   int32 reportedUserId=2;
@@ -29,7 +29,7 @@ message ReportReadDto
 
 message AllReports
 {
-  repeated ReportReadDto report=1;
+  repeated ReportReadGrpcDto report=1;
 }
 
 

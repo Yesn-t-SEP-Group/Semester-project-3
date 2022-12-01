@@ -63,7 +63,7 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
     public void getAllReports(Empty request, StreamObserver<AllReports> responseObserver)
     {
         log.info("New request for getting all reports");
-        var grpcReports=new ArrayList<ReportReadDto>();
+        var grpcReports=new ArrayList<ReportReadGrpcDto>();
         reportRegistry.findAll().forEach(report -> grpcReports.add(report.convertToGrpcDto()));
         responseObserver.onNext(AllReports.newBuilder().addAllReport(grpcReports).build());
         responseObserver.onCompleted();
@@ -85,7 +85,7 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
             responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
             return;
         }
-        var convertedToGrpc=new ArrayList<ReportReadDto>();
+        var convertedToGrpc=new ArrayList<ReportReadGrpcDto>();
         reportRegistry.findByReportedUser_Id(id).forEach(report -> convertedToGrpc.add(report.convertToGrpcDto()));
 
         responseObserver.onNext(AllReports.newBuilder().addAllReport(convertedToGrpc).build());

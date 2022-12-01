@@ -101,4 +101,14 @@ public class UserFileDao : IUserDao
     {
         throw new NotImplementedException();
     }
+
+    public Task<IEnumerable<ReportReadDto>> GetAllReportsAsync()
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<ReportReadDto>> GetAllReportsMadeToUserAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
 }
