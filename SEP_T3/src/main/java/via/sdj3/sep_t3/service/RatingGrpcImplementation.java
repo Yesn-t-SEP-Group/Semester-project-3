@@ -39,9 +39,11 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
      * @param responseObserver contains a response from the server confirming getting the data
      */
     @Override
-    public void getAllRatings(Empty request, StreamObserver<RatingReadGrpcDto> responseObserver)
+    public void getAllRatings(Empty request, StreamObserver<AllRatings> responseObserver)
     {
-        ratingsRegistry.findAll().forEach(rating -> responseObserver.onNext(rating.convertToRatingReadGrpcDto()));
+        var ratings=new ArrayList<RatingReadGrpcDto>();
+        ratingsRegistry.findAll().forEach(rating -> ratings.add(rating.convertToRatingReadGrpcDto()));
+        responseObserver.onNext(AllRatings.newBuilder().addAllRating(ratings).build());
         responseObserver.onCompleted();
     }
 
@@ -58,6 +60,7 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
             //todo
             log.info("new request for creating a review");
             var newRating= MapperImplementation.INSTANCE.convertFromCreateRatingGrpcDto(request);
+            if (newRating.getRatingValue()<1||newRating.getRatingValue()>5)throw new IllegalArgumentException("Rating has to be between 1-5");
             if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("UserFrom cant be found in database");
             if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("UserTo cant be found in database");
             newRating.setUserFrom(userRegistry.findById(request.getUserFromId()).get());

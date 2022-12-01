@@ -32,6 +32,10 @@ namespace WebAPI
                 y => y.MapFrom(src => DateTime.UnixEpoch.AddSeconds(src.ReportDate)));
 
             CreateMap<ReportCreationDto, ReportCreationGrpcDto>();
+
+
+            CreateMap<RatingCreationDto, RatingCreationGrpcDto>();
+            CreateMap<RatingReadDto, RatingReadGrpcDto>().ReverseMap();
         }
     }
 }

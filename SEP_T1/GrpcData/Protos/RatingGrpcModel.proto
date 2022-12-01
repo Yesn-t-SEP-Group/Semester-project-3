@@ -4,7 +4,7 @@ import 'Common.proto';
 
 service ratingService
 {
-  rpc getAllRatings(Empty) returns (stream RatingReadGrpcDto);
+  rpc getAllRatings(Empty) returns (AllRatings);
   rpc createRating(RatingCreationGrpcDto) returns(RatingReadGrpcDto);
   rpc getRatingById(GenericMessage)returns(RatingReadGrpcDto);
   //generic message is the userId
