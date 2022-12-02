@@ -61,7 +61,7 @@ CREATE TABLE Reports
     report_date TIMESTAMP NOT NULL ,
     reason TEXT,
 
-    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 INSERT INTO Users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
