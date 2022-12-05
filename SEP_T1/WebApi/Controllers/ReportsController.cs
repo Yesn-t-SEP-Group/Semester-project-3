@@ -23,12 +23,12 @@ public class ReportsController : ControllerBase
     }
     
     
-    [HttpGet("{UserReportedId:int}")] 
-    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetReportsMadeToUser([FromRoute] int UserReportedId)
+    [HttpGet("{IdReportedUser:int}")] 
+    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetReportsMadeToUser([FromRoute] int IdReportedUser)
     {
         try
         {
-            IEnumerable<ReportReadDto> result = await reportLogic.GetAllReportsMadeToUserAsync(UserReportedId);
+            IEnumerable<ReportReadDto> result = await reportLogic.GetAllReportsMadeToUserAsync(IdReportedUser);
             return Ok(result);
         }
         catch (Exception e)
@@ -52,12 +52,12 @@ public class ReportsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteReport([FromRoute] int id)
+    [HttpDelete("{reportId:int}")]
+    public async Task<ActionResult> DeleteReport([FromRoute] int reportId)
     {
         try
         {
-            await reportLogic.DeleteReportAsync(id);
+            await reportLogic.DeleteReportAsync(reportId);
             return Ok();
         }
         catch (Exception e)

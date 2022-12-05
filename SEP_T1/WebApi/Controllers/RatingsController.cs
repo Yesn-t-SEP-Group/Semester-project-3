@@ -30,12 +30,12 @@ public class RatingsController : ControllerBase
         }
     }
     
-    [HttpGet("{id:int}")] 
-    public async Task<ActionResult<IEnumerable<RatingReadDto>>> GetRatingsMadeToUser([FromRoute] int id)
+    [HttpGet("{userId:int}")] 
+    public async Task<ActionResult<IEnumerable<RatingReadDto>>> GetRatingsMadeToUser([FromRoute] int userId)
     {
         try
         {
-            IEnumerable<RatingReadDto> result = await ratingLogic.GetAllRatingsMadeToUser(id);
+            IEnumerable<RatingReadDto> result = await ratingLogic.GetAllRatingsMadeToUser(userId);
             return Ok(result);
         }
         catch (Exception e)

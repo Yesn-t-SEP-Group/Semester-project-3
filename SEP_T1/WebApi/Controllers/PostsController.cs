@@ -70,12 +70,12 @@ public class PostsController : ControllerBase
         }
     }
 
-    [HttpDelete("{id:int}")]
-    public async Task<ActionResult> DeleteAsync([FromRoute] int id)
+    [HttpDelete("{postId:int}")]
+    public async Task<ActionResult> DeleteAsync([FromRoute] int postId)
     {
         try
         {
-            await _postLogic.DeleteAsync(id);
+            await _postLogic.DeleteAsync(postId);
             return Ok();
         }
         catch (Exception e)
@@ -85,12 +85,12 @@ public class PostsController : ControllerBase
         }
     }
 
-    [HttpGet("{id:int}")]
-    public async Task<ActionResult<PostReadDto>> GetById([FromRoute] int id)
+    [HttpGet("{postId:int}")]
+    public async Task<ActionResult<PostReadDto>> GetById([FromRoute] int postId)
     {
         try
         {
-            PostReadDto result = await _postLogic.GetByIdAsync(id);
+            PostReadDto result = await _postLogic.GetByIdAsync(postId);
             return Ok(result);
         }
         catch (Exception e)
@@ -100,13 +100,13 @@ public class PostsController : ControllerBase
         }
     }
 
-    [HttpPost]
-    [Route("GetOwner")]
-    public async Task<ActionResult<UserReadDto>> GetOwnerDetails([FromBody] PostReadDto dto)
+    [HttpGet]
+    [Route("GetOwner{postId:int}")]
+    public async Task<ActionResult<UserReadDto>> GetOwnerDetails([FromRoute] int postId)
     {
         try
         {
-            UserReadDto result = await _postLogic.GetPostOwner(dto);
+            UserReadDto result = await _postLogic.GetPostOwner(postId);
             return Ok(result);
         }
         catch (Exception e)

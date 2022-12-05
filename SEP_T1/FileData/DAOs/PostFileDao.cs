@@ -145,7 +145,7 @@ public class PostFileDao :IPostDao
         return Task.CompletedTask;
     }
 
-    public Task<UserReadDto> GetPostOwnerAsync(PostReadDto dto)
+    public Task<UserReadDto> GetPostOwnerAsync(int dto)
     {
         throw new NotImplementedException();
     }

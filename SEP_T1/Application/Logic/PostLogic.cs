@@ -139,9 +139,9 @@ public class PostLogic : IPostLogic
 
     }
 
-    public async Task<UserReadDto> GetPostOwner(PostReadDto dto)
+    public async Task<UserReadDto> GetPostOwner(int ownerId)
     {
-       return  await _postDao.GetPostOwnerAsync(dto);
+       return  await _postDao.GetPostOwnerAsync(ownerId);
     }
 
     private  void ValidateTodo(Post dto)
