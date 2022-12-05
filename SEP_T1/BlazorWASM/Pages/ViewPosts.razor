@@ -69,7 +69,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in posts)
+        @foreach (var item in posts.OrderByDescending(post =>post.creationDate))
         {
             <tr>
                 <td>@item.Title</td>

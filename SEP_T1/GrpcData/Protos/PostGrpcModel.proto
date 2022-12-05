@@ -9,6 +9,11 @@ service postService
   rpc getPostById(GenericMessage)returns(PostReadGrpcDto);
   rpc updatePost(PostReadGrpcDto) returns(GenericMessage);
   rpc deletePost(GenericMessage)returns(GenericMessage);
+
+  //we send the id of the post and get back the category its in as plaintext
+  rpc getCategoryByPostId(GenericMessage)returns(CategoryReadGrpcDto);
+  rpc getAllCategories(Empty)returns(CategoriesGrpc);
+  rpc createCategory(CategoryCreationGrpcDto)returns(CategoryReadGrpcDto);
 }
 
 
@@ -41,3 +46,16 @@ message AllPosts
   repeated PostReadGrpcDto post = 1;
 }
 
+message CategoryReadGrpcDto
+{
+  int32 id = 1;
+  string description = 2;
+}
+message CategoryCreationGrpcDto
+{
+  string description = 3;
+}
+message CategoriesGrpc
+{
+  repeated CategoryReadGrpcDto categories = 1;
+}

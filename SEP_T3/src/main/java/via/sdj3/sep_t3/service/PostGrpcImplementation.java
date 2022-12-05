@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
+import via.sdj3.sep_t3.model.Category;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
@@ -145,14 +146,66 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         try
         {
             postRegistry.deleteById(Integer.parseInt(request.getMessage()));
-            log.info("Post with id "+request.getMessage()+" was deleted");
+            log.info("Post with id " + request.getMessage() + " was deleted");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("true").build());
+            responseObserver.onCompleted();
+        } catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+    }
+
+    @Override
+    public void getCategoryByPostId(GenericMessage request, StreamObserver<CategoryReadGrpcDto> responseObserver)
+    {
+        try
+        {
+            var id = Integer.parseInt(request.getMessage());
+            log.info("Looking up category for postId " + id);
+            var postFromDatabase = postRegistry.findById(id);
+            if (postFromDatabase.isEmpty()) throw new IllegalArgumentException("Post not found");
+            var category = categoriesRegistry.findById(postFromDatabase.get().getCategory().getId());
+            responseObserver.onNext(category.get().convertToGrpcReadDto());
+            responseObserver.onCompleted();
+        } catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+    }
+
+    @Override
+    public void getAllCategories(Empty request, StreamObserver<CategoriesGrpc> responseObserver)
+    {
+        //todo write logger
+        var allCategories = new ArrayList<CategoryReadGrpcDto>();
+        categoriesRegistry.findAll().forEach(category -> allCategories.add(category.convertToGrpcReadDto()));
+        responseObserver.onNext(CategoriesGrpc.newBuilder().addAllCategories(allCategories).build());
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void createCategory(CategoryCreationGrpcDto request, StreamObserver<CategoryReadGrpcDto> responseObserver)
+    {
+        //todo write logger
+        var newCategory = new Category();
+        newCategory.setDescription(request.getDescription());
+        try
+        {
+            categoriesRegistry.findAll().forEach(category -> {
+                if (category.getDescription().equals(newCategory.getDescription()))
+                    throw new IllegalArgumentException("Category already exists in the database");
+            });
+            categoriesRegistry.save(newCategory);
+            responseObserver.onNext(categoriesRegistry.findTopByOrderByIdDesc().convertToGrpcReadDto());
             responseObserver.onCompleted();
         }
         catch (Exception e)
         {
             log.error(e.getMessage());
-            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
         }
+
     }
 }

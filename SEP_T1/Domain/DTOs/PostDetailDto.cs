@@ -15,7 +15,7 @@ public class PostDetailDto
 
     public string location { get; set; }
 
-    public int categories { get; set; }
+    public string categories { get; set; }
     
 
     public String picture { get; set; }

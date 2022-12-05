@@ -32,7 +32,7 @@
     </div>
     
     <div>
-        <label>Categories:</label>
+        <label>Category:</label>
         <input type="text" @bind="dto.categories"disabled="disabled"/>
     </div>
     
@@ -69,13 +69,14 @@
             users = await userService.GetUsers();
             PostReadDto postData = await postService.GetByIdAsync(Id);
             UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
-
-            dto = new(Id)
+            CategoryReadDto categoryDescription = await postService.GetPostCategoryAsync(Id);
+            
+            dto = new()
             {
                 Title = postData.Title,
                 description = postData.description,
-                categories = postData.categories,
                 Id = postData.Id,
+                categories = categoryDescription.Description,
                 location = postData.location,
                 picture = postData.picture,
                 price = postData.price,

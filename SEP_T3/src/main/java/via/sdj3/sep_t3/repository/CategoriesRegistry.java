@@ -2,6 +2,7 @@ package via.sdj3.sep_t3.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import via.sdj3.sep_t3.model.Category;
+import via.sdj3.sep_t3.model.Rating;
 
 /**
  * It registers categories
@@ -12,5 +13,5 @@ import via.sdj3.sep_t3.model.Category;
  */
 public interface CategoriesRegistry extends CrudRepository<Category,Integer>
 {
-    //write sql specific methods here
+    Category findTopByOrderByIdDesc();
 }
