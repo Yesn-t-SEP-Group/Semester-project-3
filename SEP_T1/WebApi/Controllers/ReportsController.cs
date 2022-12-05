@@ -23,12 +23,12 @@ public class ReportsController : ControllerBase
     }
     
     
-    [HttpGet("{id:int}")] 
-    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetReportsMadeToUser([FromRoute] int id)
+    [HttpGet("{UserReportedId:int}")] 
+    public async Task<ActionResult<IEnumerable<ReportReadDto>>> GetReportsMadeToUser([FromRoute] int UserReportedId)
     {
         try
         {
-            IEnumerable<ReportReadDto> result = await reportLogic.GetAllReportsMadeToUserAsync(id);
+            IEnumerable<ReportReadDto> result = await reportLogic.GetAllReportsMadeToUserAsync(UserReportedId);
             return Ok(result);
         }
         catch (Exception e)

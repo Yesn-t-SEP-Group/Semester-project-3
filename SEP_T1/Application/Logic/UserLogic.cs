@@ -75,9 +75,9 @@ public class UserLogic : IUserLogic
         string newPhone = dto.PhoneNumber ?? existing.PhoneNumber;
         string newAddress = dto.Address ?? existing.Address;
         string Role = dto.Role ?? existing.Role;
-        double rating = dto.rating;
-        DateTime regOn = dto.registeredOn;
-        DateTime lastSeen = dto.lastSeen;
+       // double rating = dto.rating;
+       // DateTime regOn = dto.registeredOn;
+       // DateTime lastSeen = dto.lastSeen;
 
 
         UserUpdateDto updated = new(userInt)
@@ -89,9 +89,9 @@ public class UserLogic : IUserLogic
             PhoneNumber = newPhone,
             Address = newAddress,
             Role = Role,
-            rating = rating,
-            registeredOn = regOn,
-            lastSeen = lastSeen
+            //rating = rating,
+           // registeredOn = regOn,
+           // lastSeen = lastSeen
         };
 
 

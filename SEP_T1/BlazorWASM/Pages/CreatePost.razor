@@ -123,7 +123,7 @@
             int id = int.Parse(user.FindFirst("Id").Value);
             dto = new(id, postTitle, postBody, creationDate, location, int.Parse(categories), picture, double.Parse(price));
             await postService.CreateAsync(dto);
-            navMgr.NavigateTo("/");
+            navMgr.NavigateTo("/ViewPosts");
         }
         catch (Exception e)
         {
