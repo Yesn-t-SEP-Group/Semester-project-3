@@ -70,7 +70,8 @@
             PostReadDto postData = await postService.GetByIdAsync(Id);
             UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
             CategoryReadDto categoryDescription = await postService.GetPostCategoryAsync(Id);
-            dto = new(Id)
+            
+            dto = new()
             {
                 Title = postData.Title,
                 description = postData.description,

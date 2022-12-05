@@ -116,20 +116,19 @@ public class PostHttpClient : IPostService
 
     public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
     {
-        Console.WriteLine(client);
-        HttpResponseMessage response = await client.GetAsync("/users");
+        HttpResponseMessage response = await client.GetAsync($"/categories/{postId}");
         string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(result);
         }
 
-        var convert = JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(result, new JsonSerializerOptions
+        var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
         })!;
 
-        return null;
+        return convert;
 
     }
 
