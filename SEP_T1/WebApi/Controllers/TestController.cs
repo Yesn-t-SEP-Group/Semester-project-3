@@ -24,15 +24,15 @@ public class TestController : ControllerBase
     }
     
     [HttpGet]
-    [Route("postTests/{postId:int}")]
-    public async Task<ActionResult<PostReadDto>> GettingPostWithIdReturnsCorrectId([FromRoute] int postId)
+    [Route("postTests/GettingPostWithIdReturnsCorrectId/{postId:int}")]
+    public async Task<ActionResult> GettingPostWithIdReturnsCorrectId([FromRoute] int postId)
     {
         try
         {
             PostReadDto result = await postLogic.GetByIdAsync(postId);
             if (result.Id==postId)
             {
-                return Ok(result);
+                return Ok();
             }
 
             throw new ArgumentException("Test failed!");
@@ -44,15 +44,15 @@ public class TestController : ControllerBase
         }
     }
     [HttpGet]
-    [Route("userTests/{userId:int}")]
-    public async Task<ActionResult<UserReadDto>> GettingUserWithIdReturnsCorrectId([FromRoute] int userId)
+    [Route("userTests/GettingUserWithIdReturnsCorrectId/{userId:int}")]
+    public async Task<ActionResult> GettingUserWithIdReturnsCorrectId([FromRoute] int userId)
     {
         try
         {
             UserReadDto? user= await userLogic.GetByIdAsync(userId);
             if (user != null && user.Id==userId)
             {
-                return Ok(user);
+                return Ok();
             }
             throw new ArgumentException("Test failed!");
         }
