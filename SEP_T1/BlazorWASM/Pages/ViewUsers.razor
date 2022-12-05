@@ -1,5 +1,5 @@
 ﻿@page "/ViewUsers"
-@attribute [Authorize]
+@attribute [Authorize(Policy = "IsAdmin")]
 @using Domain.Models
 @using Domain.DTOs
 @using HttpClients.ClientInterfaces
@@ -7,10 +7,6 @@
 @inject IUserService userService;
 <h3 style="text-align: center">Overview of all users</h3>
 
-
-
-@if (isAdmin)
-{
     <h3>Hello @name</h3>
     @if (!string.IsNullOrEmpty(msg))
     {
@@ -60,10 +56,6 @@
         </div>
     }
 }
-else
-{
-    <p>You are not Admin.</p>
-}
 
 @code {
     
@@ -74,13 +66,12 @@ else
 
     private string? name;
     private IEnumerable<Claim>? userClaims;
-    private bool isAdmin;
 
     protected override async Task OnInitializedAsync()
     {
         AuthenticationState authState = await AuthState;
         ClaimsPrincipal user = authState.User;
-        isAdmin = user.IsInRole("Admin");
+        
 
         try
         {
@@ -91,9 +82,7 @@ else
             Console.WriteLine(e);
             msg = e.Message;
         }
-        
-        if (!isAdmin) return;
-        
+
         userClaims = user.Claims;
         name = user.Identity!.Name!;
         
