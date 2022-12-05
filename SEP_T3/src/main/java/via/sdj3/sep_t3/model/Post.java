@@ -9,6 +9,7 @@ import via.sdj3.sep_t3.protobuf.PostReadGrpcDto;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class Post
     private Integer id;
 
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "description")
     @Type(type = "org.hibernate.type.TextType")
@@ -68,7 +69,7 @@ public class Post
     {
         return PostReadGrpcDto.newBuilder()
                 .setId(id)
-                .setCreationDate((int) creationDate.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setCreationDate((int) creationDate.toEpochSecond(ZoneOffset.UTC))
                 .setDescription(description)
                 .setLocation(location)
                 .setCategories(category.getId())

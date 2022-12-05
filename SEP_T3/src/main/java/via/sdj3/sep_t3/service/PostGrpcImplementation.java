@@ -12,7 +12,7 @@ import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,9 +60,9 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
-            newPost.setCreationDate(LocalDate.now());
-            if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("");
-            if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("");
+            newPost.setCreationDate(LocalDateTime.now());
+            if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("category not found in database");
+            if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("user not found in database");
             newPost.setTitle(request.getTitle());
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
@@ -72,7 +72,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             responseObserver.onCompleted();
         }catch (Exception e)
         {
-            log.error("Cant create post due to invalid argument"+e.getMessage());
+            log.error("Cant create post due to invalid argument: "+e.getMessage());
             var status=generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
