@@ -58,7 +58,7 @@ public class Post
     @Column(name = "price", nullable = false)
     private Integer price;
 
-    @Column(name = "title", length = 50)
+    @Column(name = "title")
     private String title;
 
     /**

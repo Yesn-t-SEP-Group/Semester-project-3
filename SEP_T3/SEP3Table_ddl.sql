@@ -46,7 +46,7 @@ CREATE TABLE Posts
     location      VARCHAR(100),
     category_id   INT  NOT NULL,
     seller_id      INT  NOT NULL,
-    picture_url   VARCHAR(50),
+    picture_url   TEXT,
     price         INT  NOT NULL,
 
     FOREIGN KEY (seller_id) REFERENCES Users (user_id) ON DELETE CASCADE,
