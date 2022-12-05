@@ -39,10 +39,10 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    [HttpDelete("{userId:int}")]
+    public async Task<ActionResult> Delete(int userId)
     {
-        await userLogic.DeleteAsync(id);
+        await userLogic.DeleteAsync(userId);
         
         /*
         try
@@ -57,5 +57,37 @@ public class UsersController : ControllerBase
 */
 
         return Ok();
+    }
+    
+    [HttpPatch]
+    public async Task<ActionResult> UpdateAsync([FromBody] UserUpdateDto dto)
+    {
+        try
+        {
+            await userLogic.UpdateAsync(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+    
+    
+    [HttpGet("{userId:int}")]
+    public async Task<ActionResult<UserReadDto>> GetUserById([FromRoute] int userId)
+    {
+        try
+        {
+            UserReadDto? user= await userLogic.GetByIdAsync(userId);
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+        
     }
 }

@@ -7,13 +7,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
-import via.sdj3.sep_t3.model.Post;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +49,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
      * Creates a post in the database
      * @param request dto we get from T2
      * @param responseObserver grpc needs this
-     * @implNote after .onError dont call anything else
+     * @implNote after .onError don't call anything else
      */
     @Override
     public void createPost(PostCreationGrpcDto request, StreamObserver<PostReadGrpcDto> responseObserver)
@@ -61,10 +60,10 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
-            newPost.setCreationDate(LocalDate.now());
-            if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("");
-            if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("");
-
+            newPost.setCreationDate(LocalDateTime.now());
+            if (categoriesRegistry.findById(request.getCategories()).isEmpty())throw new IllegalArgumentException("category not found in database");
+            if (userRegistry.findById(request.getOwnerId()).isEmpty())throw new IllegalArgumentException("user not found in database");
+            newPost.setTitle(request.getTitle());
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
             postRegistry.save(newPost);
@@ -73,15 +72,15 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             responseObserver.onCompleted();
         }catch (Exception e)
         {
-            log.error("Cant create post due to invalid argument"+e.getMessage());
+            log.error("Cant create post due to invalid argument: "+e.getMessage());
             var status=generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT);
             responseObserver.onError(StatusProto.toStatusRuntimeException(status));
         }
     }
 
     /**
-     * Fetches a post using an Id
-     * @param request contains a message requesting to fetch a post using an Id
+     * Fetches a post using an id
+     * @param request contains a message requesting to fetch a post using an id
      * @param responseObserver returns a message from the server confirming the return
      */
     @Override
@@ -121,7 +120,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             var pictureUrl=request.getPicture();
             var price=request.getPrice();
             var id =request.getId();
-            postRegistry.updatePostById(description,location,category,pictureUrl,price,id);
+            var title=request.getTitle();
+            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,id);
             log.info("Post was updated successfully" +request);
 
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated post!").build());
@@ -145,6 +145,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         try
         {
             postRegistry.deleteById(Integer.parseInt(request.getMessage()));
+            log.info("Post with id "+request.getMessage()+" was deleted");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("true").build());
             responseObserver.onCompleted();
         }

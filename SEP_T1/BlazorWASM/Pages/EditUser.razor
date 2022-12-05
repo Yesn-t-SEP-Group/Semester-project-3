@@ -1,0 +1,115 @@
+﻿@page "/EditUser/{id:int}"
+@attribute [Authorize]
+@using Domain.DTOs
+@using Domain.Models
+@using HttpClients.ClientInterfaces
+@inject IPostService postService;
+@inject IUserService userService;
+@inject NavigationManager navMgr;
+
+<div class="card">
+    @if (users == null)
+    {
+        <label>Loading users...</label>
+    }
+    else if (!users.Any())
+    {
+        <label>No users, you cannot create a Todo</label>
+    }
+    else if (dto == null)
+    {
+        <label>Loading Todo data..</label>
+    }
+    else
+    {
+        <h3>Update User</h3>
+        <div class="form-group field">
+            <label>Username:</label>
+            <input type="text" @bind="dto.UserName"/>
+        </div>
+        <div class="form-group field">
+            <label>Name:</label>
+            <input type="text" @bind="dto.Name"/>
+        </div>
+        <div class="form-group field">
+            <label>Email:</label>
+            <input type="text" @bind="dto.Email"/>
+        </div>
+        <div class="form-group field">
+            <label>PhoneNumber:</label>
+            <input type="text" @bind="dto.PhoneNumber"/>
+        </div>
+        <div class="form-group field">
+            <label>Address:</label>
+            <input type="text" @bind="dto.Address"/>
+        </div>
+        <div class="form-group field">
+            <label>Role:</label>
+            <input type="text" @bind="dto.Role"/>
+        </div>
+
+
+
+        <div class="button-row">
+            <button @onclick="UpdateAsync" class="acceptbtn">Update</button>
+        </div>
+    }
+    @if (!string.IsNullOrEmpty(msg))
+    {
+        <label style="color: red">@msg</label>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private UserUpdateDto dto = null!;
+    private string msg = "";
+    private IEnumerable<UserReadDto>? users;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            users = await userService.GetUsers();
+           // PostReadDto todoData = await postService.GetByIdAsync(Id);
+            UserReadDto currentlyAssigned = users.First(user => user.Id.Equals(Id));
+
+
+
+            dto = new(Id)
+            {
+                UserName = currentlyAssigned.UserName,
+                Name = currentlyAssigned.Name,
+                Email = currentlyAssigned.Email,
+                PhoneNumber = currentlyAssigned.PhoneNumber,
+                Address = currentlyAssigned.Address,
+                Role = currentlyAssigned.Role,
+                //rating = currentlyAssigned.Rating,
+               // registeredOn = currentlyAssigned.RegistrationDateTime,
+               // lastSeen = currentlyAssigned.LastSeenDateTime,
+            };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+    
+    private async Task UpdateAsync()
+    {
+        try
+        {
+            await userService.UpdateAsync(dto);
+            navMgr.NavigateTo("/usersCRUD");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+}

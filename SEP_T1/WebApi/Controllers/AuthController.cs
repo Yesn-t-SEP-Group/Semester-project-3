@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.LogicInterfaces;
 using Domain.DTOs;
 using Domain.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,13 @@ public class AuthController : ControllerBase
 {
     private readonly IConfiguration config;
     private readonly IAuthService authService;
+    private readonly IUserLogic userLogic;
 
-    public AuthController(IConfiguration config, IAuthService authService)
+    public AuthController(IConfiguration config, IAuthService authService, IUserLogic userLogic)
     {
         this.config = config;
         this.authService = authService;
+        this.userLogic = userLogic;
     }
 
     private List<Claim> GenerateClaims(UserReadDto user)
@@ -76,5 +79,21 @@ public class AuthController : ControllerBase
         string token = GenerateJwt(user);
 
         return Ok(token);
+    }
+    
+    [HttpPatch("{userId:int}")]
+    public async Task<ActionResult> UpdatePassword([FromBody] String newPassword,int userId)
+    {
+        try
+        {
+            var dto = new UserNewPasswordDto { Id = userId, Password = newPassword };
+            await userLogic.UpdatePassword(dto);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
     }
 }

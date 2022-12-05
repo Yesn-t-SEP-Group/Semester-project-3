@@ -41,14 +41,15 @@ CREATE TABLE Posts
 (
     post_id       SERIAL PRIMARY KEY,
     creation_date DATE NOT NULL,
+    title         VARCHAR(50),
     description   TEXT,
     location      VARCHAR(100),
     category_id   INT  NOT NULL,
-    sellerId      INT  NOT NULL,
-    picture_url   VARCHAR(50),
+    seller_id      INT  NOT NULL,
+    picture_url   TEXT,
     price         INT  NOT NULL,
 
-    FOREIGN KEY (sellerId) REFERENCES Users (user_id) ON DELETE CASCADE,
+    FOREIGN KEY (seller_id) REFERENCES Users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
 );
 
@@ -60,7 +61,7 @@ CREATE TABLE Reports
     report_date TIMESTAMP NOT NULL ,
     reason TEXT,
 
-    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id)
+    FOREIGN KEY (reported_user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
 INSERT INTO Users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)

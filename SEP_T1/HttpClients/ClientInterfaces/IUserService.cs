@@ -10,4 +10,7 @@ public interface IUserService
     Task<IEnumerable<UserReadDto>> GetUsers();
 
     Task DeleteUser(int id);
+    
+    Task UpdateAsync(UserUpdateDto dto);
+
 }

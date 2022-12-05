@@ -12,7 +12,6 @@ service postService
 }
 
 
-
 message PostCreationGrpcDto
 {
   string description = 1;
@@ -21,6 +20,7 @@ message PostCreationGrpcDto
   int32 ownerId = 4;
   string picture = 5;
   int32 price = 6;
+  string title = 7;
 }
 
 message PostReadGrpcDto
@@ -33,6 +33,7 @@ message PostReadGrpcDto
   int32 ownerId = 6;
   string picture = 7;
   int32 price = 8;
+  string title = 9;
 }
 
 message AllPosts

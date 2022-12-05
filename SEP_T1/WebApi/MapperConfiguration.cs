@@ -16,6 +16,7 @@ namespace WebAPI
             CreateMap<UserCreationGrpcDto, UserCreationDto>();
             CreateMap<UserCreationDto, UserCreationGrpcDto>();
             CreateMap<PostUpdateDto, PostReadGrpcDto>();
+            CreateMap<UserUpdateDto, UserUpdateGrpcDTO>().ReverseMap();
             CreateMap<PostCreationDto, PostCreationGrpcDto>().ReverseMap();
             CreateMap<PostReadDto, PostReadGrpcDto>().ReverseMap().ForMember(x => x.creationDate,
                 y => y.MapFrom(src =>DateTime.UnixEpoch.AddSeconds(src.CreationDate)));
@@ -27,6 +28,15 @@ namespace WebAPI
             CreateMap<PostCreationDto, PostGrpcDao>();
             CreateMap<PostCreationDto, PostCreationGrpcDto>().ReverseMap();
             CreateMap<PostReadGrpcDto, Post>();
+
+            CreateMap<ReportReadDto, ReportReadGrpcDto>().ReverseMap().ForMember(x => x.ReportDate,
+                y => y.MapFrom(src => DateTime.UnixEpoch.AddSeconds(src.ReportDate)));
+
+            CreateMap<ReportCreationDto, ReportCreationGrpcDto>();
+
+
+            CreateMap<RatingCreationDto, RatingCreationGrpcDto>();
+            CreateMap<RatingReadDto, RatingReadGrpcDto>().ReverseMap();
         }
     }
 }

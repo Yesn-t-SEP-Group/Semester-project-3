@@ -14,4 +14,8 @@ public interface IUserDao
     Task DeleteAsync(int id);
 
     Task<UserReadDto?> LoginAsync(UserLoginDto dto);
+    
+    Task UpdateAsync(UserUpdateDto dto);
+
+    Task UpdatePasswordAsync(UserNewPasswordDto newPassword);
 }

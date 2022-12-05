@@ -16,9 +16,26 @@
                 <input type="text" @bind="postTitle"/>
             </div>
             <div>
-                <label>Write here:</label>
+                <label>Description:</label>
                 <textarea rows="8" cols="20" @bind="postBody" style="alignment: center"></textarea>
             </div>
+            <div>
+                <label>Location:</label>
+                <input type="text" @bind="location"/>
+            </div>
+            <div>
+                <label>Categories:</label>
+                <input type="text" @bind="categories"/>
+            </div>
+            <div>
+                <label>Picture:</label>
+                <input type="text" @bind="picture"/>
+            </div>
+            <div>
+                <label>Price:</label>
+                <input type="text" @bind="price"/>
+            </div>
+            
             
         </div>
     
@@ -37,6 +54,11 @@
     
     private string postTitle = "";
     private string postBody = "";
+    private DateTime creationDate = DateTime.Now;
+    private string location = "";
+    private string categories ;
+    private string picture = "";
+    private string price;
 
     private string msg = "";
     [CascadingParameter]
@@ -50,6 +72,7 @@
         msg = "";
         authState = await AuthState;
         user = authState.User;
+        creationDate = DateTime.Now;
         
         try
         {
@@ -76,24 +99,35 @@
         }
         if (string.IsNullOrEmpty(postBody))
         {
-            msg = "Title cannot be empty!";
+            msg = "description cannot be empty!";
+            return;
+        }
+        if (string.IsNullOrEmpty(location))
+        {
+            msg = "location cannot be empty!";
+            return;
+        }
+        if (string.IsNullOrEmpty(categories))
+        {
+            msg = "category has to between >1";
+            return;
+        }
+        if (string.IsNullOrEmpty(price))
+        {
+            msg = "price cannot be less than 0!";
             return;
         }
 
         try
         {
             int id = int.Parse(user.FindFirst("Id").Value);
-            dto = new(id, postTitle, postBody);
+            dto = new(id, postTitle, postBody, creationDate, location, int.Parse(categories), picture, double.Parse(price));
             await postService.CreateAsync(dto);
-            navMgr.NavigateTo("/");
+            navMgr.NavigateTo("/ViewPosts");
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-       //     msg = e.Message;
-        //    msg = user.ToString();
-       //     msg = (user.FindFirst("Id").Value);
-            msg = dto.ToString();
         }
     }
 }

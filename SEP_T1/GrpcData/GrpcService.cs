@@ -32,5 +32,18 @@ namespace GrpcData
             var channel = GrpcChannel.ForAddress(_url);
             return new postService.postServiceClient(channel);
         }
+
+        public reportService.reportServiceClient CreateReportServiceClient()
+        {
+            var channel = GrpcChannel.ForAddress(_url);
+            return new reportService.reportServiceClient(channel);
+        }
+
+        public ratingService.ratingServiceClient CreateRatingServiceClient()
+        {
+            var channel = GrpcChannel.ForAddress(_url);
+            return new ratingService.ratingServiceClient(channel);
+            
+        }
     }
 }

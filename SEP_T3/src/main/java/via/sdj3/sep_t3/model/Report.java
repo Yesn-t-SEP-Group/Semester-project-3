@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.Type;
-import via.sdj3.sep_t3.protobuf.ReportReadDto;
+import via.sdj3.sep_t3.protobuf.ReportReadGrpcDto;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -47,9 +47,9 @@ public class Report
         return id != null && Objects.equals(id, report.id);
     }
 
-    public ReportReadDto convertToGrpcDto()
+    public ReportReadGrpcDto convertToGrpcDto()
     {
-        return ReportReadDto.newBuilder()
+        return ReportReadGrpcDto.newBuilder()
                 .setReason(reason)
                 .setReportDate((int) reportDate.toEpochSecond(ZoneOffset.UTC))
                 .setReportedUserId(reportedUser.getId())

@@ -13,4 +13,7 @@ public interface IPostDao
     Task<PostReadDto?> GetByIdAsync(int postId);
     Task UpdateAsync(PostUpdateDto dto);
     Task DeleteAsync(int id);
+    
+    Task<UserReadDto> GetPostOwnerAsync(int dto);
+
 }

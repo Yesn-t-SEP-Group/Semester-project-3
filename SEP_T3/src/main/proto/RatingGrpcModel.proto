@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-import 'common.proto';
+import 'Common.proto';
 option java_multiple_files = true;
 option java_package = "via.sdj3.sep_t3.protobuf";
 
 service ratingService
 {
-  rpc getAllRatings(Empty) returns (stream RatingReadGrpcDto);
+  rpc getAllRatings(Empty) returns (AllRatings);
   rpc createRating(RatingCreationGrpcDto) returns(RatingReadGrpcDto);
   rpc getRatingById(GenericMessage)returns(RatingReadGrpcDto);
   //generic message is the userId
-  rpc getAllRatingsMadeToUser(GenericMessage)returns(stream RatingReadGrpcDto);
+  rpc getAllRatingsMadeToUser(GenericMessage)returns(AllRatings);
   //we send the ratingId and get a confirmation back
   rpc deleteRating(GenericMessage)returns(GenericMessage);
 }
@@ -28,4 +28,9 @@ message RatingReadGrpcDto
   int32 userFromId=2;
   int32 userToId=3;
   int32 ratingValue=4;
+}
+
+message AllRatings
+{
+  repeated RatingReadGrpcDto rating=1;
 }

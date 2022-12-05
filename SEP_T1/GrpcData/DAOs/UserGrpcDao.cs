@@ -70,14 +70,7 @@ public class UserGrpcDao : IUserDao
     public async Task DeleteAsync(int id)
     {
         var client = _grpcService.CreateUserServiceClient();
-        var result =  await client.deleteByIdAsync(new GenericMessage{Message = id.ToString()});
-        Console.WriteLine(result);
-        
-        //if (!result.Message.Equals("true"))
-        //{
-       //     Log.Logger.Error(result.Message);
-       //     throw new ArgumentException(result.Message);
-       // }
+        await client.deleteByIdAsync(new GenericMessage{Message = id.ToString()});
     }
 
     public async Task<UserReadDto?> LoginAsync(UserLoginDto dto)
@@ -98,5 +91,19 @@ public class UserGrpcDao : IUserDao
         }
         
         
+    }
+    
+    public async Task UpdateAsync(UserUpdateDto dto)
+    {
+        var client = _grpcService.CreateUserServiceClient();
+        var mapped = _mapper.Map<UserUpdateGrpcDTO>(dto);
+        var result = await client.updateUserInformationAsync(mapped);
+    }
+
+    public async Task UpdatePasswordAsync(UserNewPasswordDto newPassword)
+    {
+        var client = _grpcService.CreateUserServiceClient();
+        var grpcConverted=new PasswordUpdateGrpcDTO{Id = newPassword.Id,NewPassword = newPassword.Password};
+        var result = await client.updatePasswordAsync(grpcConverted);
     }
 }

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import 'Common.proto';
+option java_multiple_files = true;
+option java_package = "via.sdj3.sep_t3.protobuf";
+
+service reportService
+{
+  rpc reportUser(ReportCreationGrpcDto)returns(ReportReadGrpcDto);
+  rpc getAllReports(Empty)returns(AllReports);
+
+  rpc getALlReportsMadeToUser(GenericMessage)returns(AllReports);
+  rpc deleteReport(GenericMessage)returns(GenericMessage);
+}
+
+
+message ReportCreationGrpcDto
+{
+  int32 reportedUserId=1;
+  string reason =2;
+}
+
+message ReportReadGrpcDto
+{
+  int32 reportId=1;
+  int32 reportedUserId=2;
+  int32 reportDate=3;
+  string reason =4;
+}
+
+message AllReports
+{
+  repeated ReportReadGrpcDto report=1;
+}
+
+

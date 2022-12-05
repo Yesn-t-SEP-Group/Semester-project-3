@@ -11,4 +11,5 @@ public interface IPostLogic
     Task DeleteAsync(int id);
 
     Task<PostReadDto> GetByIdAsync(int id);
+    Task<UserReadDto> GetPostOwner(int userId);
 }

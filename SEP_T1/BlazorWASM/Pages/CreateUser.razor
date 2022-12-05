@@ -10,7 +10,6 @@
 
     <InputText id="username" @bind-Value="dto.UserName" />
     <InputText id="password" @bind-Value="dto.Password" />
-    <InputText id= "Role" @bind-Value="dto.Role" />
     <InputText id="full_name" @bind-Value="dto.Name" />
     <InputText id="email" @bind-Value="dto.Email" />
     <InputText id="phone_number" @bind-Value="dto.PhoneNumber" />
@@ -67,18 +66,14 @@
                         <input type="text" placeholder="Address" class="form-control" @bind="dto.Address" @bind:event="oninput" />
                     </div>
                 </div>
-                
-                <div class="d-flex flex-row align-items-center mb-4">
-                                    <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
-                                    <div class="form-outline flex-fill mb-0">
-                                        <input type="text" placeholder="Role" class="form-control" @bind="dto.Role" @bind:event="oninput" />
-                                    </div>
-                                </div>
 
-
-                <div class="d-flex justify-content-center">
-                                    <button @onclick="HandleValidSubmit" class="acceptbtn btn btn-primary btn-lg">Create</button>
-                                </div>
+                <div class="button-row">
+                            @if (!string.IsNullOrEmpty(msg))
+                            {
+                                <label style="color: red">@msg</label>
+                            }
+                            <button @onclick="HandleValidSubmit" class="acceptbtn">Create</button>
+                        </div>
                 
 
             </div>
@@ -90,8 +85,12 @@
 
 
 @code {
-    
-    private UserCreationDto dto = new();
+
+    private string msg = "";
+    private UserCreationDto dto = new()
+    {
+        Role = "User"
+    };
 
    
     private async Task HandleValidSubmit()
@@ -99,5 +98,7 @@
 
     // Process the valid form
         await userService.Create(this.dto);
+        msg = "User created";
+
     }
 }

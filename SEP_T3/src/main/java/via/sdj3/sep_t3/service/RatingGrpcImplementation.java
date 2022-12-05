@@ -11,6 +11,8 @@ import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.RatingsRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
+import java.util.ArrayList;
+
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
 /**
@@ -37,9 +39,11 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
      * @param responseObserver contains a response from the server confirming getting the data
      */
     @Override
-    public void getAllRatings(Empty request, StreamObserver<RatingReadGrpcDto> responseObserver)
+    public void getAllRatings(Empty request, StreamObserver<AllRatings> responseObserver)
     {
-        ratingsRegistry.findAll().forEach(rating -> responseObserver.onNext(rating.convertToRatingReadGrpcDto()));
+        var ratings=new ArrayList<RatingReadGrpcDto>();
+        ratingsRegistry.findAll().forEach(rating -> ratings.add(rating.convertToRatingReadGrpcDto()));
+        responseObserver.onNext(AllRatings.newBuilder().addAllRating(ratings).build());
         responseObserver.onCompleted();
     }
 
@@ -54,15 +58,15 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
         try
         {
             //todo
-            log.info("");
+            log.info("new request for creating a review");
             var newRating= MapperImplementation.INSTANCE.convertFromCreateRatingGrpcDto(request);
-            if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("");
-            if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("");
+            if (newRating.getRatingValue()<1||newRating.getRatingValue()>5)throw new IllegalArgumentException("Rating has to be between 1-5");
+            if (userRegistry.findById(request.getUserFromId()).isEmpty())throw new IllegalArgumentException("UserFrom cant be found in database");
+            if (userRegistry.findById(request.getUserToId()).isEmpty())throw new IllegalArgumentException("UserTo cant be found in database");
             newRating.setUserFrom(userRegistry.findById(request.getUserFromId()).get());
             newRating.setUserTo(userRegistry.findById(request.getUserToId()).get());
             ratingsRegistry.save(newRating);
 
-            //todo implement convert
             responseObserver.onNext(ratingsRegistry.findTopByOrderByIdDesc().convertToRatingReadGrpcDto());
             responseObserver.onCompleted();
         }
@@ -82,7 +86,7 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     @Override
     public void getRatingById(GenericMessage request, StreamObserver<RatingReadGrpcDto> responseObserver)
     {
-        log.info("");
+        log.info("Getting rating by id: "+request.getMessage());
         try
         {
             var id = Integer.parseInt(request.getMessage());
@@ -103,15 +107,16 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
      * @param responseObserver contains a message returning all the ratings contained by a user
      */
     @Override
-    public void getAllRatingsMadeToUser(GenericMessage request, StreamObserver<RatingReadGrpcDto> responseObserver)
+    public void getAllRatingsMadeToUser(GenericMessage request, StreamObserver<AllRatings> responseObserver)
     {
         try
         {
             var id=Integer.parseInt(request.getMessage());
-            //todo
-            if (userRegistry.findById(id).isEmpty())throw new IllegalArgumentException("shit broke");
+            if (userRegistry.findById(id).isEmpty())throw new IllegalArgumentException("User not found in registry");
             var ratings=ratingsRegistry.findByUserTo_Id(id);
-            ratings.forEach(rating -> responseObserver.onNext(rating.convertToRatingReadGrpcDto()));
+            var grpcRatings=new ArrayList<RatingReadGrpcDto>();
+            ratings.forEach(rating -> grpcRatings.add(rating.convertToRatingReadGrpcDto()));
+            responseObserver.onNext(AllRatings.newBuilder().addAllRating(grpcRatings).build());
             responseObserver.onCompleted();
         }
         catch (Exception e)

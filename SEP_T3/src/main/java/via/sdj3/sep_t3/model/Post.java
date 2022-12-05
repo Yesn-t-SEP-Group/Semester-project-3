@@ -9,6 +9,7 @@ import via.sdj3.sep_t3.protobuf.PostReadGrpcDto;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class Post
     private Integer id;
 
     @Column(name = "creation_date", nullable = false)
-    private LocalDate creationDate;
+    private LocalDateTime creationDate;
 
     @Column(name = "description")
     @Type(type = "org.hibernate.type.TextType")
@@ -47,7 +48,7 @@ public class Post
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "sellerid", nullable = false)
+    @JoinColumn(name = "seller_id", nullable = false)
     @ToString.Exclude
     private User sellerid;
 
@@ -57,6 +58,9 @@ public class Post
     @Column(name = "price", nullable = false)
     private Integer price;
 
+    @Column(name = "title")
+    private String title;
+
     /**
      * converts the data for usage in the proto file
      * @return returns the data that used by the proto file
@@ -65,13 +69,14 @@ public class Post
     {
         return PostReadGrpcDto.newBuilder()
                 .setId(id)
-                .setCreationDate((int) creationDate.toEpochSecond(LocalTime.NOON, ZoneOffset.MIN))
+                .setCreationDate((int) creationDate.toEpochSecond(ZoneOffset.UTC))
                 .setDescription(description)
                 .setLocation(location)
                 .setCategories(category.getId())
                 .setOwnerId(sellerid.getId())
                 .setPicture(pictureUrl)
                 .setPrice(price)
+                .setTitle(title)
                 .build();
     }
 

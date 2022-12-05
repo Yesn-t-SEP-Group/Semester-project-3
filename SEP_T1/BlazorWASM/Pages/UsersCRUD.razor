@@ -1,13 +1,12 @@
 ﻿@page "/usersCRUD"
 @using Domain.DTOs
-@attribute [Authorize]
+@attribute [Authorize(Policy = "IsAdmin")]
 @inject HttpClient Http
 @using HttpClients.ClientInterfaces
 @using System.Security.Claims
 @inject IUserService userService;
+@inject NavigationManager navMgr;
 
-@if (isAdmin)
-{
     <h1>User Data CRUD</h1>
     <div class="row">
         <div class="col-md-6">
@@ -50,9 +49,7 @@
                     <td>@user.RegistrationDateTime</td>
                     <td>
 
-                        <a href='/user/edit/@user.Id' class="btn btn-outline-dark" role="button">
-                            Edit
-                        </a>
+                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditUser/{user.Id}"))"/>
 
                         <button class="btn btn-outline-danger" @onclick="(async () => await DeleteElement(user.Id))">Delete</button>
                     </td>
@@ -61,7 +58,7 @@
             </tbody>
         </table>
     }
-}
+
 @code {
     [CascadingParameter] public IModalService Modal { get; set; }
     

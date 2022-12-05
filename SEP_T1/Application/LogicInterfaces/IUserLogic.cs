@@ -12,5 +12,8 @@ public interface IUserLogic
     Task<UserReadDto?> GetByIdAsync(int id);
 
     Task DeleteAsync(int id);
+    
+    Task UpdateAsync(UserUpdateDto dto);
 
+    Task UpdatePassword(UserNewPasswordDto newPassword);
 }
