@@ -54,28 +54,28 @@ else
     <table class="table">
         <thead>
         <tr>
-            <th>Post ID</th>
-            <th>Owner ID</th>
             <th>Title</th>
             <th>Description</th>
             <th>CreationDate</th>
             <th>Location</th>
             <th>price</th>
             <th>category</th>
+            <th>Details</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var item in posts)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.OwnerId</td>
                 <td>@item.Title</td>
                 <td>@item.description</td>
                 <td>@item.creationDate</td>
                 <td>@item.location</td>
                 <td>@item.price</td>
                 <td>@item.categories</td>
+                <td>
+                    <img src="icons/viewButton.png" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
+                </td>
             </tr>
         }
         </tbody>

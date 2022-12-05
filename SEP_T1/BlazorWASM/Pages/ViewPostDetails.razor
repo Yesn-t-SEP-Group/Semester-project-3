@@ -1,0 +1,90 @@
+﻿@page "/ViewPostDetails/{id:int}"
+@attribute [Authorize]
+
+@using Domain.DTOs
+@using Domain.Models
+@using HttpClients.ClientInterfaces
+@using AutoMapper
+@inject IPostService postService;
+@inject IUserService userService;
+@inject NavigationManager navMgr;
+
+<div class="card">
+    <div>
+        <h2><input type="text" @bind="dto.Title" disabled="disabled"/></h2>
+    </div>
+    
+    <div>
+        <input type="text" @bind="dto.picture"disabled="disabled"/>
+    </div>
+
+    <div>
+        <label>Price:</label>
+        <input type="text" @bind="dto.price" disabled="disabled" style="width: 50px; text-align: center"/> DKK
+    </div>
+    
+    <div>
+        <textarea @bind="dto.description" disabled="disabled" style="width: 300px; height: 300px">DESCRIPTION</textarea>
+    </div>
+        
+    <div>
+        <input type="text" @bind="dto.location" disabled="disabled"/>
+    </div>
+    
+    <div>
+        <label>Categories:</label>
+        <input type="text" @bind="dto.categories"disabled="disabled"/>
+    </div>
+    
+    <div>
+        <h4>Posted by:</h4>
+        <ul>
+            <li><input type="text" @bind="dto.Owner.UserName" disabled="disabled"/></li>
+            <!-- todo rating logic-->
+            <li><input type="text" @bind="dto.Owner.Rating" disabled="disabled"/></li>
+            <li><input type="text" @bind="dto.Owner.Email" disabled="disabled"/></li>
+            <li><input type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled"/></li>
+        </ul>
+    </div>
+    <div>
+        <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
+    </div>
+</div>
+
+@code
+{
+    [Parameter]
+    public int Id { get; set; }
+    
+    private PostDetailDto dto = null!;
+    private string msg = "";
+    private IEnumerable<UserReadDto>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        msg = "";
+        try
+        {
+            users = await userService.GetUsers();
+            PostReadDto postData = await postService.GetByIdAsync(Id);
+            UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
+
+            dto = new(Id)
+            {
+                Title = postData.Title,
+                description = postData.description,
+                categories = postData.categories,
+                Id = postData.Id,
+                location = postData.location,
+                picture = postData.picture,
+                price = postData.price,
+                Owner = owner
+            };
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+}
