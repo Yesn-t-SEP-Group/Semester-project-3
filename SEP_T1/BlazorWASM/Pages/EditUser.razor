@@ -28,11 +28,6 @@
             <input type="text" @bind="dto.UserName"/>
         </div>
         <div class="form-group field">
-            <label>Password:</label>
-            <input type="text" @bind="dto.Password"/>
-        </div>
-        
-        <div class="form-group field">
             <label>Name:</label>
             <input type="text" @bind="dto.Name"/>
         </div>
@@ -91,7 +86,6 @@
             dto = new(Id)
             {
                 UserName = currentlyAssigned.UserName,
-                Password = currentlyAssigned.Password,
                 Name = currentlyAssigned.Name,
                 Email = currentlyAssigned.Email,
                 PhoneNumber = currentlyAssigned.PhoneNumber,

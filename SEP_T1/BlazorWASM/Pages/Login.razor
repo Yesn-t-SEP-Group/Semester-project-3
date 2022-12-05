@@ -15,7 +15,7 @@
             </div>
             <div class="field">
                 <label style="text-align: center">Password:</label>
-                <input type="password" @bind="password"/>
+                <input type="password" @bind="password" @onkeydown="@Enter"/>
             </div>
             @if (!string.IsNullOrEmpty(errorLabel))
             {
@@ -65,6 +65,13 @@
         {
             Console.WriteLine(e);
             errorLabel = $"Error: {e.Message}";
+        }
+    }
+    private async void Enter(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "NumpadEnter")
+        {
+           await LoginAsync();
         }
     }
 }

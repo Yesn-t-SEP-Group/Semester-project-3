@@ -19,10 +19,10 @@ public class UserLogic : IUserLogic
     }
 
     public async Task<UserReadDto> CreateAsync(UserCreationDto dto)
-    {        
+    {
         dto.Password = CalculatePasswordHash(dto.Password);
         UserReadDto created = await userDao.CreateAsync(dto);
-        
+
         return created;
     }
 
@@ -69,8 +69,7 @@ public class UserLogic : IUserLogic
 
 
         int userInt = existing.Id;
-        string userName = dto.UserName?? existing.UserName;
-        string newPass = dto.Password ?? existing.Password;
+        string userName = dto.UserName ?? existing.UserName;
         string newName = dto.Name ?? existing.Name;
         string newEmail = dto.Email ?? existing.Email;
         string newPhone = dto.PhoneNumber ?? existing.PhoneNumber;
@@ -81,31 +80,28 @@ public class UserLogic : IUserLogic
         DateTime lastSeen = dto.lastSeen;
 
 
-
-
         UserUpdateDto updated = new(userInt)
-        { 
+        {
             //Id = userInt,
             UserName = userName,
-            Password= newPass,
-                Name = newName,
-                Email = newEmail,
-                PhoneNumber = newPhone,
-                Address = newAddress,
-                Role = Role,
-                rating = rating,
-                registeredOn = regOn,
-                lastSeen = lastSeen
+            Name = newName,
+            Email = newEmail,
+            PhoneNumber = newPhone,
+            Address = newAddress,
+            Role = Role,
+            rating = rating,
+            registeredOn = regOn,
+            lastSeen = lastSeen
         };
-
 
 
         await userDao.UpdateAsync(updated);
     }
+
     public Task UpdatePassword(UserNewPasswordDto newPassword)
     {
         //we hash the password before updating it in the database
-        newPassword.Password= CalculatePasswordHash(newPassword.Password);
+        newPassword.Password = CalculatePasswordHash(newPassword.Password);
         return userDao.UpdatePasswordAsync(newPassword);
     }
 }
