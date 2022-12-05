@@ -144,6 +144,21 @@ public class PostLogic : IPostLogic
        return  await _postDao.GetPostOwnerAsync(ownerId);
     }
 
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        return await _postDao.GetPostCategoryAsync(postId);
+    }
+
+    public async Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        return await _postDao.CreateCategoryAsync(description);
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        return await _postDao.GetAllCategoriesAsync();
+    }
+
     private  void ValidateTodo(Post dto)
     {
         

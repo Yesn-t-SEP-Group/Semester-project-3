@@ -115,19 +115,4 @@ public class PostsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
-    [HttpGet]
-    [Route("GetCategory{postId:int}")]
-    public async Task<ActionResult<UserReadDto>> GetCategoryDetails([FromRoute] int postId)
-    {
-        try
-        {
-            UserReadDto result = await _postLogic.GetPostOwner(postId);
-            return Ok(result);
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
-    }
 }

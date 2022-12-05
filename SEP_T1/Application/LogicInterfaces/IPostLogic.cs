@@ -12,4 +12,8 @@ public interface IPostLogic
 
     Task<PostReadDto> GetByIdAsync(int id);
     Task<UserReadDto> GetPostOwner(int userId);
+    Task<CategoryReadDto> GetPostCategoryAsync(int postId);
+    Task<CategoryReadDto> CreateCategoryAsync(string description);
+    Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync();
+    
 }

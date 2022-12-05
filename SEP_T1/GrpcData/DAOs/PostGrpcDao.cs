@@ -90,4 +90,31 @@ public class PostGrpcDao : IPostDao
         var result = await client.updatePostAsync(mapped);
         
     }
+
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getCategoryByPostIdAsync(new GenericMessage { Message = postId.ToString() });
+        return _mapper.Map<CategoryReadDto>(result);
+    }
+
+    public async Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.createCategoryAsync(new CategoryCreationGrpcDto { Description = description });
+        return _mapper.Map<CategoryReadDto>(result);
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getAllCategoriesAsync(new Empty());
+        var list = new List<CategoryReadDto>();
+        foreach (var categoryReadGrpcDto in result.Categories)
+        {
+            list.Add(_mapper.Map<CategoryReadDto>(categoryReadGrpcDto));
+        }
+
+        return list;
+    }
 }

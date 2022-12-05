@@ -15,4 +15,6 @@ public interface IPostService
     Task<PostReadDto> GetByIdAsync(int id);
     Task UpdateAsync(PostUpdateDto dto);
     Task DeleteAsync(int id);
+    
+    
 }
