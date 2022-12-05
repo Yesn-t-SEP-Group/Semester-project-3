@@ -16,8 +16,7 @@ public class CategoriesController : ControllerBase
         this._postLogic = postLogic;
     }
 
-    [HttpGet]
-    [Route("GetCategory{postId:int}")]
+    [HttpGet("{postId:int}")] 
     public async Task<ActionResult<CategoryReadDto>> GetCategoryDetails([FromRoute] int postId)
     {
         try

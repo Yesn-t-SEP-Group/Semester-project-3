@@ -113,4 +113,33 @@ public class PostHttpClient : IPostService
             throw new Exception(content);
         }
     }
+
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        Console.WriteLine(client);
+        HttpResponseMessage response = await client.GetAsync("/users");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return null;
+
+    }
+
+    public Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

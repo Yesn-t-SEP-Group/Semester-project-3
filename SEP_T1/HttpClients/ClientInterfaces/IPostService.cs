@@ -16,5 +16,7 @@ public interface IPostService
     Task UpdateAsync(PostUpdateDto dto);
     Task DeleteAsync(int id);
     
-    
+    Task<CategoryReadDto> GetPostCategoryAsync(int postId);
+    Task<CategoryReadDto> CreateCategoryAsync(string description);
+    Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync();
 }
