@@ -39,10 +39,10 @@ public class UsersController : ControllerBase
         return Ok(users);
     }
 
-    [HttpDelete("{id}")]
-    public async Task<ActionResult> Delete(int id)
+    [HttpDelete("{userId:int}")]
+    public async Task<ActionResult> Delete(int userId)
     {
-        await userLogic.DeleteAsync(id);
+        await userLogic.DeleteAsync(userId);
         
         /*
         try
@@ -74,20 +74,6 @@ public class UsersController : ControllerBase
         }
     }
     
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> UpdatePassword([FromBody] String newPassword,int id)
-    {
-        try
-        {
-            var dto = new UserNewPasswordDto { Id = id, Password = newPassword };
-            await userLogic.UpdatePassword(dto);
-            return Ok();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            return StatusCode(500, e.Message);
-        }
-    }
+    
     
 }

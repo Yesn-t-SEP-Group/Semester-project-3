@@ -14,6 +14,6 @@ public interface IPostDao
     Task UpdateAsync(PostUpdateDto dto);
     Task DeleteAsync(int id);
     
-    Task<UserReadDto> GetPostOwnerAsync(PostReadDto dto);
+    Task<UserReadDto> GetPostOwnerAsync(int dto);
 
 }

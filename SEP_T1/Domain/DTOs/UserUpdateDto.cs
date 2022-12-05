@@ -16,11 +16,11 @@ public class UserUpdateDto
 
     public string Role { get; set; }
 
-    public double rating { get; set; }
+   // public double rating { get; set; }
     
-    public DateTime registeredOn { get; set; }
+  //  public DateTime registeredOn { get; set; }
     
-    public DateTime lastSeen { get; set; }
+  //  public DateTime lastSeen { get; set; }
     
     
 }

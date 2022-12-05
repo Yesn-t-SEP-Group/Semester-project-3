@@ -47,10 +47,6 @@
             <label>Role:</label>
             <input type="text" @bind="dto.Role"/>
         </div>
-        <div class="form-group field">
-            <label>Rating:</label>
-            <input type="text" @bind="dto.rating"/>
-        </div>
 
 
 
@@ -91,9 +87,9 @@
                 PhoneNumber = currentlyAssigned.PhoneNumber,
                 Address = currentlyAssigned.Address,
                 Role = currentlyAssigned.Role,
-                rating = currentlyAssigned.Rating,
-                registeredOn = currentlyAssigned.RegistrationDateTime,
-                lastSeen = currentlyAssigned.LastSeenDateTime,
+                //rating = currentlyAssigned.Rating,
+               // registeredOn = currentlyAssigned.RegistrationDateTime,
+               // lastSeen = currentlyAssigned.LastSeenDateTime,
             };
         }
         catch (Exception e)
