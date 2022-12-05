@@ -75,5 +75,19 @@ public class UsersController : ControllerBase
     }
     
     
-    
+    [HttpGet("{userId:int}")]
+    public async Task<ActionResult<UserReadDto>> GetUserById([FromRoute] int userId)
+    {
+        try
+        {
+            UserReadDto? user= await userLogic.GetByIdAsync(userId);
+            return Ok(user);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+        
+    }
 }
