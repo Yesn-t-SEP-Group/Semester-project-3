@@ -27,6 +27,7 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/*
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -59,7 +60,7 @@ public class SepT3ApplicationTests
     private DataSource dataSource;
 
     /*@Autowired
-    private TestEntityManager entityManager;*/
+    private TestEntityManager entityManager;
 
     public void UserSetUp()
     {
@@ -198,7 +199,7 @@ public class SepT3ApplicationTests
         assertThat(found.get(0).getUsername()).isEqualTo("Test1Username");
         assertThat(found.get(1).getUsername()).isEqualTo("Test2Username");
         assertThat(found.get(2).getUsername()).isEqualTo("Test3Username");
-    }*/
+    }
 
 
     @Test
@@ -210,7 +211,7 @@ public class SepT3ApplicationTests
         assertThat("Test2Username").isEqualTo(userRegistry.findById(2).get().getUsername());
     }
 
-    /*
+
     @Test
     public void deleteUserByIdTest()
     {
@@ -364,5 +365,6 @@ public class SepT3ApplicationTests
     public void saveRatingTest()
     {
 
-    }*/
+    }
 }
+ */
