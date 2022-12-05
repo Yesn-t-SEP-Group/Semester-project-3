@@ -15,7 +15,7 @@
     </div>
     
     <div>
-        <input type="text" @bind="dto.picture"disabled="disabled"/>
+        <img src="@imgSrc" alt="NO IMAGE FOUND"/>
     </div>
 
     <div>
@@ -59,6 +59,7 @@
     private PostDetailDto dto = null!;
     private string msg = "";
     private IEnumerable<UserReadDto>? users;
+    private string imgSrc;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,6 +81,7 @@
                 price = postData.price,
                 Owner = owner
             };
+            imgSrc = dto.picture;
         }
         catch (Exception e)
         {
