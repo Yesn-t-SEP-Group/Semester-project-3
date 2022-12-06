@@ -18,6 +18,7 @@ namespace Application.DI
             services.AddScoped<IPostLogic, PostLogic>();
             services.AddScoped<IReportLogic, ReportLogic>();
             services.AddScoped<IRatingLogic, RatingLogic>();
+            services.AddScoped<IMessagesLogic, MessageLogic>();
             return services;
         }
     }
