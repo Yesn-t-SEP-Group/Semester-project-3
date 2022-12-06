@@ -22,6 +22,9 @@ import java.util.Set;
  */
 public class Category
 {
+    /***
+     * this method compares id, description and posts as objects to be considered equal if their id fields are non-null and equal.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "category_id", nullable = false)
@@ -43,6 +46,10 @@ public class Category
         return id != null && Objects.equals(id, that.id);
     }
 
+    /***
+     * The method converts category into a form for gRPC connection
+     * @return awaits a received return
+     */
     public CategoryReadGrpcDto convertToGrpcReadDto()
     {
         return CategoryReadGrpcDto.newBuilder()

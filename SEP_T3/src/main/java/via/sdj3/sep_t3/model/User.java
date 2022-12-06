@@ -17,6 +17,9 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 
+/***
+ * User class, used to define the user
+ */
 public class User
 {
     @Id

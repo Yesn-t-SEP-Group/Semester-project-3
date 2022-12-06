@@ -14,8 +14,15 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
+
+/***
+ * the rating class used to write values into the database
+ */
 public class Rating
 {
+    /***
+     * the method fields will write new values if their ids match using the equals method at the end.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id", nullable = false)

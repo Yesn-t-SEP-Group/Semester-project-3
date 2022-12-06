@@ -1,3 +1,6 @@
+/*
+PostGrpcModel.proto used by the PostGrpcModel service to define the messages that are sent to the server.
+*/
 syntax = "proto3";
 
 import 'Common.proto';

@@ -1,5 +1,7 @@
+/*
+common.proto file is used to define the common data structures used by the client and server.
+*/
 syntax = "proto3";
-
 option java_multiple_files = true;
 option java_package = "via.sdj3.sep_t3.protobuf";
 
