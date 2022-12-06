@@ -34,9 +34,30 @@ public class PostGrpcDao : IPostDao
             return mapped;
     }
 
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
+    public async Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters)
     {
-        throw new NotImplementedException();
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getAllPostsAsync(new Empty());
+        
+        List<PostReadDto> list = new List<PostReadDto>();
+        foreach (var read in result.Post)
+        {
+            var temp = _mapper.Map<PostReadDto>(read);
+            list.Add(temp);
+        }
+
+        if (searchParameters.category != 0 && searchParameters.category <=5)
+        {
+           list = (List<PostReadDto>)list.Where((post =>post.categories == searchParameters.category));
+        }
+        
+        if (!string.IsNullOrEmpty(searchParameters.TitleContains))
+        {
+           list = (List<PostReadDto>)list.Where(t =>
+               t.Title.Contains(searchParameters.TitleContains, StringComparison.OrdinalIgnoreCase));
+        }
+        
+        return list.AsEnumerable();
     }
 
     public async Task DeleteAsync(int id)

@@ -26,9 +26,9 @@ public class PostHttpClient : IPostService
         }
     }
 
-    public async Task<ICollection<Post>> GetAsync(string? userName, int? userId, string? titleContains/*, string? bodyContains*/)
+    public async Task<ICollection<PostReadDto>> GetAsync(int? category, string? titleContains/*, string? bodyContains*/)
     {
-        string query = ConstructQuery(userName, userId, titleContains/*, bodyContains*/);
+        string query = ConstructQuery(category, titleContains/*, bodyContains*/);
 
         HttpResponseMessage response = await client.GetAsync("/posts"+query);
         string content = await response.Content.ReadAsStringAsync();
@@ -37,7 +37,7 @@ public class PostHttpClient : IPostService
             throw new Exception(content);
         }
 
-        ICollection<Post> posts = JsonSerializer.Deserialize<ICollection<Post>>(content, new JsonSerializerOptions
+        ICollection<PostReadDto> posts = JsonSerializer.Deserialize<ICollection<PostReadDto>>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
@@ -75,18 +75,20 @@ public class PostHttpClient : IPostService
         }
     }
 
-    private static string ConstructQuery(string? userName, int? userId, string? titleContains/*, string? bodyContains*/)
+    private static string ConstructQuery(int? category, string? titleContains/*, string? bodyContains*/)
     {
         string query = "";
+        /*
         if (!string.IsNullOrEmpty(userName))
         {
             query += $"?username={userName}";
         }
+        */
 
-        if (userId != null)
+        if (category != null)
         {
             query += string.IsNullOrEmpty(query) ? "?" : "&";
-            query += $"userid={userId}";
+            query += $"category={category}";
         }
 
         if (!string.IsNullOrEmpty(titleContains))

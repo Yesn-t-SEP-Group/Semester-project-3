@@ -57,10 +57,10 @@ public class PostFileDao :IPostDao
     }
 
     
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParams)
-    {
+    public Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParams)
+    { /*
         IEnumerable<Post> result = context.Todos.AsEnumerable();
-
+ /*
         if (!string.IsNullOrEmpty(searchParams.Username))
         {
             // we know username is unique, so just fetch the first
@@ -68,17 +68,19 @@ public class PostFileDao :IPostDao
             //result = context.Todos.Where(todo =>
             //    todo.Owner.UserName.Equals(searchParams.Username, StringComparison.OrdinalIgnoreCase));
         }
-
+        */
+/*
         if (searchParams.UserId != null)
         {
             result = result.Where(t => t.OwnerId == searchParams.UserId);
         }
+        */
 
         /*if (searchParams.CompletedStatus != null)
         {
             result = result.Where(t => t.IsCompleted == searchParams.CompletedStatus);
         }*/
-
+/*
         if (!string.IsNullOrEmpty(searchParams.TitleContains))
         {
             result = result.Where(t =>
@@ -90,8 +92,9 @@ public class PostFileDao :IPostDao
             result = result.Where(t =>
                 t.Title.Contains(searchParams.BodyContains, StringComparison.OrdinalIgnoreCase));
         }*/
-
-        return Task.FromResult(result);
+    
+       // return Task.FromResult(result);
+       throw new NotImplementedException();
     }
 
     public Task<IEnumerable<PostReadDto>> GetAsync()

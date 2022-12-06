@@ -2,15 +2,13 @@
 
 public class SearchPostParametersDto
 {
-    public string? Username { get;}
-    public int? UserId { get;}
+    public int? category { get;}
     public string? TitleContains { get;}
     //public string? BodyContains { get;}
 
-    public SearchPostParametersDto(string? username, int? userId, string? titleContains/*, string? */)
+    public SearchPostParametersDto(int? category, string? titleContains/*, string? */)
     {
-        Username = username;
-        UserId = userId;
+        this.category = category;
         //BodyContains = bodyContains;
         TitleContains = titleContains;
     }

@@ -17,6 +17,11 @@
                 <label>Title contains:</label>
                 <input type="text" @bind="titleContainsFilter"/>
             </div>
+            <div class="filter">
+                <label>Category:</label>
+                <input type="text" @bind="CategoryFilter"/>
+            </div>
+            
             /*<div class="filter">
                 <label>Body contains:</label>
                 <input type="text" @bind="bodyContainsFilter"/>
@@ -99,12 +104,12 @@ else
     AuthenticationState authState;
     ClaimsPrincipal user;
 
-    private IEnumerable<Post>? posts;
+    private IEnumerable<PostReadDto>? posts;
     private string msg = "";
     private bool doShowFilters = false;
 
-    private string? usernameFilter;
-    private int? userIdFilter;
+    //private string? usernameFilter;
+    private int? CategoryFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
 
@@ -120,10 +125,9 @@ else
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync(usernameFilter, userIdFilter, titleContainsFilter /*, bodyContainsFilter*/);
+            posts = await postService.GetAsync( CategoryFilter, titleContainsFilter /*, bodyContainsFilter*/);
 
-
-            var list = new List<Post>(posts!);
+            var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id").Value));
             list.Sort(CompareById);
             posts = list.AsEnumerable();
@@ -142,7 +146,7 @@ else
         {
             await postService.DeleteAsync(postId);
 
-            var list = new List<Post>(posts!);
+            var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.Id == postId);
             posts = list.AsEnumerable();
         }
@@ -153,7 +157,7 @@ else
         }
     }
 
-    private int CompareById(Post x, Post y)
+    private int CompareById(PostReadDto x, PostReadDto y)
     {
         if (x.Id > y.Id)
         {

@@ -20,5 +20,8 @@ public class PostReadDto
     public String picture { get; set; }
 
     public double price { get; set; }
-    
+
+    public PostReadDto()
+    {
+    }
 }
