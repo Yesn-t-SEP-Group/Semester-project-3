@@ -23,6 +23,7 @@ builder.Services.AddScoped<IUserService, UserHttpClient>();
 builder.Services.AddScoped<IPostService, PostHttpClient>();
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
 builder.Services.AddScoped<IReportService, ReportHttpClient>();
+builder.Services.AddScoped<IMessageService, MessageHttpClient>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
 
 

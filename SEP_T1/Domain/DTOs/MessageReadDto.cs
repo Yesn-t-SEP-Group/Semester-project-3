@@ -6,4 +6,6 @@ public class MessageReadDto
     public int UserFromId { get; set; }
     public int UserToId { get; set; }
     public string MessageText { get; set; }
+    public string? UserFromName { get; set; }
+
 }

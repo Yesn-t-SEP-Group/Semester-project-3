@@ -5,16 +5,20 @@
 @using Domain.Models
 @using HttpClients.ClientInterfaces
 @using AutoMapper
+@using System.Security.Claims
 @inject IPostService postService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
 @inject IReportService reportService;
+@inject IMessageService messageService;
 
 <div class="card">
     <div>
-        <h2><input type="text" @bind="dto.Title" disabled="disabled"/></h2>
+        <h2>
+            <input type="text" @bind="dto.Title" disabled="disabled"/>
+        </h2>
     </div>
-    
+
     <div>
         <img src="@imgSrc" alt="NO IMAGE FOUND" style="width: 400px;"/>
     </div>
@@ -23,31 +27,39 @@
         <label>Price:</label>
         <input type="text" @bind="dto.price" disabled="disabled" style="width: 50px; text-align: center"/> DKK
     </div>
-    
+
     <div>
         <textarea @bind="dto.description" disabled="disabled" style="width: 300px; height: 300px">DESCRIPTION</textarea>
     </div>
-        
+
     <div>
         <input type="text" @bind="dto.location" disabled="disabled"/>
     </div>
-    
+
     <div>
         <label>Category:</label>
         <input type="text" @bind="dto.categories"disabled="disabled"/>
     </div>
-    
+
     <div>
         <h4>Posted by:</h4>
         <ul>
-            <li><input type="text" @bind="dto.Owner.UserName" disabled="disabled"/></li>
+            <li>
+                <input type="text" @bind="dto.Owner.UserName" disabled="disabled"/>
+            </li>
             <!-- todo rating logic-->
-            <li><input type="text" @bind="dto.Owner.Rating" disabled="disabled"/></li>
-            <li><input type="text" @bind="dto.Owner.Email" disabled="disabled"/></li>
-            <li><input type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled"/></li>
+            <li>
+                <input type="text" @bind="dto.Owner.Rating" disabled="disabled"/>
+            </li>
+            <li>
+                <input type="text" @bind="dto.Owner.Email" disabled="disabled"/>
+            </li>
+            <li>
+                <input type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled"/>
+            </li>
         </ul>
     </div>
-    
+
     <div>
         <h4 style="color: red; font-weight: bold">REPORT USER</h4>
         <textarea rows="8" cols="20" @bind="reportReason" style=""></textarea>
@@ -55,7 +67,15 @@
         <label style="color: red">@msg</label><br/>
         <button type="button" @onclick="@(() => reportUser())">Report</button>
     </div>
-    
+
+    <div>
+        <h4 style="color: red; font-weight: bold">Write message to user</h4>
+        <textarea rows="8" cols="20" @bind="dmContent" style=""></textarea>
+        <br/>
+        <label style="color: red">@msg</label><br/>
+        <button type="button" @onclick="@(() => writeDM())">Send Message</button>
+    </div>
+
     <div>
         <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
     </div>
@@ -65,16 +85,25 @@
 {
     [Parameter]
     public int Id { get; set; }
-    
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
     private PostDetailDto dto = null!;
     private string msg = "";
     private IEnumerable<UserReadDto>? users;
     private string imgSrc;
-    private string? reportReason="";
+    private string? reportReason = "";
+    private string? dmContent = "";
+    AuthenticationState authState;
+    ClaimsPrincipal user;
     private UserReadDto owner;
 
     protected override async Task OnInitializedAsync()
     {
+        authState = await AuthState;
+        user = authState.User;
+
         msg = "";
         try
         {
@@ -82,7 +111,7 @@
             PostReadDto postData = await postService.GetByIdAsync(Id);
             owner = users.First(user => user.Id.Equals(postData.OwnerId));
             CategoryReadDto categoryDescription = await postService.GetPostCategoryAsync(Id);
-            
+
             dto = new()
             {
                 Title = postData.Title,
@@ -118,6 +147,27 @@
         else
         {
             msg = "Must give a reason for reporting the user!";
+        }
+    }
+
+    private void writeDM()
+    {
+        if (dmContent != null && !dmContent.Equals(""))
+        {
+            var myId = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+
+            var messageCreationDto = new MessageCreationDto()
+            {
+                MessageText = dmContent,
+                UserToId = owner.Id,
+                UserFromId = myId,
+            };
+            messageService.CreateMessageAsync((messageCreationDto));
+            msg = "Message sent!";
+        }
+        else
+        {
+            msg = "Must give a message to send!";
         }
     }
 }

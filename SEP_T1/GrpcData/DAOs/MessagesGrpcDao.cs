@@ -41,16 +41,11 @@ public class MessagesGrpcDao : IMessagesDao
     
     public async Task<IEnumerable<MessageReadDto>> GetMessagesMadeToUserAsync(int userId)
     {
-        // Create a client for the private message service
         var client = _grpcService.CreatePrivateMessageServiceClient();
 
-        // Get the messages made to the specified user
         var response = await client.GetMessageMadeToUserAsync(new GenericMessage { Message = userId.ToString() });
 
-        // Map the messages to MessageReadDto objects
         var mappedList = response.Messages.Select(m => _mapper.Map<MessageReadDto>(m)).ToList();
-
-        // Return the list of mapped messages
         return mappedList;
     }
 
