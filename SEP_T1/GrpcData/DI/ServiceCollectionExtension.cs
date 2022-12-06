@@ -18,6 +18,7 @@ namespace GrpcData.DI
             services.AddScoped<IPostDao, PostGrpcDao>();
             services.AddScoped<IReportDao, ReportGrpcDao>();
             services.AddScoped<IRatingDao, RatingGrpcDao>();
+            services.AddScoped<IMessagesDao, MessagesGrpcDao>();
             return services;
         }
     }

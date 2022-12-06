@@ -43,7 +43,12 @@ namespace GrpcData
         {
             var channel = GrpcChannel.ForAddress(_url);
             return new ratingService.ratingServiceClient(channel);
-            
+        }
+
+        public privateMessageService.privateMessageServiceClient CreatePrivateMessageServiceClient()
+        {
+            var channel = GrpcChannel.ForAddress(_url);
+            return new privateMessageService.privateMessageServiceClient(channel);
         }
     }
 }
