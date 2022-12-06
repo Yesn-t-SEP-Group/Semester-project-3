@@ -16,7 +16,7 @@
     </div>
     
     <div>
-        <img src="@imgSrc" alt="NO IMAGE FOUND"/>
+        <img src="@imgSrc" alt="NO IMAGE FOUND" style="width: 400px;"/>
     </div>
 
     <div>
@@ -70,8 +70,8 @@
     private string msg = "";
     private IEnumerable<UserReadDto>? users;
     private string imgSrc;
-    private string? reportReason;
-    private UserReadDto owner = null;
+    private string? reportReason="";
+    private UserReadDto owner;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,7 +80,7 @@
         {
             users = await userService.GetUsers();
             PostReadDto postData = await postService.GetByIdAsync(Id);
-            UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
+            owner = users.First(user => user.Id.Equals(postData.OwnerId));
             CategoryReadDto categoryDescription = await postService.GetPostCategoryAsync(Id);
             
             dto = new()
