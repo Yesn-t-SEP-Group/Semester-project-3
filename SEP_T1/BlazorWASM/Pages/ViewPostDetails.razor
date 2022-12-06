@@ -8,6 +8,7 @@
 @inject IPostService postService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
+@inject IReportService reportService;
 
 <div class="card">
     <div>
@@ -46,6 +47,15 @@
             <li><input type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled"/></li>
         </ul>
     </div>
+    
+    <div>
+        <h4 style="color: red; font-weight: bold">REPORT USER</h4>
+        <textarea rows="8" cols="20" @bind="reportReason" style=""></textarea>
+        <br/>
+        <label style="color: red">@msg</label><br/>
+        <button type="button" @onclick="@(() => reportUser())">Report</button>
+    </div>
+    
     <div>
         <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
     </div>
@@ -60,6 +70,8 @@
     private string msg = "";
     private IEnumerable<UserReadDto>? users;
     private string imgSrc;
+    private string? reportReason;
+    private UserReadDto owner = null;
 
     protected override async Task OnInitializedAsync()
     {
@@ -68,7 +80,7 @@
         {
             users = await userService.GetUsers();
             PostReadDto postData = await postService.GetByIdAsync(Id);
-            UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
+            owner = users.First(user => user.Id.Equals(postData.OwnerId));
 
             dto = new(Id)
             {
@@ -87,6 +99,24 @@
         {
             Console.WriteLine(e);
             msg = e.Message;
+        }
+    }
+
+    private void reportUser()
+    {
+        if (reportReason != null)
+        {
+            ReportCreationDto reportDto = new ReportCreationDto()
+            {
+                ReportedUserId = owner.Id,
+                Reason = reportReason
+            };
+            reportService.CreateReport(reportDto);
+            navMgr.NavigateTo($"/ViewPosts");
+        }
+        else
+        {
+            msg = "Must give a reason for reporting the user!";
         }
     }
 }
