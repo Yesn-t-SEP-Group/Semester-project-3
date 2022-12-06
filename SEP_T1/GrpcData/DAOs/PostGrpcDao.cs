@@ -1,8 +1,10 @@
 ﻿using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices.Marshalling;
+using System.Threading.Channels;
 using System.Xml.Linq;
 using Application.DaoInterfaces;
 using AutoMapper;
+using AutoMapper.Configuration;
 using Domain.DTOs;
 using Domain.Models;
 using GrpcData.DI;
@@ -34,12 +36,16 @@ public class PostGrpcDao : IPostDao
             return mapped;
     }
 
+    /*
     public async Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters)
     {
+        
+        
         var client = _grpcService.CreatePostServiceClient();
         var result = await client.getAllPostsAsync(new Empty());
-        
-        List<PostReadDto> list = new List<PostReadDto>();
+        var holder = new List<PostReadDto>();
+
+        var list = new List<PostReadDto>();
         foreach (var read in result.Post)
         {
             var temp = _mapper.Map<PostReadDto>(read);
@@ -48,17 +54,52 @@ public class PostGrpcDao : IPostDao
 
         if (searchParameters.category != 0 && searchParameters.category <=5)
         {
-           list = (List<PostReadDto>)list.Where((post =>post.categories == searchParameters.category));
+         
+         holder = list.FindAll(post => post.categories.Equals(searchParameters.category));
         }
         
         if (!string.IsNullOrEmpty(searchParameters.TitleContains))
         {
-           list = (List<PostReadDto>)list.Where(t =>
-               t.Title.Contains(searchParameters.TitleContains, StringComparison.OrdinalIgnoreCase));
+          
+          holder = list.FindAll(p => p.Title.Contains(searchParameters.TitleContains));
         }
         
-        return list.AsEnumerable();
+        return holder;
+
     }
+    */
+    
+    public async Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters)
+    {
+        // Create a PostServiceClient using the GrpcService
+        var client = _grpcService.CreatePostServiceClient();
+
+        // Get all the posts using the client
+        var result = await client.getAllPostsAsync(new Empty());
+
+        // Map the result to a List of PostReadDto objects using the Mapper
+        var list = result.Post.Select(x => _mapper.Map<PostReadDto>(x)).ToList();
+
+        // Filter the list by category if specified in the search parameters
+        if (searchParameters.category != 0 && searchParameters.category <= 5)
+        {
+            list = list.Where(post => post.categories.Equals(searchParameters.category)).ToList();
+        }
+
+        // Filter the list by title if specified in the search parameters
+        if (!string.IsNullOrEmpty(searchParameters.TitleContains))
+        {
+            list = list.Where(p => p.Title.Contains(searchParameters.TitleContains)).ToList();
+        }
+
+        return list;
+    }
+    
+
+
+
+
+
 
     public async Task DeleteAsync(int id)
     {
