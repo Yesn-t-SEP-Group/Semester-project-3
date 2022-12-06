@@ -64,8 +64,17 @@ CREATE TABLE Reports
     FOREIGN KEY (reported_user_id) REFERENCES Users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO Users(username, user_pass, full_name, email, phone_number, address,registered_on,last_seen,role)
-VALUES ('Raedrim','test','Levente','love@you.com','+4591773044','Horsens',now(),now(),'Admin');
+DROP TABLE IF EXISTS Messages CASCADE;
+CREATE TABLE Messages
+(
+    message_id SERIAL PRIMARY KEY,
+    user_from INT,
+    user_to INT,
+    message_text TEXT,
+
+    FOREIGN KEY(user_from) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY(user_to) REFERENCES Users(user_id) ON DELETE CASCADE
+);
 
 INSERT INTO categories(description)values ('PC-Hardware');
 INSERT INTO categories(description)values ('Consoles');
