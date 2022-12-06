@@ -37,6 +37,7 @@ namespace WebAPI
 
             CreateMap<RatingCreationDto, RatingCreationGrpcDto>();
             CreateMap<RatingReadDto, RatingReadGrpcDto>().ReverseMap();
+            CreateMap<CategoryReadDto, CategoryReadGrpcDto>().ReverseMap();
         }
     }
 }

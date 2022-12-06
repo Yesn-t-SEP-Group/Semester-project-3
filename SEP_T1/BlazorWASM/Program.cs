@@ -22,7 +22,9 @@ builder.Services.AddScoped(
 builder.Services.AddScoped<IUserService, UserHttpClient>();
 builder.Services.AddScoped<IPostService, PostHttpClient>();
 builder.Services.AddScoped<IAuthService, JwtAuthService>();
+builder.Services.AddScoped<IReportService, ReportHttpClient>();
 builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthProvider>();
+
 
 AuthorizationPolicies.AddPolicies(builder.Services);
 builder.Services.AddBlazoredModal();

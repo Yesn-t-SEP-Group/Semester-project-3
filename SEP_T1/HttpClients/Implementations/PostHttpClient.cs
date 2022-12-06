@@ -115,4 +115,56 @@ public class PostHttpClient : IPostService
             throw new Exception(content);
         }
     }
+
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        HttpResponseMessage response = await client.GetAsync($"/categories/{postId}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return convert;
+
+    }
+
+    public async Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        StringContent body = new StringContent(description, Encoding.UTF8, "application/json");
+        HttpResponseMessage response = await client.PostAsync("/categories", body);
+        string result= await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+        
+        var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+        return convert;
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        HttpResponseMessage response = await client.GetAsync("/categories");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<ICollection<CategoryReadDto>>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return convert;
+    }
 }

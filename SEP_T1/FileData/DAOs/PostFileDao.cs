@@ -152,4 +152,19 @@ public class PostFileDao :IPostDao
     {
         throw new NotImplementedException();
     }
+
+    public Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

@@ -1,7 +1,11 @@
 package via.sdj3.sep_t3.model;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
+import via.sdj3.sep_t3.protobuf.CategoryReadGrpcDto;
 
 import javax.persistence.*;
 import java.util.LinkedHashSet;
@@ -37,5 +41,13 @@ public class Category
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Category that = (Category) o;
         return id != null && Objects.equals(id, that.id);
+    }
+
+    public CategoryReadGrpcDto convertToGrpcReadDto()
+    {
+        return CategoryReadGrpcDto.newBuilder()
+                .setId(id)
+                .setDescription(description)
+                .build();
     }
 }
