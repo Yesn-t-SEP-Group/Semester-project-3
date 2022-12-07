@@ -189,7 +189,7 @@ public class SepT3ApplicationTests
 
 
     @Test
-    public void readAllUsersTest()
+    private void readAllUsersTest()
     {
         //Values initialised in the setUp()
 

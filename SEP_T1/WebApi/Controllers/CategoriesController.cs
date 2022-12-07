@@ -61,4 +61,19 @@ public class CategoriesController : ControllerBase
         }
     }
 
+    [HttpDelete("{categoryId:int}")]
+    public async Task<ActionResult> DeleteCategory(int categoryId)
+    {
+        try
+        {
+            await _postLogic.DeleteCategoryAsync(categoryId);
+            return Ok();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
 }

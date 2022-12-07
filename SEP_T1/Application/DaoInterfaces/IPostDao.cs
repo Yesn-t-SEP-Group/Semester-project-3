@@ -19,5 +19,6 @@ public interface IPostDao
     Task<CategoryReadDto> GetPostCategoryAsync(int postId);
     Task<CategoryReadDto> CreateCategoryAsync(string description);
     Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync();
+    Task DeleteCategoryAsync(int categoryId);
 
 }
