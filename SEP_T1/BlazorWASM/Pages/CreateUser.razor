@@ -2,6 +2,7 @@
 @using Domain.DTOs
 @using HttpClients.ClientInterfaces
 @inject IUserService userService;
+@inject NavigationManager navMgr;
 
 <!--
 <EditForm Model="@dto" OnValidSubmit="@HandleValidSubmit">
@@ -72,6 +73,7 @@
                             {
                                 <label style="color: red">@msg</label>
                             }
+                            <br/>
                             <button @onclick="HandleValidSubmit" class="acceptbtn">Create</button>
                         </div>
                 
@@ -99,6 +101,7 @@
     // Process the valid form
         await userService.Create(this.dto);
         msg = "User created";
+        navMgr.NavigateTo($"/Login");
 
     }
 }

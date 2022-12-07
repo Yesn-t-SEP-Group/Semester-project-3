@@ -8,6 +8,7 @@ public interface IPostService
     Task CreateAsync(PostCreationDto dto);
     Task<ICollection<PostReadDto>> GetAsync(
         int? category,
+        int? maxPrice,
         string? titleContains
         //,string? bodyContains
     );

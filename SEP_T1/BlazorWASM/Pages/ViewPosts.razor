@@ -22,6 +22,10 @@
                 <label>Title contains:</label>
                 <input type="text" @bind="titleContainsFilter"/>
             </div>
+            <div class="filter">
+                <label>Max Price:</label>
+                <input type="text" @bind="maxPriceFilter"/>
+            </div>
             /*<div class="filter">
                 <label>Body contains:</label>
                 <input type="text" @bind="bodyContainsFilter"/>
@@ -106,6 +110,7 @@ else
     private bool doShowFilters = false;
 
     private int? categoryFilter;
+    private int? maxPriceFilter;
    // private int? userIdFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
