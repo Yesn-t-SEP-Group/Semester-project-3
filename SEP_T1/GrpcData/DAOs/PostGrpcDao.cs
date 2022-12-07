@@ -136,4 +136,10 @@ public class PostGrpcDao : IPostDao
 
         return list;
     }
+
+    public async Task DeleteCategoryAsync(int categoryId)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        await client.deleteCategoryAsync(new GenericMessage{Message = categoryId.ToString()});
+    }
 }

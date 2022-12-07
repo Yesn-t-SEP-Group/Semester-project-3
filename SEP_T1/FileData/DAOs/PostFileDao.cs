@@ -167,4 +167,9 @@ public class PostFileDao :IPostDao
     {
         throw new NotImplementedException();
     }
+
+    public Task DeleteCategoryAsync(int categoryId)
+    {
+        throw new NotImplementedException();
+    }
 }

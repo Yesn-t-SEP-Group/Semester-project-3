@@ -136,18 +136,18 @@ public class PostHttpClient : IPostService
 
     public async Task<CategoryReadDto> CreateCategoryAsync(string description)
     {
-        StringContent body = new StringContent(description, Encoding.UTF8, "application/json");
-        HttpResponseMessage response = await client.PostAsync("/categories", body);
-        string result= await response.Content.ReadAsStringAsync();
+        HttpResponseMessage response = await client.PostAsJsonAsync("/categories", description);
+        string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(result);
         }
-        
+
         var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
         {
-            PropertyNameCaseInsensitive = true,
+            PropertyNameCaseInsensitive = true
         })!;
+
         return convert;
     }
 
@@ -166,5 +166,15 @@ public class PostHttpClient : IPostService
         })!;
 
         return convert;
+    }
+
+    public async Task DeleteCategoryAsync(int categoryId)
+    {
+        HttpResponseMessage response = await client.DeleteAsync($"/categories/{categoryId}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
     }
 }

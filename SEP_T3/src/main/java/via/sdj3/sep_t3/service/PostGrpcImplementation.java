@@ -207,4 +207,19 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         }
 
     }
+    @Override
+    public void deleteCategory(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
+    {
+        try
+        {
+            categoriesRegistry.deleteById(Integer.parseInt(request.getMessage()));
+            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully deleted").build());
+            responseObserver.onCompleted();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+    }
 }

@@ -159,6 +159,11 @@ public class PostLogic : IPostLogic
         return await _postDao.GetAllCategoriesAsync();
     }
 
+    public async Task DeleteCategoryAsync(int categoryId)
+    {
+        await _postDao.DeleteCategoryAsync(categoryId);
+    }
+
     private  void ValidateTodo(Post dto)
     {
         
