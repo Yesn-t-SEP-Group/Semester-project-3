@@ -125,7 +125,7 @@ else
         try
         {
             bool? completedFilterValue = null;
-            posts = await PostService.GetAsync( categoryFilter, titleContainsFilter/*, bodyContainsFilter*/);
+            posts = await PostService.GetAsync( categoryFilter, maxPriceFilter,titleContainsFilter/*, bodyContainsFilter*/);
             
             var list = new List<PostReadDto>(posts!);
             
