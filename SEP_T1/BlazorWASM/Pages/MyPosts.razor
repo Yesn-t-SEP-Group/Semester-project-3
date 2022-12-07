@@ -21,6 +21,10 @@
                 <label>Category:</label>
                 <input type="text" @bind="CategoryFilter"/>
             </div>
+            <div class="filter">
+                <label>Max Price:</label>
+                <input type="text" @bind="maxPriceFilter"/>
+            </div>
             
             /*<div class="filter">
                 <label>Body contains:</label>
@@ -110,6 +114,7 @@ else
 
     //private string? usernameFilter;
     private int? CategoryFilter;
+    private int? maxPriceFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
 
@@ -125,7 +130,7 @@ else
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync( CategoryFilter, titleContainsFilter /*, bodyContainsFilter*/);
+            posts = await postService.GetAsync( CategoryFilter, maxPriceFilter, titleContainsFilter /*, bodyContainsFilter*/);
 
             var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id").Value));

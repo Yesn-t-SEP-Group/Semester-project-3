@@ -91,6 +91,11 @@ public class PostGrpcDao : IPostDao
         {
             list = list.Where(p => p.Title.Contains(searchParameters.TitleContains)).ToList();
         }
+        // Filter the list by price if specified in the search parameters
+        if (searchParameters.maxPrice != null)
+        {
+            list = list.Where(p => p.price <= (searchParameters.maxPrice)).ToList();
+        }
 
         return list;
     }

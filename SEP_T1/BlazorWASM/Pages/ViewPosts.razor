@@ -20,6 +20,10 @@
                 <label>Title contains:</label>
                 <input type="text" @bind="titleContainsFilter"/>
             </div>
+            <div class="filter">
+                <label>Max Price:</label>
+                <input type="text" @bind="maxPriceFilter"/>
+            </div>
             /*<div class="filter">
                 <label>Body contains:</label>
                 <input type="text" @bind="bodyContainsFilter"/>
@@ -104,6 +108,7 @@ else
     private bool doShowFilters = false;
 
     private int? categoryFilter;
+    private int? maxPriceFilter;
    // private int? userIdFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
@@ -118,7 +123,7 @@ else
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync( categoryFilter, titleContainsFilter/*, bodyContainsFilter*/);
+            posts = await postService.GetAsync( categoryFilter,maxPriceFilter, titleContainsFilter/*, bodyContainsFilter*/);
             
             var list = new List<PostReadDto>(posts!);
             list.Sort(CompareById);
