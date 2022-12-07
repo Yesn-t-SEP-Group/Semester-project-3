@@ -68,7 +68,7 @@
     {
         AuthenticationState authState = await AuthState;
         ClaimsPrincipal user = authState.User;
-        var posts = await postService.GetAsync(null, null);
+        var posts = await postService.GetAsync(null,null,null);
         numberOfPosts = posts.Count().ToString();
 
         await GetCategories();

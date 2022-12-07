@@ -27,6 +27,7 @@ else
         <tr>
             <th>Username</th>
             <th>Message</th>
+            <th>Reply</th>
         </tr>
 
         </thead>
@@ -36,6 +37,14 @@ else
             <tr>
                 <td>@item.UserFromName</td>
                 <td>@item.MessageText</td>
+
+                <button @onclick="ShowTextbox">Click me</button>
+
+                @if (showTextbox)
+                {
+                    <input type="text" @bind="reply"/>
+                    <button class="btn btn-primary" @onclick="@((async () => await SendReply(item.UserFromId)))">Send Reply</button>
+                }
             </tr>
         }
         </tbody>
@@ -53,8 +62,11 @@ else
 
     AuthenticationState authState;
     ClaimsPrincipal user;
+    private bool showTextbox = false;
+    private string reply = "";
 
     private IEnumerable<MessageReadDto>? messages;
+
     private string msg = "";
 
     protected override async Task OnInitializedAsync()
@@ -83,4 +95,23 @@ else
         }
     }
 
+    private void ShowTextbox()
+    {
+    //if it was hidden we shove it and vice versa
+        showTextbox = !showTextbox;
+    }
+
+    private async Task SendReply(int userToReply)
+    {
+        var userFromId = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+        var dto = new MessageCreationDto()
+        {
+            UserFromId = userFromId,
+            UserToId = userToReply,
+            MessageText = reply
+        };
+        reply = "";
+        await messageService.CreateMessageAsync(dto);
+        ShowTextbox();
+    }
 }
