@@ -56,7 +56,6 @@ public class PostGrpcDao : IPostDao
            list = (List<PostReadDto>)list.Where(t =>
                t.Title.Contains(searchParameters.TitleContains, StringComparison.OrdinalIgnoreCase));
         }
-        
         return list.AsEnumerable();
     }
 
@@ -91,7 +90,6 @@ public class PostGrpcDao : IPostDao
             var temp = _mapper.Map<PostReadDto>(read);
             list.Add(temp);
         }
-
         return list;
 
     }

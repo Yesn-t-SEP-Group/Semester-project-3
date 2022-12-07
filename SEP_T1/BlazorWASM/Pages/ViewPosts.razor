@@ -2,8 +2,10 @@
 @using Domain.Models
 @using HttpClients.ClientInterfaces
 @using System.Collections
-@inject IPostService postService;
-@inject NavigationManager navMgr
+@inject IPostService PostService;
+@inject IUserService UserService;
+
+@inject NavigationManager NavMgr
 @attribute [Authorize]
 
         <h3>Posts</h3>
@@ -36,7 +38,7 @@
 </div>
 
 <div>
-    <button @onclick="LoadTodos">Load</button>
+    <button @onclick="LoadPosts">Load</button>
 </div>
 
 @if (posts == null)
@@ -74,16 +76,16 @@ else
                 <td>@item.creationDate</td>
                 <td>@item.location</td>
                 <td>@item.price</td>
-                <td>@item.categories</td>
+                <td>@item.categoryString</td>
                 <td>
-                    <img src="icons/viewButton.png" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
+                    <img src="icons/viewButton.png" class="funnel" @onclick="@(() => NavMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
                 </td>
                 <AuthorizeView Policy="IsAdmin">
                     <td>
-                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
+                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => NavMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                     </td>
                     <td>
-                        <label @onclick="@(() => RemoveTodo(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
+                        <label @onclick="@(() => RemovePost(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
                             &#x2717;
                         </label>
                     </td>
@@ -110,17 +112,23 @@ else
     
     protected override async Task OnInitializedAsync()
     {
-        await LoadTodos();
+        await LoadPosts();
     }
 
-    private async Task LoadTodos()
+    private async Task LoadPosts()
     {
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync( categoryFilter, titleContainsFilter/*, bodyContainsFilter*/);
+            posts = await PostService.GetAsync( categoryFilter, titleContainsFilter/*, bodyContainsFilter*/);
             
             var list = new List<PostReadDto>(posts!);
+            
+            foreach (var post in list)
+            {
+                var category = await PostService.GetPostCategoryAsync(post.Id);
+                post.categoryString = category.Description;
+            }
             list.Sort(CompareById);
             posts = list.AsEnumerable();
         }
@@ -131,6 +139,7 @@ else
         }
     }
 
+    //todo do we need this?
     private int CompareById(PostReadDto x, PostReadDto y)
     {
         if (x.Id > y.Id)
@@ -143,12 +152,12 @@ else
         }
     }
     
-    private async Task RemoveTodo(int postId)
+    private async Task RemovePost(int postId)
     {
         msg = "";
         try
         {
-            await postService.DeleteAsync(postId);
+            await PostService.DeleteAsync(postId);
 
             var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.Id == postId);

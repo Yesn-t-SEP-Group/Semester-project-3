@@ -58,7 +58,6 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         log.info("new request for creating a new post with credentials \n"+request.toString());
         var newPost=mapper.convertFromCreatePostsGrpcDto(request);
         //todo blazor client chooses this from a dropdown list
-        //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
             newPost.setCreationDate(LocalDateTime.now());

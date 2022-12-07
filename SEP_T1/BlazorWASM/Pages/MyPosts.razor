@@ -38,7 +38,7 @@
 </div>
 
 <div>
-    <button @onclick="LoadTodos">Load</button>
+    <button @onclick="LoadPosts">Load</button>
 </div>
 
 @if (posts == null)
@@ -53,8 +53,6 @@ else
     <table class="table">
         <thead>
         <tr>
-            <th>Post ID</th>
-            <th>Owner ID</th>
             <th>Title</th>
             <th>Description</th>
             <th>CreationDate</th>
@@ -70,14 +68,12 @@ else
         @foreach (var item in posts)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.OwnerId</td>
                 <td>@item.Title</td>
                 <td>@item.description</td>
                 <td>@item.creationDate</td>
                 <td>@item.location</td>
                 <td>@item.price</td>
-                <td>@item.categories</td>
+                <td>@item.categoryString</td>
                 <td>
                     <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                 </td>
@@ -117,10 +113,10 @@ else
     {
         authState = await AuthState;
         user = authState.User;
-        await LoadTodos();
+        await LoadPosts();
     }
 
-    private async Task LoadTodos()
+    private async Task LoadPosts()
     {
         try
         {
@@ -128,8 +124,15 @@ else
             posts = await postService.GetAsync( CategoryFilter, titleContainsFilter /*, bodyContainsFilter*/);
 
             var list = new List<PostReadDto>(posts!);
-            list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id").Value));
-            list.Sort(CompareById);
+            list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id")!.Value));
+            
+            foreach (var post in list)
+            {
+                var category = await postService.GetPostCategoryAsync(post.Id);
+                post.categoryString = category.Description;
+            }
+            
+            list.OrderByDescending(x=>x.creationDate);
             posts = list.AsEnumerable();
         }
         catch (Exception e)

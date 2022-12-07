@@ -20,6 +20,10 @@ public class PostReadDto
     public String picture { get; set; }
 
     public double price { get; set; }
+    
+    public string? PosterUsername { get; set; }
+    public string? categoryString { get; set; }
+
 
     public PostReadDto()
     {

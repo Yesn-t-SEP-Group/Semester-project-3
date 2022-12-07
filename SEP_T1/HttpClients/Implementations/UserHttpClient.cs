@@ -38,23 +38,6 @@ public class UserHttpClient : IUserService
 
     public async Task<IEnumerable<UserReadDto>> GetUsers()
     {
-        /*
-        var moq = new List<UserReadDto>()
-            {
-                new UserReadDto() { UserName = "Test", Id = 1, RegistrationDateTime = DateTime.Now },
-                new UserReadDto() { UserName = "Test2", Id = 2, RegistrationDateTime = DateTime.Now },
-                new UserReadDto() { UserName = "Test3", Id = 3, RegistrationDateTime = DateTime.Now },
-            };
-
-        string jsonString = JsonSerializer.Serialize(moq);
-
-
-        return JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(jsonString, new JsonSerializerOptions
-        {
-            PropertyNameCaseInsensitive = true,
-        })!;
-        */
-
         HttpResponseMessage response = await this._client.GetAsync("/users");
         string result = await response.Content.ReadAsStringAsync();
         if (!response.IsSuccessStatusCode)
@@ -63,6 +46,23 @@ public class UserHttpClient : IUserService
         }
 
         var convert = JsonSerializer.Deserialize<IEnumerable<UserReadDto>>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return convert;
+    }
+
+    public async Task<UserReadDto> GetByIdAsync(int id)
+    {
+        HttpResponseMessage response = await this._client.GetAsync($"/users/{id}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<UserReadDto>(result, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
         })!;
