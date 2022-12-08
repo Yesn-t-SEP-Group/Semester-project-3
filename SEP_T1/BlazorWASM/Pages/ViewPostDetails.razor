@@ -177,9 +177,11 @@
                 MessageText = dmContent,
                 UserToId = owner.Id,
                 UserFromId = myId,
+                postId = dto.Id
             };
             messageService.CreateMessageAsync((messageCreationDto));
             msg = "Message sent!";
+            dmContent = "";
         }
         else
         {

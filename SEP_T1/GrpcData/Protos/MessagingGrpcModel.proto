@@ -13,6 +13,7 @@ message CreateDMGrpcDto
   int32 userFromId = 1;
   int32  userToId = 2;
   string messageText = 3;
+  int32 postId = 4;
 }
 
 message ReadDMGrpcDto
@@ -21,6 +22,7 @@ message ReadDMGrpcDto
   int32 userFromId = 2;
   int32  userToId = 3;
   string messageText = 4;
+  int32 postId = 5;
 }
 
 message AllMessages

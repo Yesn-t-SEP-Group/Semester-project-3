@@ -6,11 +6,12 @@
 @using System.Security.Claims
 @using System.Collections
 @using Domain.DTOs
+@using Microsoft.Extensions.Logging.Abstractions
 @attribute [Authorize]
 @inject IMessageService messageService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
-
+@inject IPostService _postService;
 <h3>Posts</h3>
 
 @if (messages == null)
@@ -27,6 +28,7 @@ else
         <tr>
             <th>Username</th>
             <th>Message</th>
+            <th>Post Title</th>
             <th>Reply</th>
         </tr>
 
@@ -37,6 +39,7 @@ else
             <tr>
                 <td>@item.UserFromName</td>
                 <td>@item.MessageText</td>
+                <td>@item.postTitle</td>
 
                 <button @onclick="ShowTextbox">Click me</button>
 
@@ -83,9 +86,11 @@ else
             var id = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
             var users = await userService.GetUsers();
             messages = await messageService.GetMessagesMadeToUserAsync(id);
+            var posts = await _postService.GetAsync(null, null, null);
             foreach (var messageReadDto in messages)
             {
                 messageReadDto.UserFromName = users.FirstOrDefault(u => u.Id == messageReadDto.UserFromId)?.UserName;
+                messageReadDto.postTitle = posts.FirstOrDefault(p => p.Id == messageReadDto.postId)!.Title;
             }
         }
         catch (Exception e)
