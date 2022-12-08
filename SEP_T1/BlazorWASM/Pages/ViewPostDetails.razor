@@ -87,7 +87,7 @@
         <div class="card-body">
             <textarea class="form-control" rows="8" cols="20" @bind="reportReason"></textarea>
             <br/>
-            <label class="text-danger">@msg</label>
+            <label class="text-danger">@msg2</label>
             <br/>
             <button type="button" class="btn btn-danger" @onclick="@(() => reportUser())">Report</button>
         </div>
@@ -98,7 +98,7 @@
         <div class="card-body">
             <textarea class="form-control" rows="8" cols="20" @bind="dmContent"></textarea>
             <br/>
-            <label class="text-info">@msg</label>
+            <label class="text-info">@msg1</label>
             <br/>
             <button type="button" class="btn btn-primary" @onclick="@(() => writeDM())">Send Message</button>
         </div>
@@ -119,7 +119,8 @@
     public Task<AuthenticationState> AuthState { get; set; } = null!;
 
     private PostDetailDto dto = null!;
-    private string msg = "";
+    private string msg1 = "";
+    private string msg2 = "";
     private IEnumerable<UserReadDto>? users;
     private string imgSrc;
     private string? reportReason = "";
@@ -135,7 +136,8 @@
         authState = await AuthState;
         user = authState.User;
 
-        msg = "";
+        msg1 = "";
+        msg2 = "";
         try
         {
             users = await userService.GetUsers();
@@ -161,7 +163,7 @@
         catch (Exception e)
         {
             Console.WriteLine(e);
-            msg = e.Message;
+            msg1 = e.Message;
         }
     }
 
@@ -174,12 +176,21 @@
                 ReportedUserId = owner.Id,
                 Reason = reportReason
             };
-            reportService.CreateReport(reportDto);
-            navMgr.NavigateTo($"/ViewPosts");
+            if (owner.Id != int.Parse(user.FindFirst("Id").Value))
+            {
+                reportService.CreateReport(reportDto);
+                navMgr.NavigateTo($"/ViewPosts");
+            }
+            else
+            {
+                msg2 = "Can not report yourself!";
+            }
+            
+            
         }
         else
         {
-            msg = "Must give a reason for reporting the user!";
+            msg2 = "Must give a reason for reporting the user!";
         }
     }
 
@@ -196,13 +207,22 @@
                 UserFromId = myId,
                 postId = dto.Id
             };
-            messageService.CreateMessageAsync((messageCreationDto));
-            msg = "Message sent!";
-            dmContent = "";
+            if (owner.Id != int.Parse(user.FindFirst("Id").Value))
+            {
+                messageService.CreateMessageAsync((messageCreationDto));
+                msg1 = "Message sent!";
+                dmContent = "";
+            }
+            else
+            {
+                msg1 = "Can not send messages to yourself";
+                dmContent = "";
+            }
+            
         }
         else
         {
-            msg = "Must give a message to send!";
+            msg1 = "Must give a message to send!";
         }
     }
 
