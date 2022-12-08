@@ -8,6 +8,7 @@ import org.lognet.springboot.grpc.GRpcService;
 import via.sdj3.sep_t3.model.Message;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.MessageRegistry;
+import via.sdj3.sep_t3.repository.PostRegistry;
 import via.sdj3.sep_t3.repository.UserRegistry;
 
 import java.util.stream.Collectors;
@@ -18,13 +19,16 @@ import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomErr
 @GRpcService
 public class MessagingGrpcImplementation extends privateMessageServiceGrpc.privateMessageServiceImplBase
 {
+    private final PostRegistry postRegistry;
     private final MessageRegistry messageRegistry;
     private final UserRegistry userRegistry;
 
-    public MessagingGrpcImplementation(MessageRegistry messageRegistry, UserRegistry userRegistry)
+    public MessagingGrpcImplementation(MessageRegistry messageRegistry, UserRegistry userRegistry,
+                                       PostRegistry postRegistry)
     {
         this.messageRegistry = messageRegistry;
         this.userRegistry = userRegistry;
+        this.postRegistry = postRegistry;
     }
 
     /**
@@ -41,6 +45,7 @@ public class MessagingGrpcImplementation extends privateMessageServiceGrpc.priva
         {
             var userFrom = userRegistry.findById(request.getUserFromId()).orElseThrow(() -> new IllegalArgumentException("User with ID " + request.getUserFromId() + " does not exist"));
             var userTo = userRegistry.findById(request.getUserToId()).orElseThrow(() -> new IllegalArgumentException("User with ID " + request.getUserToId() + " does not exist"));
+            var post = postRegistry.findById(request.getPostId()).orElseThrow(() -> new IllegalArgumentException("Post with ID " + request.getPostId() + " does not exist"));
 
             if (userFrom.equals(userTo)) throw new IllegalArgumentException("You cant write a message to yourself");
 
@@ -48,6 +53,7 @@ public class MessagingGrpcImplementation extends privateMessageServiceGrpc.priva
             newMessage.setUserFrom(userFrom);
             newMessage.setUserTo(userTo);
             newMessage.setMessageText(request.getMessageText());
+            newMessage.setPost(post);
 
             log.info("Saving new message to the registry");
             messageRegistry.save(newMessage);

@@ -7,36 +7,35 @@
 
 <AuthorizeView>
     <NotAuthorized>
-        <form @onsubmit=LoginAsync>
-                    <div class="card">
-                        <h3>Please login</h3>
-                        <div class="field">
-                            <label>User name:</label>
-                            <input type="text" @bind="userName"/>
-                        </div>
-                        <div class="field">
-                            <label style="text-align: center">Password:</label>
-                            <input type="password" @bind="password"/>
-                        </div>
-                        @if (!string.IsNullOrEmpty(errorLabel))
-                        {
-                            <div class="field">
-                                <label style="color: red">
-                                    @errorLabel
-                                </label>
-                            </div>
-                        }
-                        <div class="field">
-                            <button class="loginbtn" type="submit">Log in</button>
-                        </div>
-        
-                        <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
-                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
-                                 class="img-fluid" alt="Sample image">
-                        </div>
+        <form @onsubmit=LoginAsync class="login-form">
+            <div class="card">
+                <h3>Please login</h3>
+                <div class="form-group">
+                    <label>User name:</label>
+                    <input type="text" @bind="userName" class="form-control"/>
+                </div>
+                <div class="form-group">
+                    <label style="text-align: center">Password:</label>
+                    <input type="password" @bind="password" class="form-control"/>
+                </div>
+                @if (!string.IsNullOrEmpty(errorLabel))
+                {
+                    <div class="form-group">
+                        <label style="color: red">
+                            @errorLabel
+                        </label>
                     </div>
-                </form>
+                }
+                <div class="form-group">
+                    <button class="loginbtn btn btn-primary" type="submit">Log in</button>
+                </div>
 
+                <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+                    <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                         class="img-fluid" alt="Sample image">
+                </div>
+            </div>
+        </form>
     </NotAuthorized>
     <Authorized>
         <div class="card">
@@ -70,4 +69,5 @@
             errorLabel = $"Error: {e.Message}";
         }
     }
+
 }

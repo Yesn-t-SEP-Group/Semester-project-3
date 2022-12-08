@@ -11,7 +11,7 @@ import via.sdj3.sep_t3.protobuf.ReadDMGrpcDto;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Entity
+@Entity(name="messages")
 @Getter
 @Setter
 @ToString
@@ -39,6 +39,11 @@ public class Message
     @Type(type = "org.hibernate.type.TextType")
     private String messageText;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
     @Override
     public boolean equals(Object o)
     {
@@ -55,6 +60,7 @@ public class Message
                 .setDmId(id)
                 .setUserFromId(userFrom.getId())
                 .setUserToId(userTo.getId())
+                .setPostId(post.getId())
                 .build();
     }
 }

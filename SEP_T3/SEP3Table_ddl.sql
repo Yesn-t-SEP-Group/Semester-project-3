@@ -71,9 +71,12 @@ CREATE TABLE Messages
     user_from INT,
     user_to INT,
     message_text TEXT,
+    post_id INT,
 
     FOREIGN KEY(user_from) REFERENCES Users(user_id) ON DELETE CASCADE,
-    FOREIGN KEY(user_to) REFERENCES Users(user_id) ON DELETE CASCADE
+    FOREIGN KEY(user_to) REFERENCES Users(user_id) ON DELETE CASCADE ,
+    FOREIGN KEY(post_id) REFERENCES Posts(post_id) ON DELETE CASCADE
+
 );
 
 INSERT INTO categories(description)values ('PC-Hardware');
