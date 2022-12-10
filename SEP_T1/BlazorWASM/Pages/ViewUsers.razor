@@ -4,7 +4,9 @@
 @using Domain.DTOs
 @using HttpClients.ClientInterfaces
 @using System.Security.Claims
-@inject IUserService userService;
+@inject IUserService userService
+@inject IRatingService ratingService;
+
 <h3 style="text-align: center">Overview of all users</h3>
 
 @if (!string.IsNullOrEmpty(msg))
@@ -73,6 +75,12 @@ else
         try
         {
             users = await userService.GetUsers();
+            
+            foreach (var userReadDto in users)
+            {
+                var ratings = await ratingService.GetRatingsMadeToUser(userReadDto.Id);
+                userReadDto.Rating = (int)ratings.Average(r => r.RatingValue);
+            }
         }
         catch (Exception e)
         {

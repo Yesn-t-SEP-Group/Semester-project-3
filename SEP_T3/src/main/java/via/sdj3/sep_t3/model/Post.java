@@ -61,6 +61,9 @@ public class Post
     @Column(name = "title")
     private String title;
 
+    @Column(name = "status", nullable = false)
+    private Integer status;
+
     /**
      * converts the data for usage in the proto file
      * @return returns the data that used by the proto file
@@ -77,6 +80,7 @@ public class Post
                 .setPicture(pictureUrl)
                 .setPrice(price)
                 .setTitle(title)
+                .setStatus(status)
                 .build();
     }
 

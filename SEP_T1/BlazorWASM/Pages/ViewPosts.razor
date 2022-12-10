@@ -2,6 +2,7 @@
 @using Domain.Models
 @using HttpClients.ClientInterfaces
 @using System.Collections
+@using Domain.Models.enums
 @inject IPostService PostService;
 @inject IUserService UserService;
 
@@ -50,7 +51,7 @@
 }
 else if (!posts.Any())
 {
-    <p>No Todos to display</p>
+    <p>No Posts to display</p>
 }
 else
 {
@@ -63,6 +64,7 @@ else
             <th>Location</th>
             <th>Price</th>
             <th>Category</th>
+            <th>Status</th>
             <th>Details</th>
             <AuthorizeView Policy="IsAdmin">
                 <th>Edit</th>
@@ -81,6 +83,8 @@ else
                 <td>@item.location</td>
                 <td>@item.price</td>
                 <td>@item.categoryString</td>
+                <td>@item.Status.ToString()</td>
+
                 <td>
                     <img src="icons/viewButton.png" class="funnel" @onclick="@(() => NavMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
                 </td>
@@ -125,16 +129,14 @@ else
         try
         {
             bool? completedFilterValue = null;
-            posts = await PostService.GetAsync( categoryFilter, maxPriceFilter,titleContainsFilter/*, bodyContainsFilter*/);
-            
+            posts = await PostService.GetAsync(categoryFilter, maxPriceFilter, titleContainsFilter /*, bodyContainsFilter*/);
             var list = new List<PostReadDto>(posts!);
-            
             foreach (var post in list)
             {
                 var category = await PostService.GetPostCategoryAsync(post.Id);
                 post.categoryString = category.Description;
             }
-            list.Sort(CompareById);
+            list.OrderByDescending(p => p.creationDate);
             posts = list.AsEnumerable();
         }
         catch (Exception e)
@@ -143,20 +145,6 @@ else
             msg = e.Message;
         }
     }
-
-    //todo do we need this?
-    private int CompareById(PostReadDto x, PostReadDto y)
-    {
-        if (x.Id > y.Id)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    
     private async Task RemovePost(int postId)
     {
         msg = "";

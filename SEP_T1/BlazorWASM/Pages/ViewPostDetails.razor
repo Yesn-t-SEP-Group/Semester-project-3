@@ -6,6 +6,7 @@
 @using HttpClients.ClientInterfaces
 @using AutoMapper
 @using System.Security.Claims
+@using Domain.Models.enums
 @inject IPostService postService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
@@ -23,7 +24,7 @@
     <!-- Use the row and col-* classes from Bootstrap to create a grid layout for the image, category, location, and price -->
     <div class="row">
         <div class="col-sm-6">
-            <img src="@imgSrc" alt="NO IMAGE FOUND" class="col-sm-12" style="width: 400px;"/>
+            <img src="@imgSrc" alt="NO IMAGE FOUND" class="col-sm-12" style="width: 400px; size: 400px"/>
         </div>
         <div class="col-sm-6">
             <div class="form-group">
@@ -36,8 +37,12 @@
                     <input type="text" @bind="dto.categories" disabled="disabled" class="form-control col-sm-10"/>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2">Category:</label>
+                    <label class="col-sm-2">Location:</label>
                     <input type="text" @bind="dto.location" disabled="disabled" class="form-control col-sm-12"/>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2">Status:</label>
+                    <input type="text" @bind="status" disabled="disabled" class="form-control col-sm-12"/>
                 </div>
             </div>
         </div>
@@ -78,7 +83,7 @@
 <div class="input-group mb-3">
     <input type="number" min="1" max="5" class="form-control" @bind="ratingValue">
 </div>
-<button type="button" class="btn btn-primary" @onclick="@(() => leaveReview())">Report</button>
+<button type="button" class="btn btn-primary" @onclick="@(() => leaveReview())">Review</button>
 
 
 <div class="container d-flex flex-row justify-content-start">
@@ -121,23 +126,22 @@
     private PostDetailDto dto = null!;
     private string msg1 = "";
     private string msg2 = "";
-    private IEnumerable<UserReadDto>? users;
-    private string imgSrc;
+    private IEnumerable<UserReadDto>? users = new List<UserReadDto>();
+    private string imgSrc = "";
     private string? reportReason = "";
     private string? dmContent = "";
     AuthenticationState authState;
     ClaimsPrincipal user;
-    private UserReadDto owner;
+    private UserReadDto owner = new UserReadDto();
     private int ratingValue = 1;
     private int userAvgRating = 0;
+    private string status;
 
     protected override async Task OnInitializedAsync()
     {
         authState = await AuthState;
         user = authState.User;
 
-        msg1 = "";
-        msg2 = "";
         try
         {
             users = await userService.GetUsers();
@@ -156,6 +160,7 @@
                 price = postData.price,
                 Owner = owner
             };
+            status = postData.Status.ToString();
             imgSrc = dto.picture;
             var allRatings = await ratingService.GetRatingsMadeToUser(owner.Id);
             userAvgRating = (int)allRatings.Average(x => x.RatingValue);
@@ -185,8 +190,6 @@
             {
                 msg2 = "Can not report yourself!";
             }
-            
-            
         }
         else
         {
@@ -218,7 +221,6 @@
                 msg1 = "Can not send messages to yourself";
                 dmContent = "";
             }
-            
         }
         else
         {

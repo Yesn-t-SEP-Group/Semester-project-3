@@ -8,6 +8,7 @@ import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
 import via.sdj3.sep_t3.model.Category;
+import via.sdj3.sep_t3.model.enums.StatusEnum;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
@@ -66,6 +67,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             newPost.setTitle(request.getTitle());
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
+            newPost.setStatus(StatusEnum.Active.getNumber());
             postRegistry.save(newPost);
             log.info("saved post: "+newPost);
             responseObserver.onNext(newPost.convertToPostReadGrpcDto());
@@ -121,7 +123,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             var price=request.getPrice();
             var id =request.getId();
             var title=request.getTitle();
-            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,id);
+            var status=request.getStatus();
+            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,status,id);
             log.info("Post was updated successfully" +request);
 
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated post!").build());

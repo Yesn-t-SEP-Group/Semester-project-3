@@ -7,70 +7,76 @@
 @inject IUserService userService;
 @inject NavigationManager navMgr;
 
-    <h1>User Data CRUD</h1>
-    <div class="row">
-        <div class="col-md-6">
-            <button class="btn btn-primary" @onclick="ShowAddUserModal">Add User</button>
-        </div>
-        <div class="input-group col">
-            <input type="text" class="form-control" placeholder="Search user by name" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterUser" />
-            @if (SearchString.Length > 0)
-            {
-                <div class="input-group-append">
-                    <button class="btn btn-danger" @onclick="ResetSearch">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-            }
-        </div>
+<h1>User Data CRUD</h1>
+<div class="row">
+    <div class="col-md-6">
+        <button class="btn btn-primary" @onclick="ShowAddUserModal">Add User</button>
     </div>
-    <br />
-    @if (userList == null)
-    {
-        <p><em>Loading...</em></p>
-    }
-    else
-    {
-        <table class="table table-striped align-middle table-bordered">
-            <thead class="table-success">
+    <div class="input-group col">
+        <input type="text" class="form-control" placeholder="Search user by name" @bind="SearchString" @bind:event="oninput" @onkeyup="FilterUser"/>
+        @if (SearchString.Length > 0)
+        {
+            <div class="input-group-append">
+                <button class="btn btn-danger" @onclick="ResetSearch">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        }
+    </div>
+
+</div>
+<br/>
+@if (userList == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>RegistrationDateTime</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var user in userList)
+        {
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>RegistrationDateTime</th>
-                <th>Action</th>
+                <td>@user.Id</td>
+                <td>@user.UserName</td>
+                <td>@user.RegistrationDateTime</td>
+                <td>
+
+                    <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditUser/{user.Id}"))"/>
+
+                    <button class="btn btn-outline-danger" @onclick="(async () => await DeleteElement(user.Id))">Delete</button>
+                </td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach (var user in userList)
-            {
-                <tr>
-                    <td>@user.Id</td>
-                    <td>@user.UserName</td>
-                    <td>@user.RegistrationDateTime</td>
-                    <td>
-
-                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditUser/{user.Id}"))"/>
-
-                        <button class="btn btn-outline-danger" @onclick="(async () => await DeleteElement(user.Id))">Delete</button>
-                    </td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
+        }
+        </tbody>
+    </table>
+}
 
 @code {
-    [CascadingParameter] public IModalService Modal { get; set; }
-    
+
+    [CascadingParameter]
+    public IModalService Modal { get; set; }
+
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
-    
+
     private bool isAdmin;
 
     protected IEnumerable<UserReadDto> userList = new List<UserReadDto>();
     protected IEnumerable<UserReadDto> searchUserData = new List<UserReadDto>();
     protected UserReadDto user = new();
     protected string SearchString { get; set; } = string.Empty;
+
     protected override async Task OnInitializedAsync()
     {
         AuthenticationState authState = await AuthState;
@@ -78,11 +84,13 @@
         isAdmin = user.IsInRole("Admin");
         await GetUser();
     }
+
     protected async Task GetUser()
     {
         userList = await userService.GetUsers();
         searchUserData = userList;
     }
+
     protected void FilterUser()
     {
         if (!string.IsNullOrEmpty(SearchString))
@@ -96,6 +104,7 @@
             userList = searchUserData;
         }
     }
+
     protected void DeleteConfirm(int userID)
     {
         user = userList.FirstOrDefault(x => x.Id == userID);
@@ -127,4 +136,5 @@
     {
         userList = await userService.GetUsers();
     }
+
 }

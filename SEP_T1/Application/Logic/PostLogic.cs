@@ -24,7 +24,7 @@ public class PostLogic : IPostLogic
             throw new Exception($"User with id {dto.OwnerId} was not found.");
         }
 
-        ValidateTodo(dto);
+        ValidePost(dto);
         PostReadDto created = await _postDao.CreateAsync(dto);
         return created;
     }
@@ -41,7 +41,7 @@ public class PostLogic : IPostLogic
     }
 
 
-    private void ValidateTodo(PostCreationDto dto)
+    private void ValidePost(PostCreationDto dto)
     {
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");
         if (string.IsNullOrEmpty(dto.description)) throw new Exception("Body cannot be empty.");
@@ -54,7 +54,7 @@ public class PostLogic : IPostLogic
 
         if (existing == null)
         {
-            throw new Exception($"Todo with ID {dto.Id} not found!");
+            throw new Exception($"Post with ID {dto.Id} not found!");
         }
 
         UserReadDto? user = null;
@@ -67,7 +67,7 @@ public class PostLogic : IPostLogic
             }
         }
 
-
+        /*
         int userInt =  existing.OwnerId;
         string titletoUse = dto.Title ?? existing.Title;
         string bodyToUse = dto.description ?? existing.description;
@@ -76,9 +76,8 @@ public class PostLogic : IPostLogic
         int categories = dto.categories;
         string picture = dto.picture ?? existing.picture;
         double price = dto.price;
-        
-        
-        
+
+
         Post updated = new()
         {
             OwnerId = userInt,
@@ -93,7 +92,7 @@ public class PostLogic : IPostLogic
 
         };
 
-        ValidateTodo(updated);
+        ValidatePost(updated);
 
         PostUpdateDto updatedDto = new()
         {
@@ -106,16 +105,16 @@ public class PostLogic : IPostLogic
             picture = picture,
             price = price
         };
-
-        await _postDao.UpdateAsync(updatedDto);
+        */
+        await _postDao.UpdateAsync(dto);
     }
 
     public  async Task DeleteAsync(int id)
     {
-        PostReadDto? todo = await _postDao.GetByIdAsync(id);
-        if (todo == null)
+        PostReadDto? post = await _postDao.GetByIdAsync(id);
+        if (post == null)
         {
-            throw new Exception($"Todo with ID {id} was not found!");
+            throw new Exception($"Post with ID {id} was not found!");
         }
 /*
         if (!todo.IsCompleted)
@@ -129,13 +128,13 @@ public class PostLogic : IPostLogic
 
     public  async Task<PostReadDto> GetByIdAsync(int id)
     {
-        PostReadDto? todo = await _postDao.GetByIdAsync(id);
-        if (todo == null)
+        PostReadDto? post = await _postDao.GetByIdAsync(id);
+        if (post == null)
         {
-            throw new Exception($"Todo with id {id} not found");
+            throw new Exception($"Post with id {id} not found");
         }
 
-        return todo;
+        return post;
 
     }
 
@@ -164,7 +163,7 @@ public class PostLogic : IPostLogic
         await _postDao.DeleteCategoryAsync(categoryId);
     }
 
-    private  void ValidateTodo(Post dto)
+    private  void ValidatePost(Post dto)
     {
         
         if (string.IsNullOrEmpty(dto.Title)) throw new Exception("Title cannot be empty.");

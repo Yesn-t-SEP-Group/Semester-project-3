@@ -1,4 +1,6 @@
-﻿namespace Domain.Models;
+﻿using Domain.Models.enums;
+
+namespace Domain.Models;
 
 public class PostUpdateDto
 {
@@ -18,6 +20,8 @@ public class PostUpdateDto
     public String picture { get; set; }
 
     public double price { get; set; }
+    public StatusEnum Status { get; set; }
+
 
     // public bool IsCompleted { get; set; }
 

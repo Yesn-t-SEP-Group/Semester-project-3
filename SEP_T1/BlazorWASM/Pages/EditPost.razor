@@ -2,91 +2,90 @@
 @attribute [Authorize]
 @using Domain.DTOs
 @using Domain.Models
+@using Domain.Models.enums
 @using HttpClients.ClientInterfaces
 @inject IPostService postService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
 
-<div class="card">
-    @if (users == null)
-    {
-        <label>Loading users...</label>
-    }
-    else if (!users.Any())
-    {
-        <label>No users, you cannot create a Todo</label>
-    }
-    else if (dto == null)
-    {
-        <label>Loading Todo data..</label>
-    }
-    else
-    {
-        <h3>Update Post</h3>
-        <div class="form-group field">
-            <label>Title:</label>
-            <input type="text" @bind="dto.Title"/>
-        </div>
-        <div class="form-group field">
-            <label>Description:</label>
-            <input type="text" @bind="dto.description"/>
-        </div>
-        
-        <div class="form-group field">
-            <label>Location:</label>
-            <input type="text" @bind="dto.location"/>
-        </div>
-        <div class="form-group field">
-            <label>Categories:</label>
-            <input type="text" @bind="dto.categories"/>
-        </div>
-        <div class="form-group field">
-            <label>Picture:</label>
-            <input type="text" @bind="dto.picture"/>
-        </div>
-        <div class="form-group field">
-            <label>Price:</label>
-            <input type="text" @bind="dto.price"/>
-        </div>
-        
-        <div class="button-row">
-            <button @onclick="UpdateAsync" class="acceptbtn">Update</button>
-        </div>
-    }
-    @if (!string.IsNullOrEmpty(msg))
-    {
-        <label style="color: red">@msg</label>
-    }
+<div class="container text-center">
+    <h3>Update Post</h3>
 </div>
 
+<div class="form-group field">
+    <label>Title:</label>
+    <input type="text" class="form-control" @bind="dto.Title"/>
+</div>
+
+<div class="form-group field">
+    <label>Description:</label>
+    <input type="text" class="form-control" @bind="dto.description"/>
+</div>
+
+<div class="form-group field">
+    <label>Location:</label>
+    <input type="text" class="form-control" @bind="dto.location"/>
+</div>
+
+<div class="form-group field">
+    <label>Categories:</label>
+    <input type="text" class="form-control" @bind="dto.categories"/>
+</div>
+
+<div class="form-group field">
+    <label>Picture:</label>
+    <input type="text" class="form-control" @bind="dto.picture"/>
+</div>
+
+<div class="form-group field">
+    <label>Price:</label>
+    <input type="text" class="form-control" @bind="dto.price"/>
+</div>
+
+<div class="form-group field">
+    <label>Status:</label>
+    <select class="form-control" @bind="statusValue">
+        <option value="0" selected>Choose a status</option>
+        <option value="1">Active</option>
+        <option value="2">Sold</option>
+        <option value="3">Frozen</option>
+    </select>
+</div>
+
+
+<div class="button-row">
+    <button @onclick="UpdateAsync" class="btn btn-primary">Update</button>
+</div>
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+
 @code {
+
     [Parameter]
     public int Id { get; set; }
 
     private PostUpdateDto dto = null!;
     private string msg = "";
-    private IEnumerable<UserReadDto>? users;
-    
+    private int statusValue=0;
     protected override async Task OnInitializedAsync()
     {
         msg = "";
         try
         {
-            users = await userService.GetUsers();
-            PostReadDto todoData = await postService.GetByIdAsync(Id);
-            UserReadDto currentlyAssigned = users.First(user => user.Id.Equals(todoData.OwnerId));
-            
-
+            PostReadDto postData = await postService.GetByIdAsync(Id);
             dto = new(Id)
             {
-                Title = todoData.Title,
-                description = todoData.description,
-                OwnerId = currentlyAssigned.Id,
-                categories = todoData.categories,
-                Id = todoData.Id,
-                location = todoData.location,
-                picture = todoData.picture,
-                price = todoData.price
+                Title = postData.Title,
+                description = postData.description,
+                OwnerId = postData.OwnerId,
+                categories = postData.categories,
+                Id = postData.Id,
+                location = postData.location,
+                picture = postData.picture,
+                price = postData.price
             };
         }
         catch (Exception e)
@@ -95,11 +94,17 @@
             msg = e.Message;
         }
     }
-    
+
     private async Task UpdateAsync()
     {
         try
         {
+            var statusAsEnum = (StatusEnum)Enum.ToObject(typeof(StatusEnum), statusValue);
+            if (statusAsEnum==StatusEnum.Undefined)
+            {
+                throw new ArgumentException("Status is not defined");
+            }
+            dto.Status = statusAsEnum;
             await postService.UpdateAsync(dto);
             navMgr.NavigateTo("/MyPosts");
         }
@@ -109,4 +114,5 @@
             msg = e.Message;
         }
     }
+
 }

@@ -15,7 +15,7 @@ namespace WebAPI
 
             CreateMap<UserCreationGrpcDto, UserCreationDto>();
             CreateMap<UserCreationDto, UserCreationGrpcDto>();
-            CreateMap<PostUpdateDto, PostReadGrpcDto>();
+            CreateMap<PostUpdateDto, PostReadGrpcDto>().ReverseMap();
             CreateMap<UserUpdateDto, UserUpdateGrpcDTO>().ReverseMap();
             CreateMap<PostCreationDto, PostCreationGrpcDto>().ReverseMap();
             CreateMap<PostReadDto, PostReadGrpcDto>().ReverseMap().ForMember(x => x.creationDate,

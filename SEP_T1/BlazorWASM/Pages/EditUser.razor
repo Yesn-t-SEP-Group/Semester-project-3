@@ -24,35 +24,34 @@
     {
         <h3>Update User</h3>
         <div class="form-group field">
-            <label>Username:</label>
-            <input type="text" @bind="dto.UserName"/>
+            <label class="label">Username:</label>
+            <input type="text" class="form-control" @bind="dto.UserName" />
         </div>
         <div class="form-group field">
-            <label>Name:</label>
-            <input type="text" @bind="dto.Name"/>
+            <label class="label">Name:</label>
+            <input type="text" class="form-control" @bind="dto.Name" />
         </div>
         <div class="form-group field">
-            <label>Email:</label>
-            <input type="text" @bind="dto.Email"/>
+            <label class="label">Email:</label>
+            <input type="text" class="form-control" @bind="dto.Email" />
         </div>
         <div class="form-group field">
-            <label>PhoneNumber:</label>
-            <input type="text" @bind="dto.PhoneNumber"/>
+            <label class="label">PhoneNumber:</label>
+            <input type="text" class="form-control" @bind="dto.PhoneNumber" />
         </div>
         <div class="form-group field">
-            <label>Address:</label>
-            <input type="text" @bind="dto.Address"/>
+            <label class="label">Address:</label>
+            <input type="text" class="form-control" @bind="dto.Address" />
         </div>
         <div class="form-group field">
-            <label>Role:</label>
-            <input type="text" @bind="dto.Role"/>
+            <label class="label">Role:</label>
+            <input type="text" class="form-control" @bind="dto.Role" />
         </div>
-
-
 
         <div class="button-row">
-            <button @onclick="UpdateAsync" class="acceptbtn">Update</button>
+            <button @onclick="UpdateAsync" class="btn btn-primary">Update</button>
         </div>
+
     }
     @if (!string.IsNullOrEmpty(msg))
     {

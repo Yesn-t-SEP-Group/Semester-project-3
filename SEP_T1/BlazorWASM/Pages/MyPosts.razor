@@ -50,7 +50,7 @@
 }
 else if (!posts.Any())
 {
-    <p>No Todos to display</p>
+    <p>No posts to display</p>
 }
 else
 {
@@ -82,7 +82,7 @@ else
                     <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                 </td>
                 <td>
-                    <label @onclick="@(() => RemoveTodo(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
+                    <label @onclick="@(() => RemovePost(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
                         &#x2717;
                     </label>
                 </td>
@@ -147,7 +147,7 @@ else
         }
     }
 
-    private async Task RemoveTodo(int postId)
+    private async Task RemovePost(int postId)
     {
         msg = "";
         try
@@ -162,18 +162,6 @@ else
         {
             Console.WriteLine(e);
             msg = e.Message;
-        }
-    }
-
-    private int CompareById(PostReadDto x, PostReadDto y)
-    {
-        if (x.Id > y.Id)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
         }
     }
 

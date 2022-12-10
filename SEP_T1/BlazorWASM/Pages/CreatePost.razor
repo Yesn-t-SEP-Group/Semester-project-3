@@ -26,11 +26,13 @@
         <br/>
         <div>
             <select @bind="selectedValue">
+                <option value="">Please select a category</option>
                 @foreach (var category in categories)
                 {
                     <option value="@category">@category</option>
                 }
             </select>
+
         </div>
         <div>
             <label>Picture:</label>
@@ -62,20 +64,20 @@
     private DateTime creationDate = DateTime.Now;
     private string location = "";
     private string picture = "";
-    private string price;
+    private string price= "";
 
     private string selectedValue="";
-    private List<CategoryReadDto> categoryReadDtos;
-    List<string> categories;
+    List<CategoryReadDto> categoryReadDtos= new List<CategoryReadDto>();
+    List<string> categories = new List<string>();
 
     private string msg = "";
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
 
-    AuthenticationState authState;
-    ClaimsPrincipal user;
-    PostCreationDto dto;
+    AuthenticationState? authState;
+    ClaimsPrincipal? user;
+    PostCreationDto? dto;
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,43 +89,19 @@
         var readDtos = temp.ToList();
         categoryReadDtos = readDtos.ToList();
         categories = readDtos.Select(x => x.Description).ToList();
-        try
-        {
-    //    users = await userService.GetUsers();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            msg = e.Message;
-        }
     }
 
     private async Task Create()
     {
         msg = "";
 
-        if (string.IsNullOrEmpty(postTitle))
+        if (string.IsNullOrEmpty(postTitle) || string.IsNullOrEmpty(postBody) || string.IsNullOrEmpty(location) || string.IsNullOrEmpty(price))
         {
-            msg = "Title cannot be empty!";
-            return;
-        }
-        if (string.IsNullOrEmpty(postBody))
-        {
-            msg = "description cannot be empty!";
-            return;
-        }
-        if (string.IsNullOrEmpty(location))
-        {
-            msg = "location cannot be empty!";
-            return;
-        }
-        if (string.IsNullOrEmpty(price))
-        {
-            msg = "price cannot be less than 0!";
+            msg = "One or more required fields are empty!";
             return;
         }
 
-        try
+            try
         {
             var test = selectedValue;
             var test2 = categoryReadDtos;
@@ -135,7 +113,7 @@
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            msg = e.Message;
         }
     }
 

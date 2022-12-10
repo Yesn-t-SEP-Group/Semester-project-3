@@ -8,7 +8,7 @@ public class GrpcImplementationHelper
     /**
      * Use this to create a better error on gRPC
      * @param message the message shown on the client
-     * @return Status to be passed into onError
+     * @return StatusEnum to be passed into onError
      */
     public static Status generateCustomError(String message, Code code)
     {

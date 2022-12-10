@@ -45,6 +45,7 @@ message PostReadGrpcDto
   string picture = 7;
   int32 price = 8;
   string title = 9;
+  int32 status=10;
 }
 
 message AllPosts

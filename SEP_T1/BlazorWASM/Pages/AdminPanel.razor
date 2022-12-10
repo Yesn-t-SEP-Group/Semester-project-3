@@ -8,11 +8,15 @@
 @inject IPostService postService;
 @inject NavigationManager navMgr;
 
-<h1>User statistics</h1>
+<h1>statistics</h1>
 <br/>
 
 <h2>
     Number of posts in the system: <Label>@numberOfPosts</Label>
+</h2>
+
+<h2>
+    Number of Users in the system: <Label>@numberOfUsers</Label>
 </h2>
 
 <div>
@@ -61,6 +65,8 @@
     private string newCategoryName = "";
     private string msg = "";
     private string numberOfPosts = "";
+    private string numberOfUsers = "";
+
     private IEnumerable<CategoryReadDto> categories = new List<CategoryReadDto>();
 
 
@@ -70,6 +76,8 @@
         ClaimsPrincipal user = authState.User;
         var posts = await postService.GetAsync(null,null,null);
         numberOfPosts = posts.Count().ToString();
+        var users = await userService.GetUsers();
+        numberOfUsers = users.Count().ToString();
 
         await GetCategories();
     }

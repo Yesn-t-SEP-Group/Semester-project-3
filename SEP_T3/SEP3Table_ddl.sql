@@ -48,6 +48,7 @@ CREATE TABLE Posts
     seller_id      INT  NOT NULL,
     picture_url   TEXT,
     price         INT  NOT NULL,
+    status        INT NOT NULL ,
 
     FOREIGN KEY (seller_id) REFERENCES Users (user_id) ON DELETE CASCADE,
     FOREIGN KEY (category_id) REFERENCES Categories (category_id) ON DELETE CASCADE
