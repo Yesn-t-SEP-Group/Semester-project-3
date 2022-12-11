@@ -3,6 +3,9 @@ package via.sdj3.sep_t3.service;
 import com.google.rpc.Code;
 import com.google.rpc.Status;
 
+/**
+ * Class that contains methods for often used grpc calls
+ */
 public class GrpcImplementationHelper
 {
     /**

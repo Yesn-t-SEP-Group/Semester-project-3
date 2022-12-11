@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
+/**
+ * Implementation of GRPC for the Messages
+ */
 @Slf4j
 @GRpcService
 public class MessagingGrpcImplementation extends privateMessageServiceGrpc.privateMessageServiceImplBase
@@ -23,6 +26,13 @@ public class MessagingGrpcImplementation extends privateMessageServiceGrpc.priva
     private final MessageRegistry messageRegistry;
     private final UserRegistry userRegistry;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param messageRegistry the message registry
+     * @param userRegistry    the user registry
+     * @param postRegistry    the post registry
+     */
     public MessagingGrpcImplementation(MessageRegistry messageRegistry, UserRegistry userRegistry,
                                        PostRegistry postRegistry)
     {

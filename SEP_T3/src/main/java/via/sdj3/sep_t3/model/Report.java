@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+/**
+ * Report entity for JPA.
+ */
 @Entity
 @Getter
 @Setter
@@ -20,9 +23,6 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @Table(name = "reports", schema = "sep3")
 
-/***
- * reporting class used to report a user
- */
 public class Report
 {
     @Id

@@ -16,14 +16,23 @@ import java.util.ArrayList;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
+/**
+ * implementation of the gRPC communication for reports
+ */
 @GRpcService
 @Slf4j
 public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImplBase
 {
-    final ReportRegistry reportRegistry;
+    private final ReportRegistry reportRegistry;
 
-    final UserRegistry userRegistry;
+    private final UserRegistry userRegistry;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param reportRegistry the report registry
+     * @param userRegistry   the user registry
+     */
     @Autowired
     public ReportGrpcImplementation(ReportRegistry reportRegistry,UserRegistry userRegistry)
     {
@@ -31,7 +40,11 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
         this.userRegistry=userRegistry;
     }
 
-
+    /**
+     * Creates a report in the database
+     * @param request contains information for the report
+     * @param responseObserver sends back the created report
+     */
     @Override
     public void reportUser(ReportCreationGrpcDto request, StreamObserver<ReportReadGrpcDto> responseObserver)
     {
@@ -69,6 +82,11 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
         responseObserver.onCompleted();
     }
 
+    /**
+     * Gets all the report made to a specific user
+     * @param request contains the userId
+     * @param responseObserver contians all the reports
+     */
     @Override
     public void getALlReportsMadeToUser(GenericMessage request, StreamObserver<AllReports> responseObserver)
     {
@@ -92,6 +110,11 @@ public class ReportGrpcImplementation extends reportServiceGrpc.reportServiceImp
         responseObserver.onCompleted();
     }
 
+    /**
+     * Deletes a report from the database
+     * @param request contains the reportId
+     * @param responseObserver sends back a confirmation
+     */
     @Override
     public void deleteReport(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
     {

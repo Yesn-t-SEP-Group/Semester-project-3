@@ -6,10 +6,14 @@ import via.sdj3.sep_t3.model.Message;
 import java.util.List;
 
 
+/**
+ * This code defines an interface called MessageRegistry that extends the CrudRepository interface.
+ */
 public interface MessageRegistry extends CrudRepository<Message, Integer>
 {
     /**
-     * Fins all messages made to a user
+     * Finds all messages made to a user
+     *
      * @param id userId
      * @return List of messages
      */

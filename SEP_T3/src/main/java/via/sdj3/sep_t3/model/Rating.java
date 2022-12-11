@@ -9,6 +9,9 @@ import via.sdj3.sep_t3.protobuf.RatingReadGrpcDto;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Rating entity for JPA
+ */
 @Entity(name="ratings")
 @Getter
 @Setter
@@ -59,6 +62,7 @@ public class Rating
 
     /**
      * It will convert the rating into what gRPC dto uses
+     *
      * @return it returns a written value into the dto that matches the java part
      */
     public RatingReadGrpcDto convertToRatingReadGrpcDto()

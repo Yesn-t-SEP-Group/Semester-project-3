@@ -14,14 +14,14 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+/**
+ * Post Entity used by JPA
+ */
 @Entity(name ="posts")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-/**
- * is a class for the posts
- */
 public class Post
 {
 
@@ -66,6 +66,7 @@ public class Post
 
     /**
      * converts the data for usage in the proto file
+     *
      * @return returns the data that used by the proto file
      */
     public PostReadGrpcDto convertToPostReadGrpcDto()

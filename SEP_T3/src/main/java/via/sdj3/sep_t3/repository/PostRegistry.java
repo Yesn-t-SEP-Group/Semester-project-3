@@ -12,6 +12,18 @@ import via.sdj3.sep_t3.model.Post;
  */
 public interface PostRegistry extends CrudRepository<Post,Integer>
 {
+    /**
+     * Update post by id.
+     *
+     * @param description the description
+     * @param location    the location
+     * @param category    the category
+     * @param pictureUrl  the picture url
+     * @param price       the price
+     * @param title       the title
+     * @param status      the status
+     * @param id          the id
+     */
     @Transactional
     @Modifying
     @Query("""

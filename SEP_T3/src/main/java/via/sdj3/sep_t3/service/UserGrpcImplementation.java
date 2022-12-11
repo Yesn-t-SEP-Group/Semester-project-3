@@ -18,14 +18,22 @@ import java.util.List;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
+/**
+ * Implementation of the gRPC communication for users
+ */
 @GRpcService
 @Slf4j
 public class UserGrpcImplementation extends sepServiceGrpc.sepServiceImplBase
 {
-    final
+    private final
     UserRegistry userRegistry;
     private final MapperImplementation mapper = MapperImplementation.INSTANCE;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param userRegistry the user registry
+     */
     @Autowired
     public UserGrpcImplementation(UserRegistry userRegistry)
     {

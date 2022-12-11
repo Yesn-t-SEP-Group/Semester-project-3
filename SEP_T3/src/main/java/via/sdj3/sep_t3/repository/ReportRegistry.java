@@ -17,6 +17,12 @@ public interface ReportRegistry extends CrudRepository<Report,Integer>
      * @return it returns a list by id
      */
     List<Report> findByReportedUser_Id(Integer id);
+
+    /**
+     * Finds the latest report added
+     *
+     * @return the report
+     */
     Report findTopByOrderByIdDesc();
 
 }

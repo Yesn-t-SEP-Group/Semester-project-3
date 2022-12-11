@@ -11,6 +11,9 @@ import via.sdj3.sep_t3.protobuf.ReadDMGrpcDto;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Message Entity used by JPA
+ */
 @Entity(name="messages")
 @Getter
 @Setter
@@ -42,6 +45,7 @@ public class Message
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "post_id")
+    @ToString.Exclude
     private Post post;
 
     @Override
@@ -53,6 +57,11 @@ public class Message
         return id != null && Objects.equals(id, message.id);
     }
 
+    /**
+     * Convert to grpc read dm grpc dto.
+     *
+     * @return the read dm grpc dto
+     */
     public ReadDMGrpcDto convertToGrpc()
     {
         return ReadDMGrpcDto.newBuilder()

@@ -25,6 +25,12 @@ public class RatingGrpcImplementation extends ratingServiceGrpc.ratingServiceImp
     private final UserRegistry userRegistry;
     private final RatingsRegistry ratingsRegistry;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param userRegistry    the user registry
+     * @param ratingsRegistry the ratings registry
+     */
     @Autowired
     public RatingGrpcImplementation(UserRegistry userRegistry,RatingsRegistry ratingsRegistry)
     {

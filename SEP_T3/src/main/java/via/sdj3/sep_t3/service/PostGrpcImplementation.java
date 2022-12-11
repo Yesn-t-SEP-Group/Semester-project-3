@@ -20,6 +20,9 @@ import java.util.List;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
+/**
+ * Implementation of GRPC for the Posts
+ */
 @Slf4j
 @GRpcService
 public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
@@ -29,6 +32,13 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     private final CategoriesRegistry categoriesRegistry;
     private final MapperImplementation mapper = MapperImplementation.INSTANCE;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param postRegistry       postCRUD
+     * @param userRegistry       userCRUD
+     * @param categoriesRegistry categoryCRUD
+     */
     @Autowired
     public PostGrpcImplementation(PostRegistry postRegistry, UserRegistry userRegistry, CategoriesRegistry categoriesRegistry)
     {
@@ -36,6 +46,12 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         this.userRegistry = userRegistry;
         this.categoriesRegistry = categoriesRegistry;
     }
+
+    /**
+     * Gets all post from the database
+     * @param request Empty, the server doesn't do anything with it
+     * @param responseObserver contains all the posts
+     */
 
     @Override
     public void getAllPosts(Empty request, StreamObserver<AllPosts> responseObserver)
@@ -158,6 +174,11 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         }
     }
 
+    /**
+     * Gets the category for a given post
+     * @param request GenericMessage contains the postId
+     * @param responseObserver Response with the category
+     */
     @Override
     public void getCategoryByPostId(GenericMessage request, StreamObserver<CategoryReadGrpcDto> responseObserver)
     {
@@ -177,20 +198,30 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         }
     }
 
+    /**
+     * Method to get all categories from the database
+     * @param request empty reuqest the server does not do anything with it
+     * @param responseObserver contains the return value
+     */
     @Override
     public void getAllCategories(Empty request, StreamObserver<CategoriesGrpc> responseObserver)
     {
-        //todo write logger
+        log.info("New request for getting all categories");
         var allCategories = new ArrayList<CategoryReadGrpcDto>();
         categoriesRegistry.findAll().forEach(category -> allCategories.add(category.convertToGrpcReadDto()));
         responseObserver.onNext(CategoriesGrpc.newBuilder().addAllCategories(allCategories).build());
         responseObserver.onCompleted();
     }
 
+    /**
+     * Creates a new category in the database
+     * @param request contains all information needed
+     * @param responseObserver sends back the created category
+     */
     @Override
     public void createCategory(CategoryCreationGrpcDto request, StreamObserver<CategoryReadGrpcDto> responseObserver)
     {
-        //todo write logger
+        log.info("New request for creating a category");
         var newCategory = new Category();
         newCategory.setDescription(request.getDescription());
         try
@@ -210,6 +241,12 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         }
 
     }
+
+    /**
+     * Deletes a category from the database
+     * @param request GenericMessage contains the categoryId
+     * @param responseObserver GenericMessage containing a reply
+     */
     @Override
     public void deleteCategory(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
     {

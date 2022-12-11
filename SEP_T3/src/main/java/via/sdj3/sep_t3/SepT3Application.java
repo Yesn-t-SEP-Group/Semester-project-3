@@ -14,10 +14,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackages = {"via.sdj3.sep_t3.repository*"})
 @Slf4j
 
-/**
- * main class that starts the application, no need to change anything here
- * @Author Kruno,Gabriel,Martin,Levente
- */
 public class SepT3Application
 {
     public static void main(String[] args)
