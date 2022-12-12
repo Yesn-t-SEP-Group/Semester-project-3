@@ -8,54 +8,61 @@
 @inject IUserService userService;
 @inject NavigationManager navMgr;
 
-<div class="container text-center">
-    <h3>Update Post</h3>
-</div>
+@if (!loadingCompleted)
+{
+    msg = "Loading...";
+}
+else
+{
+    <div class="container text-center">
+        <h3>Update Post</h3>
+    </div>
 
-<div class="form-group field">
-    <label>Title:</label>
-    <input type="text" class="form-control" @bind="dto.Title"/>
-</div>
+    <div class="form-group field">
+        <label>Title:</label>
+        <input type="text" class="form-control" @bind="dto.Title"/>
+    </div>
 
-<div class="form-group field">
-    <label>Description:</label>
-    <input type="text" class="form-control" @bind="dto.description"/>
-</div>
+    <div class="form-group field">
+        <label>Description:</label>
+        <input type="text" class="form-control" @bind="dto.description"/>
+    </div>
 
-<div class="form-group field">
-    <label>Location:</label>
-    <input type="text" class="form-control" @bind="dto.location"/>
-</div>
+    <div class="form-group field">
+        <label>Location:</label>
+        <input type="text" class="form-control" @bind="dto.location"/>
+    </div>
 
-<div class="form-group field">
-    <label>Categories:</label>
-    <input type="text" class="form-control" @bind="dto.categories"/>
-</div>
+    <div class="form-group field">
+        <label>Categories:</label>
+        <input type="text" class="form-control" @bind="dto.categories"/>
+    </div>
 
-<div class="form-group field">
-    <label>Picture:</label>
-    <input type="text" class="form-control" @bind="dto.picture"/>
-</div>
+    <div class="form-group field">
+        <label>Picture:</label>
+        <input type="text" class="form-control" @bind="dto.picture"/>
+    </div>
 
-<div class="form-group field">
-    <label>Price:</label>
-    <input type="text" class="form-control" @bind="dto.price"/>
-</div>
+    <div class="form-group field">
+        <label>Price:</label>
+        <input type="text" class="form-control" @bind="dto.price"/>
+    </div>
 
-<div class="form-group field">
-    <label>Status:</label>
-    <select class="form-control" @bind="statusValue">
-        <option value="0" selected>Choose a status</option>
-        <option value="1">Active</option>
-        <option value="2">Sold</option>
-        <option value="3">Frozen</option>
-    </select>
-</div>
+    <div class="form-group field">
+        <label>Status:</label>
+        <select class="form-control" @bind="statusValue">
+            <option value="0" selected>Choose a status</option>
+            <option value="1">Active</option>
+            <option value="2">Sold</option>
+            <option value="3">Frozen</option>
+        </select>
+    </div>
 
 
-<div class="button-row">
-    <button @onclick="UpdateAsync" class="btn btn-primary">Update</button>
-</div>
+    <div class="button-row">
+        <button @onclick="UpdateAsync" class="btn btn-primary">Update</button>
+    </div>
+}
 
 @if (!string.IsNullOrEmpty(msg))
 {
@@ -67,9 +74,11 @@
     [Parameter]
     public int Id { get; set; }
 
-    private PostUpdateDto dto = null!;
+    private PostUpdateDto? dto;
     private string msg = "";
-    private int statusValue=0;
+    private int statusValue = 0;
+    private bool loadingCompleted = false;
+
     protected override async Task OnInitializedAsync()
     {
         msg = "";
@@ -87,6 +96,8 @@
                 picture = postData.picture,
                 price = postData.price
             };
+            loadingCompleted = true;
+            msg = "";
         }
         catch (Exception e)
         {
@@ -100,7 +111,7 @@
         try
         {
             var statusAsEnum = (StatusEnum)Enum.ToObject(typeof(StatusEnum), statusValue);
-            if (statusAsEnum==StatusEnum.Undefined)
+            if (statusAsEnum == StatusEnum.Undefined)
             {
                 throw new ArgumentException("Status is not defined");
             }

@@ -14,107 +14,115 @@
 @inject IMessageService messageService;
 @inject IRatingService ratingService;
 
-<div class="container">
-<div class="form-group">
-    <h2 class="col-sm-12">
-        <input type="text" @bind="dto.Title" disabled="disabled" class="form-control"/>
-    </h2>
-</div>
-<div class="form-group">
-    <!-- Use the row and col-* classes from Bootstrap to create a grid layout for the image, category, location, and price -->
-    <div class="row">
-        <div class="col-sm-6">
-            <img src="@imgSrc" alt="NO IMAGE FOUND" class="col-sm-12" style="width: 400px; size: 400px"/>
+@if (!loadingComplete)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="container">
+        <div class="form-group">
+            <h2 class="col-sm-12">
+                <input type="text" @bind="dto.Title" disabled="disabled" class="form-control"/>
+            </h2>
         </div>
-        <div class="col-sm-6">
+        <div class="form-group">
+            <!-- Use the row and col-* classes from Bootstrap to create a grid layout for the image, category, location, and price -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="@imgSrc" alt="NO IMAGE FOUND" class="col-sm-12" style="width: 400px; size: 400px"/>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-2">Price:</label>DKK
+                        <input type="text" @bind="dto.price" disabled="disabled" class="form-control col-sm-2" style="text-align: center"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="col-sm-2">Category:</label>
+                            <input type="text" @bind="dto.categories" disabled="disabled" class="form-control col-sm-10"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Location:</label>
+                            <input type="text" @bind="dto.location" disabled="disabled" class="form-control col-sm-12"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Status:</label>
+                            <input type="text" @bind="status" disabled="disabled" class="form-control col-sm-12"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="form-group">
-                <label class="col-sm-2">Price:</label>DKK
-                <input type="text" @bind="dto.price" disabled="disabled" class="form-control col-sm-2" style="text-align: center"/>
+                <textarea @bind="dto.description" disabled="disabled" class="form-control col-sm-12" style="height: 300px">DESCRIPTION</textarea>
             </div>
+        </div>
+
+
+        <div class="container">
             <div class="form-group">
-                <div class="form-group">
-                    <label class="col-sm-2">Category:</label>
-                    <input type="text" @bind="dto.categories" disabled="disabled" class="form-control col-sm-10"/>
+                <h4>Posted by:</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="username">Username:</label>
+                        <input id="username" type="text" @bind="dto.Owner.UserName" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="useravgrating">User Average Rating:</label>
+                        <input id="useravgrating" type="text" @bind="userAvgRating" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="email">Email:</label>
+                        <input id="email" type="text" @bind="dto.Owner.Email" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="phonenumber">Phone Number:</label>
+                        <input id="phonenumber" type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled" class="form-control"/>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2">Location:</label>
-                    <input type="text" @bind="dto.location" disabled="disabled" class="form-control col-sm-12"/>
+            </div>
+        </div>
+
+
+        <h3>Leave a review after you bought the item!</h3>
+
+        <div class="input-group mb-3">
+            <input type="number" min="1" max="5" class="form-control" @bind="ratingValue">
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="@(() => leaveReview())">Review</button>
+
+
+        <div class="container d-flex flex-row justify-content-start">
+            <div class="card mr-2">
+                <h4 class="card-header text-danger font-weight-bold">Report User</h4>
+                <div class="card-body">
+                    <textarea class="form-control" rows="8" cols="20" @bind="reportReason"></textarea>
+                    <br/>
+                    <label class="text-danger">@msg2</label>
+                    <br/>
+                    <button type="button" class="btn btn-danger" @onclick="@(() => reportUser())">Report</button>
                 </div>
-                <div class="form-group">
-                    <label class="col-sm-2">Status:</label>
-                    <input type="text" @bind="status" disabled="disabled" class="form-control col-sm-12"/>
+            </div>
+
+            <div class="card ml-2">
+                <h4 class="card-header text-info font-weight-bold">Write message to user</h4>
+                <div class="card-body">
+                    <textarea class="form-control" rows="8" cols="20" @bind="dmContent"></textarea>
+                    <br/>
+                    <label class="text-info">@msg1</label>
+                    <br/>
+                    <button type="button" class="btn btn-primary" @onclick="@(() => writeDM())">Send Message</button>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="form-group">
-        <textarea @bind="dto.description" disabled="disabled" class="form-control col-sm-12" style="height: 300px">DESCRIPTION</textarea>
-    </div>
-</div>
 
-
-<div class="container">
-    <div class="form-group">
-        <h4>Posted by:</h4>
-        <div class="row">
-            <div class="col-sm-6">
-                <label for="username">Username:</label>
-                <input id="username" type="text" @bind="dto.Owner.UserName" disabled="disabled" class="form-control"/>
-            </div>
-            <div class="col-sm-6">
-                <label for="useravgrating">User Average Rating:</label>
-                <input id="useravgrating" type="text" @bind="userAvgRating" disabled="disabled" class="form-control"/>
-            </div>
-            <div class="col-sm-6">
-                <label for="email">Email:</label>
-                <input id="email" type="text" @bind="dto.Owner.Email" disabled="disabled" class="form-control"/>
-            </div>
-            <div class="col-sm-6">
-                <label for="phonenumber">Phone Number:</label>
-                <input id="phonenumber" type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled" class="form-control"/>
-            </div>
+        <div>
+            <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
         </div>
     </div>
-</div>
-
-
-<h3>Leave a review after you bought the item!</h3>
-
-<div class="input-group mb-3">
-    <input type="number" min="1" max="5" class="form-control" @bind="ratingValue">
-</div>
-<button type="button" class="btn btn-primary" @onclick="@(() => leaveReview())">Review</button>
-
-
-<div class="container d-flex flex-row justify-content-start">
-    <div class="card mr-2">
-        <h4 class="card-header text-danger font-weight-bold">Report User</h4>
-        <div class="card-body">
-            <textarea class="form-control" rows="8" cols="20" @bind="reportReason"></textarea>
-            <br/>
-            <label class="text-danger">@msg2</label>
-            <br/>
-            <button type="button" class="btn btn-danger" @onclick="@(() => reportUser())">Report</button>
-        </div>
-    </div>
-
-    <div class="card ml-2">
-        <h4 class="card-header text-info font-weight-bold">Write message to user</h4>
-        <div class="card-body">
-            <textarea class="form-control" rows="8" cols="20" @bind="dmContent"></textarea>
-            <br/>
-            <label class="text-info">@msg1</label>
-            <br/>
-            <button type="button" class="btn btn-primary" @onclick="@(() => writeDM())">Send Message</button>
-        </div>
-    </div>
-</div>
-
-<div>
-    <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
-</div>
-
-
+}
 @code
 {
     [Parameter]
@@ -136,12 +144,13 @@
     private int ratingValue = 1;
     private int userAvgRating = 0;
     private string status;
+    private bool loadingComplete = false;
 
     protected override async Task OnInitializedAsync()
     {
         authState = await AuthState;
         user = authState.User;
-//test
+    //test
         try
         {
             users = await userService.GetUsers();
@@ -164,6 +173,7 @@
             imgSrc = dto.picture;
             var allRatings = await ratingService.GetRatingsMadeToUser(owner.Id);
             userAvgRating = (int)allRatings.Average(x => x.RatingValue);
+            loadingComplete = true;
         }
         catch (Exception e)
         {
@@ -243,4 +253,3 @@
     }
 }
 
-</div>
