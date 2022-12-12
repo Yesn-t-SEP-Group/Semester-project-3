@@ -39,6 +39,6 @@ public class UserCreationDto
     public string PhoneNumber { get; set; }
     
     [Required(ErrorMessage = "You must provide an address")]
-    [StringLength(200, MinimumLength = 5)]
+    [StringLength(200, MinimumLength = 0)]
     public string Address { get; set; }
 }
