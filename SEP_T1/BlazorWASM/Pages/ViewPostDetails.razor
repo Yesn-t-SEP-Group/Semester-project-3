@@ -172,7 +172,11 @@ else
             status = postData.Status.ToString();
             imgSrc = dto.picture;
             var allRatings = await ratingService.GetRatingsMadeToUser(owner.Id);
-            userAvgRating = (int)allRatings.Average(x => x.RatingValue);
+            if (allRatings.Count()!=0)
+            {
+                userAvgRating = (int)allRatings.Average(x => x.RatingValue);
+            }
+            userAvgRating = 0;
             loadingComplete = true;
         }
         catch (Exception e)

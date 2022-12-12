@@ -34,8 +34,15 @@ else
     </div>
 
     <div class="form-group field">
-        <label>Categories:</label>
-        <input type="text" class="form-control" @bind="dto.categories"/>
+        <label>Category:</label>
+        <select class="form-control" @bind="selectedValue">
+            <option value="">Please select a category</option>
+            @foreach (var category in categories)
+            {
+                <option value="@category">@category</option>
+            }
+        </select>
+
     </div>
 
     <div class="form-group field">
@@ -57,8 +64,11 @@ else
             <option value="3">Frozen</option>
         </select>
     </div>
-
-
+        
+    <div class="form-group field">
+        <label>Note: you must select a category and a status even if you dont want to change it!</label>
+        
+    </div>
     <div class="button-row">
         <button @onclick="UpdateAsync" class="btn btn-primary">Update</button>
     </div>
@@ -78,6 +88,9 @@ else
     private string msg = "";
     private int statusValue = 0;
     private bool loadingCompleted = false;
+    private string selectedValue = "";
+    private List<CategoryReadDto> categoryReadDtos;
+    private List<string> categories;
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,6 +109,10 @@ else
                 picture = postData.picture,
                 price = postData.price
             };
+            var temp = await postService.GetAllCategoriesAsync();
+            var readDtos = temp.ToList();
+            categoryReadDtos = readDtos.ToList();
+            categories = readDtos.Select(x => x.Description).ToList();
             loadingCompleted = true;
             msg = "";
         }
@@ -115,6 +132,13 @@ else
             {
                 throw new ArgumentException("Status is not defined");
             }
+            if (selectedValue == "")
+            {
+                throw new ArgumentException("Status is not defined");
+            }
+            var test = selectedValue;
+            var idOfCategorySelected = categoryReadDtos.First(x => x.Description.Equals(test)).Id;
+            dto.categories = idOfCategorySelected;
             dto.Status = statusAsEnum;
             await postService.UpdateAsync(dto);
             navMgr.NavigateTo("/MyPosts");

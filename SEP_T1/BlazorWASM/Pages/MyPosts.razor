@@ -63,6 +63,7 @@ else
             <th>Location</th>
             <th>price</th>
             <th>category</th>
+            <th>status</th>
             <th>Edit</th>
             <th>Delete?</th>
         </tr>
@@ -78,6 +79,7 @@ else
                 <td>@item.location</td>
                 <td>@item.price</td>
                 <td>@item.categoryString</td>
+                <td>@item.Status</td>
                 <td>
                     <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                 </td>

@@ -61,7 +61,7 @@
                 Username = userName, Password = password
             };
             await authService.LoginAsync(dto);
-            navMgr.NavigateTo("/");
+            navMgr.NavigateTo("/MyAccount");
         }
         catch (Exception e)
         {

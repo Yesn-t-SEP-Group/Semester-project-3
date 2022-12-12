@@ -104,7 +104,6 @@
             try
         {
             var test = selectedValue;
-            var test2 = categoryReadDtos;
             var idOfCategorySelected = categoryReadDtos.First(x => x.Description.Equals(test)).Id;
             int id = int.Parse(user.FindFirst("Id").Value);
             dto = new(id, postTitle, postBody, creationDate, location, idOfCategorySelected, picture, double.Parse(price));

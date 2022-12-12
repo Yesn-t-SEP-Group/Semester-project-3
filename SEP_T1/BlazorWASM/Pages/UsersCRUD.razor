@@ -6,6 +6,7 @@
 @using System.Security.Claims
 @inject IUserService userService;
 @inject NavigationManager navMgr;
+@inject IJSRuntime JSRuntime;
 
 <h1>User Data CRUD</h1>
 <div class="row">
@@ -75,13 +76,15 @@ else
     protected IEnumerable<UserReadDto> userList = new List<UserReadDto>();
     protected IEnumerable<UserReadDto> searchUserData = new List<UserReadDto>();
     protected UserReadDto user = new();
+    protected ClaimsPrincipal userCLaims;
+
     protected string SearchString { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
         AuthenticationState authState = await AuthState;
-        ClaimsPrincipal user = authState.User;
-        isAdmin = user.IsInRole("Admin");
+        userCLaims = authState.User;
+        isAdmin = userCLaims.IsInRole("Admin");
         await GetUser();
     }
 
@@ -104,12 +107,7 @@ else
             userList = searchUserData;
         }
     }
-
-    protected void DeleteConfirm(int userID)
-    {
-        user = userList.FirstOrDefault(x => x.Id == userID);
-    }
-
+    
     public void ResetSearch()
     {
         SearchString = string.Empty;
@@ -118,6 +116,13 @@ else
 
     protected async Task DeleteElement(int id)
     {
+        var loggedInId = int.Parse(userCLaims.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+
+        if (id==loggedInId)
+        {
+            await JSRuntime.InvokeVoidAsync("window.alert", "You cant delete yourself!");
+            return;
+        }
         await userService.DeleteUser(id);
         await this.LoadElements();
         StateHasChanged();
