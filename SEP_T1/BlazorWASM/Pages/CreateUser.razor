@@ -81,7 +81,7 @@
                                 <label style="color: red">@msg</label>
                             }
                             <br/>
-                            <button @onclick="HandleValidSubmit" class="acceptbtn">Create</button>
+                            <button @onclick="HandleValidSubmit" class="btn btn-primary">Create</button>
                         </div>
                 
 
@@ -111,9 +111,18 @@
             msg = "Password and Confirm Password must be the same";
             return;
         }
-        await userService.Create(this.dto);
-        msg = "User created";
-        navMgr.NavigateTo($"/Login");
+        try
+        {
+            await userService.Create(this.dto);
+            msg = "User created";
+            navMgr.NavigateTo($"/Login");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+        
 
     }
 }
