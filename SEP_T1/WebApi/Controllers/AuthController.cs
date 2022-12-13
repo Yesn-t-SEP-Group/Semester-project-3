@@ -71,14 +71,22 @@ public class AuthController : ControllerBase
     [HttpPost, Route("login")]
     public async Task<ActionResult> Login([FromBody] UserLoginDto userLoginDto)
     {
-        UserReadDto? user = await authService.Login(userLoginDto);
-        if (user == null)
+        try
         {
-            return BadRequest();
-        }
-        string token = GenerateJwt(user);
+            UserReadDto? user = await authService.Login(userLoginDto);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            string token = GenerateJwt(user);
 
-        return Ok(token);
+            return Ok(token);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
     }
     
     [HttpPatch("{userId:int}")]

@@ -1,3 +1,6 @@
+/*
+ReportGrpcModel.proto is used to make the gRPC calls to the ReportGrpcModel service.
+ */
 syntax = "proto3";
 
 import 'Common.proto';

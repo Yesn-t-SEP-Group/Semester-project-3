@@ -14,14 +14,14 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+/**
+ * Post Entity used by JPA
+ */
 @Entity(name ="posts")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
-/**
- * is a class for the posts
- */
 public class Post
 {
 
@@ -61,8 +61,12 @@ public class Post
     @Column(name = "title")
     private String title;
 
+    @Column(name = "status", nullable = false)
+    private Integer status;
+
     /**
      * converts the data for usage in the proto file
+     *
      * @return returns the data that used by the proto file
      */
     public PostReadGrpcDto convertToPostReadGrpcDto()
@@ -77,6 +81,7 @@ public class Post
                 .setPicture(pictureUrl)
                 .setPrice(price)
                 .setTitle(title)
+                .setStatus(status)
                 .build();
     }
 

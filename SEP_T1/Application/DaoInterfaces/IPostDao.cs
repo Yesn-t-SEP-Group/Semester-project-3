@@ -7,7 +7,7 @@ public interface IPostDao
 {
     //todo fix
     Task<PostReadDto> CreateAsync(PostCreationDto post);
-    Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters);
+    Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters);
   
   Task<IEnumerable<PostReadDto>> GetAsync();
     Task<PostReadDto?> GetByIdAsync(int postId);
@@ -15,5 +15,10 @@ public interface IPostDao
     Task DeleteAsync(int id);
     
     Task<UserReadDto> GetPostOwnerAsync(int dto);
+    
+    Task<CategoryReadDto> GetPostCategoryAsync(int postId);
+    Task<CategoryReadDto> CreateCategoryAsync(string description);
+    Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync();
+    Task DeleteCategoryAsync(int categoryId);
 
 }

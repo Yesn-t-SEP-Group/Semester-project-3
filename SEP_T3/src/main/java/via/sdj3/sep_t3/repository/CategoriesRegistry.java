@@ -2,15 +2,17 @@ package via.sdj3.sep_t3.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import via.sdj3.sep_t3.model.Category;
+import via.sdj3.sep_t3.model.Rating;
 
 /**
- * It registers categories
- */
-
-/**
- * * It creates the users objects and extends the crud
+ * This code defines an interface called CategoriesRegistry that extends the CrudRepository interface.
  */
 public interface CategoriesRegistry extends CrudRepository<Category,Integer>
 {
-    //write sql specific methods here
+    /**
+     * Finds the latest added category
+     *
+     * @return the category
+     */
+    Category findTopByOrderByIdDesc();
 }

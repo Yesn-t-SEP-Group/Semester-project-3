@@ -1,0 +1,122 @@
+﻿@page "/adminPanel"
+@using Domain.DTOs
+@attribute [Authorize(Policy = "IsAdmin")]
+@inject HttpClient Http
+@using HttpClients.ClientInterfaces
+@using System.Security.Claims
+@inject IUserService userService;
+@inject IPostService postService;
+@inject NavigationManager navMgr;
+
+<h1>statistics</h1>
+<br/>
+<h2>
+    For an in-depth administrator guide check out the following link:
+    <a href="https://docs.google.com/document/d/16fnHhfKVy2lk7C1vrSdbloGYBa9DEzVby8ImloK-pB4/edit?usp=sharing">
+        Guide
+        </a>
+</h2>
+
+
+<h2>
+    Number of posts in the system: <Label>@numberOfPosts</Label>
+</h2>
+
+<h2>
+    Number of Users in the system: <Label>@numberOfUsers</Label>
+</h2>
+
+<div>
+    <h4 style="font-weight: bold">Create new Category</h4>
+    <div class="form-group">
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" id="categoryName" @bind="newCategoryName"/>
+            </div>
+            <div class="col-md-6">
+                <button type="submit" class="btn btn-primary" @onclick="CreateCategory">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br/>
+<h2>Categories currently in the system:</h2>
+<table class="table table-striped align-middle table-bordered">
+    <thead class="table-success">
+    <tr>
+        <th>Category ID</th>
+        <th>Category Name</th>
+        <th>Delete Category?</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var category in categories)
+    {
+        <tr>
+            <td>@category.Id</td>
+            <td>@category.Description</td>
+            <td>
+                <button class="btn btn-outline-danger" @onclick="@((async () => await DeleteElement(category.Id)))">Delete</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+    private string newCategoryName = "";
+    private string msg = "";
+    private string numberOfPosts = "";
+    private string numberOfUsers = "";
+
+    private IEnumerable<CategoryReadDto> categories = new List<CategoryReadDto>();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        ClaimsPrincipal user = authState.User;
+        var posts = await postService.GetAsync(null,null,null);
+        numberOfPosts = posts.Count().ToString();
+        var users = await userService.GetUsers();
+        numberOfUsers = users.Count().ToString();
+
+        await GetCategories();
+    }
+
+    private async Task GetCategories()
+    {
+        categories = await postService.GetAllCategoriesAsync();
+    }
+
+    private async Task DeleteElement(int id)
+    {
+        await postService.DeleteCategoryAsync(id);
+        await this.LoadElements();
+        StateHasChanged();
+    }
+
+    private async Task LoadElements()
+    {
+        categories = await postService.GetAllCategoriesAsync();
+    }
+
+    private async Task CreateCategory()
+    {
+        try
+        {
+            await postService.CreateCategoryAsync(newCategoryName);
+            await LoadElements();
+        }
+        catch (Exception e)
+        {
+            msg = e.Message;
+        }
+    }
+
+}

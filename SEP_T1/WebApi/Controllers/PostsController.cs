@@ -34,7 +34,7 @@ public class PostsController : ControllerBase
         }
     }
 
-        
+     /*   
     [HttpGet]
     public async Task<ActionResult<IEnumerable<PostReadDto>>> GetAsync()
     {
@@ -49,12 +49,25 @@ public class PostsController : ControllerBase
             return StatusCode(500, e.Message);
         }
     }
-        
-        
-        
-        
-        
+    */
     
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<PostReadDto>>> GetAsync([FromQuery] int? category,
+        [FromQuery] string? titleContains,[FromQuery] int? maxPrice/*, [FromQuery] string? bodyContains*/)
+    {
+        try
+        {
+            SearchPostParametersDto parameters = new( category, titleContains, maxPrice/*, bodyContains*/);
+            var posts = await _postLogic.GetAsync(parameters);
+            return Ok(posts);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return StatusCode(500, e.Message);
+        }
+    }
+
     [HttpPatch]
     public async Task<ActionResult> UpdateAsync([FromBody] PostUpdateDto dto)
     {

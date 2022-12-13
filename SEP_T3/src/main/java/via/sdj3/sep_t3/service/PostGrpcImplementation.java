@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.lognet.springboot.grpc.GRpcService;
 import org.springframework.beans.factory.annotation.Autowired;
 import via.sdj3.sep_t3.adapters.MapperImplementation;
+import via.sdj3.sep_t3.model.Category;
+import via.sdj3.sep_t3.model.enums.StatusEnum;
 import via.sdj3.sep_t3.protobuf.*;
 import via.sdj3.sep_t3.repository.CategoriesRegistry;
 import via.sdj3.sep_t3.repository.PostRegistry;
@@ -18,6 +20,9 @@ import java.util.List;
 
 import static via.sdj3.sep_t3.service.GrpcImplementationHelper.generateCustomError;
 
+/**
+ * Implementation of GRPC for the Posts
+ */
 @Slf4j
 @GRpcService
 public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
@@ -27,6 +32,13 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
     private final CategoriesRegistry categoriesRegistry;
     private final MapperImplementation mapper = MapperImplementation.INSTANCE;
 
+    /**
+     * Autowired constructor for dependency injection
+     *
+     * @param postRegistry       postCRUD
+     * @param userRegistry       userCRUD
+     * @param categoriesRegistry categoryCRUD
+     */
     @Autowired
     public PostGrpcImplementation(PostRegistry postRegistry, UserRegistry userRegistry, CategoriesRegistry categoriesRegistry)
     {
@@ -34,6 +46,12 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         this.userRegistry = userRegistry;
         this.categoriesRegistry = categoriesRegistry;
     }
+
+    /**
+     * Gets all post from the database
+     * @param request Empty, the server doesn't do anything with it
+     * @param responseObserver contains all the posts
+     */
 
     @Override
     public void getAllPosts(Empty request, StreamObserver<AllPosts> responseObserver)
@@ -57,7 +75,6 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         log.info("new request for creating a new post with credentials \n"+request.toString());
         var newPost=mapper.convertFromCreatePostsGrpcDto(request);
         //todo blazor client chooses this from a dropdown list
-        //newPost.setCategory(null);//NOT SURE HOW TO HANDLE THIS
         try
         {
             newPost.setCreationDate(LocalDateTime.now());
@@ -66,6 +83,7 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             newPost.setTitle(request.getTitle());
             newPost.setCategory(categoriesRegistry.findById(request.getCategories()).get());
             newPost.setSellerid(userRegistry.findById(request.getOwnerId()).get());
+            newPost.setStatus(StatusEnum.Active.getNumber());
             postRegistry.save(newPost);
             log.info("saved post: "+newPost);
             responseObserver.onNext(newPost.convertToPostReadGrpcDto());
@@ -121,7 +139,8 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
             var price=request.getPrice();
             var id =request.getId();
             var title=request.getTitle();
-            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,id);
+            var status=request.getStatus();
+            postRegistry.updatePostById(description,location,category,pictureUrl,price,title,status,id);
             log.info("Post was updated successfully" +request);
 
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully updated post!").build());
@@ -145,14 +164,102 @@ public class PostGrpcImplementation extends postServiceGrpc.postServiceImplBase
         try
         {
             postRegistry.deleteById(Integer.parseInt(request.getMessage()));
-            log.info("Post with id "+request.getMessage()+" was deleted");
+            log.info("Post with id " + request.getMessage() + " was deleted");
             responseObserver.onNext(GenericMessage.newBuilder().setMessage("true").build());
+            responseObserver.onCompleted();
+        } catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+    }
+
+    /**
+     * Gets the category for a given post
+     * @param request GenericMessage contains the postId
+     * @param responseObserver Response with the category
+     */
+    @Override
+    public void getCategoryByPostId(GenericMessage request, StreamObserver<CategoryReadGrpcDto> responseObserver)
+    {
+        try
+        {
+            var id = Integer.parseInt(request.getMessage());
+            log.info("Looking up category for postId " + id);
+            var postFromDatabase = postRegistry.findById(id);
+            if (postFromDatabase.isEmpty()) throw new IllegalArgumentException("Post not found");
+            var category = categoriesRegistry.findById(postFromDatabase.get().getCategory().getId());
+            responseObserver.onNext(category.get().convertToGrpcReadDto());
+            responseObserver.onCompleted();
+        } catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+    }
+
+    /**
+     * Method to get all categories from the database
+     * @param request empty reuqest the server does not do anything with it
+     * @param responseObserver contains the return value
+     */
+    @Override
+    public void getAllCategories(Empty request, StreamObserver<CategoriesGrpc> responseObserver)
+    {
+        log.info("New request for getting all categories");
+        var allCategories = new ArrayList<CategoryReadGrpcDto>();
+        categoriesRegistry.findAll().forEach(category -> allCategories.add(category.convertToGrpcReadDto()));
+        responseObserver.onNext(CategoriesGrpc.newBuilder().addAllCategories(allCategories).build());
+        responseObserver.onCompleted();
+    }
+
+    /**
+     * Creates a new category in the database
+     * @param request contains all information needed
+     * @param responseObserver sends back the created category
+     */
+    @Override
+    public void createCategory(CategoryCreationGrpcDto request, StreamObserver<CategoryReadGrpcDto> responseObserver)
+    {
+        log.info("New request for creating a category");
+        var newCategory = new Category();
+        newCategory.setDescription(request.getDescription());
+        try
+        {
+            categoriesRegistry.findAll().forEach(category -> {
+                if (category.getDescription().equals(newCategory.getDescription()))
+                    throw new IllegalArgumentException("Category already exists in the database");
+            });
+            categoriesRegistry.save(newCategory);
+            responseObserver.onNext(categoriesRegistry.findTopByOrderByIdDesc().convertToGrpcReadDto());
             responseObserver.onCompleted();
         }
         catch (Exception e)
         {
             log.error(e.getMessage());
-            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(),Code.INVALID_ARGUMENT)));
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
+        }
+
+    }
+
+    /**
+     * Deletes a category from the database
+     * @param request GenericMessage contains the categoryId
+     * @param responseObserver GenericMessage containing a reply
+     */
+    @Override
+    public void deleteCategory(GenericMessage request, StreamObserver<GenericMessage> responseObserver)
+    {
+        try
+        {
+            categoriesRegistry.deleteById(Integer.parseInt(request.getMessage()));
+            responseObserver.onNext(GenericMessage.newBuilder().setMessage("Successfully deleted").build());
+            responseObserver.onCompleted();
+        }
+        catch (Exception e)
+        {
+            log.error(e.getMessage());
+            responseObserver.onError(StatusProto.toStatusRuntimeException(generateCustomError(e.getMessage(), Code.INVALID_ARGUMENT)));
         }
     }
 }

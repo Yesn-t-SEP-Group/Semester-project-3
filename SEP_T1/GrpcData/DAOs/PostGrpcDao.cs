@@ -1,8 +1,10 @@
 ﻿using System.IO.MemoryMappedFiles;
 using System.Runtime.InteropServices.Marshalling;
+using System.Threading.Channels;
 using System.Xml.Linq;
 using Application.DaoInterfaces;
 using AutoMapper;
+using AutoMapper.Configuration;
 using Domain.DTOs;
 using Domain.Models;
 using GrpcData.DI;
@@ -34,10 +36,75 @@ public class PostGrpcDao : IPostDao
             return mapped;
     }
 
-    public Task<IEnumerable<Post>> GetAsync(SearchPostParametersDto searchParameters)
+    /*
+    public async Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters)
     {
-        throw new NotImplementedException();
+        
+        
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getAllPostsAsync(new Empty());
+        var holder = new List<PostReadDto>();
+
+        var list = new List<PostReadDto>();
+        foreach (var read in result.Post)
+        {
+            var temp = _mapper.Map<PostReadDto>(read);
+            list.Add(temp);
+        }
+
+        if (searchParameters.category != 0 && searchParameters.category <=5)
+        {
+         
+         holder = list.FindAll(post => post.categories.Equals(searchParameters.category));
+        }
+        
+        if (!string.IsNullOrEmpty(searchParameters.TitleContains))
+        {
+          
+          holder = list.FindAll(p => p.Title.Contains(searchParameters.TitleContains));
+        }
+        
+        return holder;
+
     }
+    */
+    
+    public async Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters)
+    {
+        // Create a PostServiceClient using the GrpcService
+        var client = _grpcService.CreatePostServiceClient();
+
+        // Get all the posts using the client
+        var result = await client.getAllPostsAsync(new Empty());
+
+        // Map the result to a List of PostReadDto objects using the Mapper
+        var list = result.Post.Select(x => _mapper.Map<PostReadDto>(x)).ToList();
+
+        // Filter the list by category if specified in the search parameters
+        if (searchParameters.category != 0 && searchParameters.category <= 5)
+        {
+            list = list.Where(post => post.categories.Equals(searchParameters.category)).ToList();
+        }
+
+        // Filter the list by title if specified in the search parameters
+        if (!string.IsNullOrEmpty(searchParameters.TitleContains))
+        {
+            list = list.Where(p => p.Title.Contains(searchParameters.TitleContains)).ToList();
+        }
+        // Filter the list by price if specified in the search parameters
+        if (searchParameters.maxPrice != null)
+        {
+            list = list.Where(p => p.price <= (searchParameters.maxPrice)).ToList();
+        }
+
+        return list;
+    }
+    
+
+
+
+
+
 
     public async Task DeleteAsync(int id)
     {
@@ -70,7 +137,6 @@ public class PostGrpcDao : IPostDao
             var temp = _mapper.Map<PostReadDto>(read);
             list.Add(temp);
         }
-
         return list;
 
     }
@@ -89,5 +155,38 @@ public class PostGrpcDao : IPostDao
         var mapped = _mapper.Map<PostReadGrpcDto>(dto);
         var result = await client.updatePostAsync(mapped);
         
+    }
+
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getCategoryByPostIdAsync(new GenericMessage { Message = postId.ToString() });
+        return _mapper.Map<CategoryReadDto>(result);
+    }
+
+    public async Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.createCategoryAsync(new CategoryCreationGrpcDto { Description = description });
+        return _mapper.Map<CategoryReadDto>(result);
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        var result = await client.getAllCategoriesAsync(new Empty());
+        var list = new List<CategoryReadDto>();
+        foreach (var categoryReadGrpcDto in result.Categories)
+        {
+            list.Add(_mapper.Map<CategoryReadDto>(categoryReadGrpcDto));
+        }
+
+        return list;
+    }
+
+    public async Task DeleteCategoryAsync(int categoryId)
+    {
+        var client = _grpcService.CreatePostServiceClient();
+        await client.deleteCategoryAsync(new GenericMessage{Message = categoryId.ToString()});
     }
 }

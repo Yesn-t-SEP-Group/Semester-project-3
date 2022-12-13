@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+using Domain.Models.enums;
 
 namespace Domain.DTOs;
 
@@ -15,7 +16,7 @@ public class PostDetailDto
 
     public string location { get; set; }
 
-    public int categories { get; set; }
+    public string categories { get; set; }
     
 
     public String picture { get; set; }

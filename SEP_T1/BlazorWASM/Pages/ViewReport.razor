@@ -1,0 +1,90 @@
+﻿@page "/ViewReport"
+@attribute [Authorize(Policy = "IsAdmin")]
+@using HttpClients.ClientInterfaces
+@using Domain.DTOs
+@inject IUserService userService;
+@inject IReportService reportService;
+<h3>Reports</h3>
+
+@if (!string.IsNullOrEmpty(msg))
+{
+    <div>
+        <span>@msg</span>
+    </div>
+}
+
+@if (reports == null)
+{
+    <span>Loading..</span>
+}
+else if (!reports.Any())
+{
+    <span>No reports to be found</span>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Reported user</th>
+            <th>Username</th>
+            <th>Reason</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in reports)
+        {
+            <tr>
+                <td>@getRealNameFromId(item.ReportedUserId)</td>
+                <td>@getUsernameFromId(item.ReportedUserId)</td>
+                <td>@item.Reason</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    string msg = "";
+    private IEnumerable<ReportReadDto>? reports;
+    private IEnumerable<UserReadDto>? users;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            reports = await reportService.GetAllReports();
+            users = await userService.GetUsers();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private string getUsernameFromId(int id)
+    {
+        foreach (var user in users)
+        {
+            if (user.Id == id)
+            {
+                return user.UserName;
+            }
+        }
+        return "NONE FOUND";
+    }
+    
+    private string getRealNameFromId(int id)
+    {
+        foreach (var user in users)
+        {
+            if (user.Id == id)
+            {
+                return user.Name;
+            }
+        }
+        return "NONE FOUND";
+    }
+
+}

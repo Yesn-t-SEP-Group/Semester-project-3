@@ -1,8 +1,12 @@
 ﻿@page "/ViewPosts"
 @using Domain.Models
 @using HttpClients.ClientInterfaces
-@inject IPostService postService;
-@inject NavigationManager navMgr
+@using System.Collections
+@using Domain.Models.enums
+@inject IPostService PostService;
+@inject IUserService UserService;
+
+@inject NavigationManager NavMgr
 @attribute [Authorize]
 
         <h3>Posts</h3>
@@ -12,16 +16,16 @@
         @if (doShowFilters)
         {
             <div class="filter">
-                <label>Username:</label>
-                <input type="text" @bind="usernameFilter"/>
-            </div>
-            <div class="filter">
-                <label>User id:</label>
-                <input type="number" @bind="userIdFilter"/>
+                <label>Category:</label>
+                <input type="text" @bind="categoryFilter"/>
             </div>
             <div class="filter">
                 <label>Title contains:</label>
                 <input type="text" @bind="titleContainsFilter"/>
+            </div>
+            <div class="filter">
+                <label>Max Price:</label>
+                <input type="text" @bind="maxPriceFilter"/>
             </div>
             /*<div class="filter">
                 <label>Body contains:</label>
@@ -39,7 +43,7 @@
 </div>
 
 <div>
-    <button @onclick="LoadTodos">Load</button>
+    <button @onclick="LoadPosts">Load</button>
 </div>
 
 @if (posts == null)
@@ -47,12 +51,12 @@
 }
 else if (!posts.Any())
 {
-    <p>No Todos to display</p>
+    <p>No Posts to display</p>
 }
 else
 {
-    <table class="table">
-        <thead>
+     <table class="table table-striped align-middle table-bordered">
+            <thead class="table-success">
         <tr>
             <th>Title</th>
             <th>Description</th>
@@ -60,6 +64,7 @@ else
             <th>Location</th>
             <th>Price</th>
             <th>Category</th>
+            <th>Status</th>
             <th>Details</th>
             <AuthorizeView Policy="IsAdmin">
                 <th>Edit</th>
@@ -69,7 +74,7 @@ else
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in posts)
+        @foreach (var item in posts.OrderByDescending(post =>post.creationDate))
         {
             <tr>
                 <td>@item.Title</td>
@@ -77,16 +82,18 @@ else
                 <td>@item.creationDate</td>
                 <td>@item.location</td>
                 <td>@item.price</td>
-                <td>@item.categories</td>
+                <td>@item.categoryString</td>
+                <td>@item.Status.ToString()</td>
+
                 <td>
-                    <img src="icons/viewButton.png" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
+                    <img src="icons/viewButton.png" class="funnel" @onclick="@(() => NavMgr.NavigateTo($"/ViewPostDetails/{item.Id}"))"/>
                 </td>
                 <AuthorizeView Policy="IsAdmin">
                     <td>
-                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
+                        <img src="icons/edit.gif" class="funnel" @onclick="@(() => NavMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                     </td>
                     <td>
-                        <label @onclick="@(() => RemoveTodo(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
+                        <label @onclick="@(() => RemovePost(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
                             &#x2717;
                         </label>
                     </td>
@@ -102,29 +109,34 @@ else
 }
 
 @code {
-    private IEnumerable<Post>? posts;
+    private IEnumerable<PostReadDto>? posts;
     private string msg = "";
     private bool doShowFilters = false;
 
-    private string? usernameFilter;
-    private int? userIdFilter;
+    private int? categoryFilter;
+    private int? maxPriceFilter;
+   // private int? userIdFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
     
     protected override async Task OnInitializedAsync()
     {
-        await LoadTodos();
+        await LoadPosts();
     }
 
-    private async Task LoadTodos()
+    private async Task LoadPosts()
     {
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync(usernameFilter, userIdFilter, titleContainsFilter/*, bodyContainsFilter*/);
-            
-            var list = new List<Post>(posts!);
-            list.Sort(CompareById);
+            posts = await PostService.GetAsync(categoryFilter, maxPriceFilter, titleContainsFilter /*, bodyContainsFilter*/);
+            var list = new List<PostReadDto>(posts!);
+            foreach (var post in list)
+            {
+                var category = await PostService.GetPostCategoryAsync(post.Id);
+                post.categoryString = category.Description;
+            }
+            list.OrderByDescending(p => p.creationDate);
             posts = list.AsEnumerable();
         }
         catch (Exception e)
@@ -133,27 +145,14 @@ else
             msg = e.Message;
         }
     }
-
-    private int CompareById(Post x, Post y)
-    {
-        if (x.Id > y.Id)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
-    }
-    
-    private async Task RemoveTodo(int postId)
+    private async Task RemovePost(int postId)
     {
         msg = "";
         try
         {
-            await postService.DeleteAsync(postId);
+            await PostService.DeleteAsync(postId);
 
-            var list = new List<Post>(posts!);
+            var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.Id == postId);
             posts = list.AsEnumerable();
         }

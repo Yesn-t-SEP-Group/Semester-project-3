@@ -9,13 +9,23 @@ import via.sdj3.sep_t3.protobuf.RatingReadGrpcDto;
 import javax.persistence.*;
 import java.util.Objects;
 
+/**
+ * Rating entity for JPA
+ */
 @Entity(name="ratings")
 @Getter
 @Setter
 @ToString
 @RequiredArgsConstructor
+
+/***
+ * the rating class used to write values into the database
+ */
 public class Rating
 {
+    /***
+     * the method fields will write new values if their ids match using the equals method at the end.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rating_id", nullable = false)
@@ -52,6 +62,7 @@ public class Rating
 
     /**
      * It will convert the rating into what gRPC dto uses
+     *
      * @return it returns a written value into the dto that matches the java part
      */
     public RatingReadGrpcDto convertToRatingReadGrpcDto()

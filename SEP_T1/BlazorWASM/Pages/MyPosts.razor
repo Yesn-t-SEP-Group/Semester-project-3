@@ -17,6 +17,15 @@
                 <label>Title contains:</label>
                 <input type="text" @bind="titleContainsFilter"/>
             </div>
+            <div class="filter">
+                <label>Category:</label>
+                <input type="text" @bind="CategoryFilter"/>
+            </div>
+            <div class="filter">
+                <label>Max Price:</label>
+                <input type="text" @bind="maxPriceFilter"/>
+            </div>
+            
             /*<div class="filter">
                 <label>Body contains:</label>
                 <input type="text" @bind="bodyContainsFilter"/>
@@ -33,7 +42,7 @@
 </div>
 
 <div>
-    <button @onclick="LoadTodos">Load</button>
+    <button @onclick="LoadPosts">Load</button>
 </div>
 
 @if (posts == null)
@@ -41,21 +50,20 @@
 }
 else if (!posts.Any())
 {
-    <p>No Todos to display</p>
+    <p>No posts to display</p>
 }
 else
 {
-    <table class="table">
-        <thead>
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
         <tr>
-            <th>Post ID</th>
-            <th>Owner ID</th>
             <th>Title</th>
             <th>Description</th>
             <th>CreationDate</th>
             <th>Location</th>
             <th>price</th>
             <th>category</th>
+            <th>status</th>
             <th>Edit</th>
             <th>Delete?</th>
         </tr>
@@ -65,19 +73,18 @@ else
         @foreach (var item in posts)
         {
             <tr>
-                <td>@item.Id</td>
-                <td>@item.OwnerId</td>
                 <td>@item.Title</td>
                 <td>@item.description</td>
                 <td>@item.creationDate</td>
                 <td>@item.location</td>
                 <td>@item.price</td>
-                <td>@item.categories</td>
+                <td>@item.categoryString</td>
+                <td>@item.Status</td>
                 <td>
                     <img src="icons/edit.gif" class="funnel" @onclick="@(() => navMgr.NavigateTo($"/EditPost/{item.Id}"))"/>
                 </td>
                 <td>
-                    <label @onclick="@(() => RemoveTodo(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
+                    <label @onclick="@(() => RemovePost(item.Id))" style="cursor:pointer; color: red; font-weight: bold">
                         &#x2717;
                     </label>
                 </td>
@@ -99,12 +106,13 @@ else
     AuthenticationState authState;
     ClaimsPrincipal user;
 
-    private IEnumerable<Post>? posts;
+    private IEnumerable<PostReadDto>? posts;
     private string msg = "";
     private bool doShowFilters = false;
 
-    private string? usernameFilter;
-    private int? userIdFilter;
+    //private string? usernameFilter;
+    private int? CategoryFilter;
+    private int? maxPriceFilter;
     private string? titleContainsFilter;
     private string? bodyContainsFilter;
 
@@ -112,20 +120,26 @@ else
     {
         authState = await AuthState;
         user = authState.User;
-        await LoadTodos();
+        await LoadPosts();
     }
 
-    private async Task LoadTodos()
+    private async Task LoadPosts()
     {
         try
         {
             bool? completedFilterValue = null;
-            posts = await postService.GetAsync(usernameFilter, userIdFilter, titleContainsFilter /*, bodyContainsFilter*/);
+            posts = await postService.GetAsync( CategoryFilter, maxPriceFilter, titleContainsFilter /*, bodyContainsFilter*/);
 
-
-            var list = new List<Post>(posts!);
-            list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id").Value));
-            list.Sort(CompareById);
+            var list = new List<PostReadDto>(posts!);
+            list.RemoveAll(post => post.OwnerId != int.Parse(user.FindFirst("Id")!.Value));
+            
+            foreach (var post in list)
+            {
+                var category = await postService.GetPostCategoryAsync(post.Id);
+                post.categoryString = category.Description;
+            }
+            
+            list.OrderByDescending(x=>x.creationDate);
             posts = list.AsEnumerable();
         }
         catch (Exception e)
@@ -135,14 +149,14 @@ else
         }
     }
 
-    private async Task RemoveTodo(int postId)
+    private async Task RemovePost(int postId)
     {
         msg = "";
         try
         {
             await postService.DeleteAsync(postId);
 
-            var list = new List<Post>(posts!);
+            var list = new List<PostReadDto>(posts!);
             list.RemoveAll(post => post.Id == postId);
             posts = list.AsEnumerable();
         }
@@ -150,18 +164,6 @@ else
         {
             Console.WriteLine(e);
             msg = e.Message;
-        }
-    }
-
-    private int CompareById(Post x, Post y)
-    {
-        if (x.Id > y.Id)
-        {
-            return 1;
-        }
-        else
-        {
-            return -1;
         }
     }
 

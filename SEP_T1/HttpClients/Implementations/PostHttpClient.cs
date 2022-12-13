@@ -26,9 +26,9 @@ public class PostHttpClient : IPostService
         }
     }
 
-    public async Task<ICollection<Post>> GetAsync(string? userName, int? userId, string? titleContains/*, string? bodyContains*/)
+    public async Task<ICollection<PostReadDto>> GetAsync(int? category,int? maxPrice, string? titleContains/*, string? bodyContains*/)
     {
-        string query = ConstructQuery(userName, userId, titleContains/*, bodyContains*/);
+        string query = ConstructQuery(category,maxPrice, titleContains/*, bodyContains*/);
 
         HttpResponseMessage response = await client.GetAsync("/posts"+query);
         string content = await response.Content.ReadAsStringAsync();
@@ -37,7 +37,7 @@ public class PostHttpClient : IPostService
             throw new Exception(content);
         }
 
-        ICollection<Post> posts = JsonSerializer.Deserialize<ICollection<Post>>(content, new JsonSerializerOptions
+        ICollection<PostReadDto> posts = JsonSerializer.Deserialize<ICollection<PostReadDto>>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         })!;
@@ -75,24 +75,31 @@ public class PostHttpClient : IPostService
         }
     }
 
-    private static string ConstructQuery(string? userName, int? userId, string? titleContains/*, string? bodyContains*/)
+    private static string ConstructQuery(int? category, int? maxPrice, string? titleContains/*, string? bodyContains*/)
     {
         string query = "";
+        /*
         if (!string.IsNullOrEmpty(userName))
         {
             query += $"?username={userName}";
         }
+        */
 
-        if (userId != null)
+        if (category != null)
         {
             query += string.IsNullOrEmpty(query) ? "?" : "&";
-            query += $"userid={userId}";
+            query += $"category={category}";
         }
 
         if (!string.IsNullOrEmpty(titleContains))
         {
             query += string.IsNullOrEmpty(query) ? "?" : "&";
             query += $"titlecontains={titleContains}";
+        }
+        if (maxPrice != null)
+        {
+            query += string.IsNullOrEmpty(query) ? "?" : "&";
+            query += $"maxprice={maxPrice}";
         }
         
 /* (!string.IsNullOrEmpty(bodyContains))
@@ -111,6 +118,68 @@ public class PostHttpClient : IPostService
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(content);
+        }
+    }
+
+    public async Task<CategoryReadDto> GetPostCategoryAsync(int postId)
+    {
+        HttpResponseMessage response = await client.GetAsync($"/categories/{postId}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return convert;
+
+    }
+
+    public async Task<CategoryReadDto> CreateCategoryAsync(string description)
+    {
+        HttpResponseMessage response = await client.PostAsJsonAsync("/categories", description);
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<CategoryReadDto>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        })!;
+
+        return convert;
+    }
+
+    public async Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync()
+    {
+        HttpResponseMessage response = await client.GetAsync("/categories");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
+        }
+
+        var convert = JsonSerializer.Deserialize<ICollection<CategoryReadDto>>(result, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+        })!;
+
+        return convert;
+    }
+
+    public async Task DeleteCategoryAsync(int categoryId)
+    {
+        HttpResponseMessage response = await client.DeleteAsync($"/categories/{categoryId}");
+        string result = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception(result);
         }
     }
 }

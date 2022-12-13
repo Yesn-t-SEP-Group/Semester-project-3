@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan(basePackages="via.sdj3.sep_t3.model*")
 @EnableJpaRepositories(basePackages = {"via.sdj3.sep_t3.repository*"})
 @Slf4j
+
 public class SepT3Application
 {
     public static void main(String[] args)

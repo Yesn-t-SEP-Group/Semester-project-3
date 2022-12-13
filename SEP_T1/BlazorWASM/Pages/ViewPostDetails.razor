@@ -5,88 +5,255 @@
 @using Domain.Models
 @using HttpClients.ClientInterfaces
 @using AutoMapper
+@using System.Security.Claims
+@using Domain.Models.enums
 @inject IPostService postService;
 @inject IUserService userService;
 @inject NavigationManager navMgr;
+@inject IReportService reportService;
+@inject IMessageService messageService;
+@inject IRatingService ratingService;
 
-<div class="card">
-    <div>
-        <h2><input type="text" @bind="dto.Title" disabled="disabled"/></h2>
-    </div>
-    
-    <div>
-        <img src="@imgSrc" alt="NO IMAGE FOUND"/>
-    </div>
+@if (!loadingComplete)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <div class="container">
+        <div class="form-group">
+            <h2 class="col-sm-12">
+                <input type="text" @bind="dto.Title" disabled="disabled" class="form-control"/>
+            </h2>
+        </div>
+        <div class="form-group">
+            <!-- Use the row and col-* classes from Bootstrap to create a grid layout for the image, category, location, and price -->
+            <div class="row">
+                <div class="col-sm-6">
+                    <img src="@imgSrc" alt="NO IMAGE FOUND" class="col-sm-12" style="width: 400px; size: 400px"/>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label class="col-sm-2">Price:</label>DKK
+                        <input type="text" @bind="dto.price" disabled="disabled" class="form-control col-sm-2" style="text-align: center"/>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-group">
+                            <label class="col-sm-2">Category:</label>
+                            <input type="text" @bind="dto.categories" disabled="disabled" class="form-control col-sm-10"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Location:</label>
+                            <input type="text" @bind="dto.location" disabled="disabled" class="form-control col-sm-12"/>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2">Status:</label>
+                            <input type="text" @bind="status" disabled="disabled" class="form-control col-sm-12"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <textarea @bind="dto.description" disabled="disabled" class="form-control col-sm-12" style="height: 300px">DESCRIPTION</textarea>
+            </div>
+        </div>
 
-    <div>
-        <label>Price:</label>
-        <input type="text" @bind="dto.price" disabled="disabled" style="width: 50px; text-align: center"/> DKK
-    </div>
-    
-    <div>
-        <textarea @bind="dto.description" disabled="disabled" style="width: 300px; height: 300px">DESCRIPTION</textarea>
-    </div>
-        
-    <div>
-        <input type="text" @bind="dto.location" disabled="disabled"/>
-    </div>
-    
-    <div>
-        <label>Categories:</label>
-        <input type="text" @bind="dto.categories"disabled="disabled"/>
-    </div>
-    
-    <div>
-        <h4>Posted by:</h4>
-        <ul>
-            <li><input type="text" @bind="dto.Owner.UserName" disabled="disabled"/></li>
-            <!-- todo rating logic-->
-            <li><input type="text" @bind="dto.Owner.Rating" disabled="disabled"/></li>
-            <li><input type="text" @bind="dto.Owner.Email" disabled="disabled"/></li>
-            <li><input type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled"/></li>
-        </ul>
-    </div>
-    <div>
-        <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
-    </div>
-</div>
 
+        <div class="container">
+            <div class="form-group">
+                <h4>Posted by:</h4>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label for="username">Username:</label>
+                        <input id="username" type="text" @bind="dto.Owner.UserName" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="useravgrating">User Average Rating:</label>
+                        <input id="useravgrating" type="text" @bind="userAvgRating" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="email">Email:</label>
+                        <input id="email" type="text" @bind="dto.Owner.Email" disabled="disabled" class="form-control"/>
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="phonenumber">Phone Number:</label>
+                        <input id="phonenumber" type="text" @bind="dto.Owner.PhoneNumber" disabled="disabled" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <h3>Leave a review after you bought the item!</h3>
+
+        <div class="input-group mb-3">
+            <input type="number" min="1" max="5" class="form-control" @bind="ratingValue">
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="@(() => leaveReview())">Review</button>
+
+
+        <div class="container d-flex flex-row justify-content-start">
+            <div class="card mr-2">
+                <h4 class="card-header text-danger font-weight-bold">Report User</h4>
+                <div class="card-body">
+                    <textarea class="form-control" rows="8" cols="20" @bind="reportReason"></textarea>
+                    <br/>
+                    <label class="text-danger">@msg2</label>
+                    <br/>
+                    <button type="button" class="btn btn-danger" @onclick="@(() => reportUser())">Report</button>
+                </div>
+            </div>
+
+            <div class="card ml-2">
+                <h4 class="card-header text-info font-weight-bold">Write message to user</h4>
+                <div class="card-body">
+                    <textarea class="form-control" rows="8" cols="20" @bind="dmContent"></textarea>
+                    <br/>
+                    <label class="text-info">@msg1</label>
+                    <br/>
+                    <button type="button" class="btn btn-primary" @onclick="@(() => writeDM())">Send Message</button>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <button type="button" @onclick="@(() => navMgr.NavigateTo($"/ViewPosts"))">Return</button>
+        </div>
+    </div>
+}
 @code
 {
     [Parameter]
     public int Id { get; set; }
-    
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
     private PostDetailDto dto = null!;
-    private string msg = "";
-    private IEnumerable<UserReadDto>? users;
-    private string imgSrc;
+    private string msg1 = "";
+    private string msg2 = "";
+    private IEnumerable<UserReadDto>? users = new List<UserReadDto>();
+    private string imgSrc = "";
+    private string? reportReason = "";
+    private string? dmContent = "";
+    AuthenticationState authState;
+    ClaimsPrincipal user;
+    private UserReadDto owner = new UserReadDto();
+    private int ratingValue = 1;
+    private int userAvgRating = 0;
+    private string status;
+    private bool loadingComplete = false;
 
     protected override async Task OnInitializedAsync()
     {
-        msg = "";
+        authState = await AuthState;
+        user = authState.User;
+
         try
         {
             users = await userService.GetUsers();
             PostReadDto postData = await postService.GetByIdAsync(Id);
-            UserReadDto owner = users.First(user => user.Id.Equals(postData.OwnerId));
+            owner = users.First(user => user.Id.Equals(postData.OwnerId));
+            CategoryReadDto categoryDescription = await postService.GetPostCategoryAsync(Id);
 
-            dto = new(Id)
+            dto = new()
             {
                 Title = postData.Title,
                 description = postData.description,
-                categories = postData.categories,
                 Id = postData.Id,
+                categories = categoryDescription.Description,
                 location = postData.location,
                 picture = postData.picture,
                 price = postData.price,
                 Owner = owner
             };
+            status = postData.Status.ToString();
             imgSrc = dto.picture;
+            var allRatings = await ratingService.GetRatingsMadeToUser(owner.Id);
+            if (allRatings.Count()!=0)
+            {
+                userAvgRating = (int)allRatings.Average(x => x.RatingValue);
+            }
+            userAvgRating = 0;
+            loadingComplete = true;
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
-            msg = e.Message;
+            msg1 = e.Message;
         }
     }
+
+    private void reportUser()
+    {
+        if (reportReason != null)
+        {
+            ReportCreationDto reportDto = new ReportCreationDto()
+            {
+                ReportedUserId = owner.Id,
+                Reason = reportReason
+            };
+            if (owner.Id != int.Parse(user.FindFirst("Id").Value))
+            {
+                reportService.CreateReport(reportDto);
+                navMgr.NavigateTo($"/ViewPosts");
+            }
+            else
+            {
+                msg2 = "Can not report yourself!";
+            }
+        }
+        else
+        {
+            msg2 = "Must give a reason for reporting the user!";
+        }
+    }
+
+    private void writeDM()
+    {
+        if (dmContent != null && !dmContent.Equals(""))
+        {
+            var myId = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+
+            var messageCreationDto = new MessageCreationDto()
+            {
+                MessageText = dmContent,
+                UserToId = owner.Id,
+                UserFromId = myId,
+                postId = dto.Id
+            };
+            if (owner.Id != int.Parse(user.FindFirst("Id").Value))
+            {
+                messageService.CreateMessageAsync((messageCreationDto));
+                msg1 = "Message sent!";
+                dmContent = "";
+            }
+            else
+            {
+                msg1 = "Can not send messages to yourself";
+                dmContent = "";
+            }
+        }
+        else
+        {
+            msg1 = "Must give a message to send!";
+        }
+    }
+
+    private void leaveReview()
+    {
+        var myId = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+
+        RatingCreationDto rating = new RatingCreationDto()
+        {
+            RatingValue = ratingValue,
+            UserFromId = myId,
+            UserToId = owner.Id,
+        };
+        ratingService.CreateRating(rating);
+        navMgr.NavigateTo($"/ViewPosts");
+    }
 }
+

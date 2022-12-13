@@ -8,6 +8,8 @@ public interface IUserService
     Task<UserReadDto> Create(UserCreationDto dto);
 
     Task<IEnumerable<UserReadDto>> GetUsers();
+    Task<UserReadDto> GetByIdAsync(int id);
+
 
     Task DeleteUser(int id);
     

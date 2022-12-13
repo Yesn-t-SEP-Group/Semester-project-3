@@ -1,3 +1,6 @@
+/*
+UserGrpcModel.proto is used to create the user model for the gRPC service.
+ */
 syntax = "proto3";
 
 import 'Common.proto';

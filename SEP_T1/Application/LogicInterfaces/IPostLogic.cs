@@ -7,9 +7,15 @@ public interface IPostLogic
 {
     Task<PostReadDto> CreateAsync(PostCreationDto dto);
     Task<IEnumerable<PostReadDto>> GetAsync();
+    Task<IEnumerable<PostReadDto>> GetAsync(SearchPostParametersDto searchParameters);
     Task UpdateAsync(PostUpdateDto dto);
     Task DeleteAsync(int id);
 
     Task<PostReadDto> GetByIdAsync(int id);
     Task<UserReadDto> GetPostOwner(int userId);
+    Task<CategoryReadDto> GetPostCategoryAsync(int postId);
+    Task<CategoryReadDto> CreateCategoryAsync(string description);
+    Task<IEnumerable<CategoryReadDto>> GetAllCategoriesAsync();
+    Task DeleteCategoryAsync(int categoryId);
+
 }

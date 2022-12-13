@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import 'Common.proto';
+option java_multiple_files = true;
+option java_package = "via.sdj3.sep_t3.protobuf";
+
+service privateMessageService
+{
+  rpc CreateMessage(CreateDMGrpcDto) returns(ReadDMGrpcDto);
+  rpc GetMessageMadeToUser(GenericMessage)returns(AllMessages);
+}
+
+message CreateDMGrpcDto
+{
+  int32 userFromId = 1;
+  int32  userToId = 2;
+  string messageText = 3;
+  int32 postId=4;
+}
+
+message ReadDMGrpcDto
+{
+  int32 dmId = 1;
+  int32 userFromId = 2;
+  int32  userToId = 3;
+  string messageText = 4;
+  int32 postId=5;
+}
+
+message AllMessages
+{
+  repeated ReadDMGrpcDto messages = 1;
+}
+

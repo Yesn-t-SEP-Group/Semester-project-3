@@ -1,0 +1,122 @@
+﻿@attribute [Authorize]
+
+@page "/MyMessages"
+@using HttpClients.ClientInterfaces
+@using Domain.Models
+@using System.Security.Claims
+@using System.Collections
+@using Domain.DTOs
+@using Microsoft.Extensions.Logging.Abstractions
+@attribute [Authorize]
+@inject IMessageService messageService;
+@inject IUserService userService;
+@inject NavigationManager navMgr;
+@inject IPostService _postService;
+<h3>Messages</h3>
+
+@if (messages == null)
+{
+}
+else if (!messages.Any())
+{
+    <p>No Messages to display</p>
+}
+else
+{
+    <table class="table table-striped align-middle table-bordered">
+        <thead class="table-success">
+        <tr>
+            <th>Username</th>
+            <th>Message</th>
+            <th>Post Title</th>
+            <th>Reply</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        @foreach (var item in messages)
+        {
+            <tr>
+                <td>@item.UserFromName</td>
+                <td>@item.MessageText</td>
+                <td>@item.postTitle</td>
+
+                <button @onclick="ShowTextbox">Click me</button>
+
+                @if (showTextbox)
+                {
+                    <input type="text" @bind="reply"/>
+                    <button class="btn btn-primary" @onclick="@((async () => await SendReply(item.UserFromId)))">Send Reply</button>
+                }
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+@if (!string.IsNullOrEmpty(msg))
+{
+    <label style="color: red">@msg</label>
+}
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+    AuthenticationState authState;
+    ClaimsPrincipal user;
+    private bool showTextbox = false;
+    private string reply = "";
+
+    private IEnumerable<MessageReadDto>? messages;
+
+    private string msg = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await AuthState;
+        user = authState.User;
+        await LoadMessages();
+    }
+
+    private async Task LoadMessages()
+    {
+        try
+        {
+            var id = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+            var users = await userService.GetUsers();
+            messages = await messageService.GetMessagesMadeToUserAsync(id);
+            var posts = await _postService.GetAsync(null, null, null);
+            foreach (var messageReadDto in messages)
+            {
+                messageReadDto.UserFromName = users.FirstOrDefault(u => u.Id == messageReadDto.UserFromId)?.UserName;
+                messageReadDto.postTitle = posts.FirstOrDefault(p => p.Id == messageReadDto.postId)!.Title;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            msg = e.Message;
+        }
+    }
+
+    private void ShowTextbox()
+    {
+    //if it was hidden we shove it and vice versa
+        showTextbox = !showTextbox;
+    }
+
+    private async Task SendReply(int userToReply)
+    {
+        var userFromId = int.Parse(user.Claims.FirstOrDefault(c => c.Type == "Id")?.Value!);
+        var dto = new MessageCreationDto()
+        {
+            UserFromId = userFromId,
+            UserToId = userToReply,
+            MessageText = reply
+        };
+        reply = "";
+        await messageService.CreateMessageAsync(dto);
+        ShowTextbox();
+    }
+}

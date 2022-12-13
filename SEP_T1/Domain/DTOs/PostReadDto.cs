@@ -1,4 +1,6 @@
-﻿namespace Domain.Models;
+﻿using Domain.Models.enums;
+
+namespace Domain.Models;
 
 public class PostReadDto
 {
@@ -21,4 +23,11 @@ public class PostReadDto
 
     public double price { get; set; }
     
+    public string? PosterUsername { get; set; }
+    public string? categoryString { get; set; }
+    public StatusEnum Status { get; set; }
+
+    public PostReadDto()
+    {
+    }
 }

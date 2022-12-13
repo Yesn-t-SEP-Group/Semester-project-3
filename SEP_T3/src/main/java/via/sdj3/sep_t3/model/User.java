@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.Objects;
 
+/**
+ * User Entity for JPA
+ */
 @Entity(name = "users")
 @Getter
 @Setter
@@ -53,9 +56,10 @@ public class User
 
     /**
      * Sets all the variables from a grpc user
+     *
      * @param userFromGrpc protobuf.User
      * @deprecated
-    */
+     */
     public void convertFromGrpc(User userFromGrpc)
     {
         id=userFromGrpc.getId();
@@ -68,10 +72,9 @@ public class User
     }
 
 
-
-
     /**
      * It will convert all the user objects into data that the gRPC dto can use
+     *
      * @return it returns the data into the gRPC DTO, so it matches the java part
      */
     public UserReadGrpcDTO convertToUserReadGrpcDto()

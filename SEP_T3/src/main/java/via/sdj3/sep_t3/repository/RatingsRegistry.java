@@ -12,9 +12,16 @@ public interface RatingsRegistry extends CrudRepository<Rating,Integer>
 {
     /**
      * Finds all ratings  made to a given user
+     *
      * @param id userId that we query
      * @return List of ratings made to that user
      */
     List<Rating> findByUserTo_Id(Integer id);
+
+    /**
+     * Finds the latest rating added
+     *
+     * @return the rating
+     */
     Rating findTopByOrderByIdDesc();
 }

@@ -1,3 +1,6 @@
+/*
+  RatingGrpcModel.proto is generated from RatingGrpcModel.proto by the protocol buffer compiler.
+ */
 syntax = "proto3";
 
 import 'Common.proto';
