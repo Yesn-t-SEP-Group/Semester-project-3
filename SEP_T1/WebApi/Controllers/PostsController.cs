@@ -40,8 +40,8 @@ public class PostsController : ControllerBase
     {
         try
         {
-            var todos = await _postLogic.GetAsync();
-            return Ok(todos);
+            var posts = await _postLogic.GetAsync();
+            return Ok(posts);
         }
         catch (Exception e)
         {

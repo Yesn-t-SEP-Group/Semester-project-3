@@ -116,12 +116,7 @@ public class PostLogic : IPostLogic
         {
             throw new Exception($"Post with ID {id} was not found!");
         }
-/*
-        if (!todo.IsCompleted)
-        {
-            throw new Exception("Cannot delete un-completed Todo!");
-        }
-        */
+
 
         await _postDao.DeleteAsync(id);
     }
