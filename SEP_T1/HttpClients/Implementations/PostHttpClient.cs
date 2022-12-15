@@ -53,13 +53,13 @@ public class PostHttpClient : IPostService
             throw new Exception(content);
         }
 
-        PostReadDto todo = JsonSerializer.Deserialize<PostReadDto>(content, 
+        PostReadDto post = JsonSerializer.Deserialize<PostReadDto>(content, 
             new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             }
         )!;
-        return todo;
+        return post;
     }
 
     public async Task UpdateAsync(PostUpdateDto dto)

@@ -123,7 +123,7 @@ public class PostFileDao :IPostDao
         Post? existing = context.Posts.FirstOrDefault(post => post.Id == dto.Id);
         if (existing == null)
         {
-            throw new Exception($"Todo with id {dto.Id} does not exist!");
+            throw new Exception($"Post with id {dto.Id} does not exist!");
         }
 
         context.Posts.Remove(existing);
@@ -136,7 +136,7 @@ public class PostFileDao :IPostDao
 
     public Task DeleteAsync(int id)
     {
-        Post? existing = context.Posts.FirstOrDefault(todo => todo.Id == id);
+        Post? existing = context.Posts.FirstOrDefault(post => post.Id == id);
         if (existing == null)
         {
             throw new Exception($"Post with id {id} does not exist!");
